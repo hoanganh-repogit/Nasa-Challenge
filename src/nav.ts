@@ -1,13 +1,18 @@
 // Two routes, no router library: "/" (the journey) and "/rover" (the rover explorer).
-// Every move is a real history entry, so Back retraces the visitor's own path.
+// Moving between pages is a real history entry. Inside the journey the stops share one entry,
+// so Back from any stop returns to the opening screen (or to the page the visitor came from).
 import { useEffect, useState } from 'react'
 
 const NAV = 'app:navigate'
 
-export function navigate(url: string) {
-  history.pushState(null, '', url)
+export function navigate(url: string, state: unknown = null) {
+  spaNavigated = true
+  history.pushState(state, '', url)
   window.dispatchEvent(new Event(NAV))
 }
+
+/** false until the first in-app navigation: tells a fresh page load from a move inside the app */
+export let spaNavigated = false
 
 export const isRoverPath = (p: string) => /^\/rover\/?$/.test(p)
 

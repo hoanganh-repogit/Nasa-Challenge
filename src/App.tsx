@@ -9,7 +9,7 @@ import { ChapterRail } from './ui/ChapterRail'
 import { EvidenceCard } from './ui/EvidenceCard'
 import { Icon } from './ui/Icon'
 import { PartCaption } from './ui/PartCaption'
-import { navigate } from './nav'
+import { navigate, spaNavigated } from './nav'
 import { StaticView } from './ui/StaticView'
 
 const params = new URLSearchParams(location.search)
@@ -29,6 +29,15 @@ const PROVENANCE: Record<Provenance, string> = {
 /** parts with a leader-line label (the anchor lives in stage/lightpaint.ts) */
 const LEADER: Record<string, string> = { arm: 'Turret' }
 const TOOL_ABBR: Record<string, string> = { rat: 'RAT', apxs: 'APXS', mb: 'MB', mi: 'MI' }
+
+interface JourneyState { journey?: boolean; fromHome?: boolean }
+
+// A fresh load straight onto a stop (/#stop-6) gets the opening screen underneath it, so Back leads home.
+if (!spaNavigated && /^#stop-\d+$/.test(location.hash) && !params.has('shot')) {
+  const hash = location.hash
+  history.replaceState(null, '', location.pathname + location.search)
+  history.pushState({ journey: true, fromHome: true } satisfies JourneyState, '', hash)
+}
 
 const stopFromHash = () => {
   const m = /^#stop-(\d+)$/.exec(location.hash)
@@ -79,16 +88,28 @@ export default function App() {
   }, [])
   const [mode, setMode] = useState<'stage' | 'static'>(!hasWebGL || params.has('static') ? 'static' : 'stage')
 
+  /**
+   * History: the whole journey is one entry on top of the opening screen. Stops replace each other,
+   * so Back (browser or phone) from any stop lands on the opening; "Back to the start" does the same.
+   */
   const go = useCallback((n: number, opts: { push?: boolean; instant?: boolean } = {}) => {
     const next = Math.max(-1, Math.min(STOPS.length - 1, n))
+    const st = (history.state ?? {}) as JourneyState
+    if (opts.push !== false && next < 0 && st.fromHome) {
+      history.back() // popstate brings the opening back
+      return
+    }
     ctrlRef.current?.goTo(next, opts.instant)
     setStop(next)
     setSettled(false)
-    if (opts.push !== false) {
-      const url = next < 0 ? location.pathname + location.search : `#stop-${next + 1}`
-      history.pushState({ stop: next }, '', url)
-    }
+    if (opts.push === false) return
+    if (next < 0) history.pushState(null, '', location.pathname + location.search)
+    else if (st.journey) history.replaceState(st, '', `#stop-${next + 1}`)
+    // a stop typed into the address bar: keep it as the single journey entry
+    else if (/^#stop-\d+$/.test(location.hash)) history.replaceState({ journey: true } satisfies JourneyState, '', `#stop-${next + 1}`)
+    else history.pushState({ journey: true, fromHome: true } satisfies JourneyState, '', `#stop-${next + 1}`)
   }, [])
+  const goHome = useCallback(() => go(-1), [go])
 
   // stage lifecycle
   useEffect(() => {
@@ -191,11 +212,13 @@ export default function App() {
         e.preventDefault(); go(stop + 1)
       } else if (e.key === 'ArrowLeft' && stop >= 0) {
         e.preventDefault(); go(stop - 1)
+      } else if (e.key === 'Home' && stop >= 0) {
+        e.preventDefault(); goHome()
       }
     }
     window.addEventListener('keydown', onKey)
     return () => window.removeEventListener('keydown', onKey)
-  }, [go, stop])
+  }, [go, goHome, stop])
 
   const s = stop >= 0 ? STOPS[stop] : null
   const ev = s ? EVENT_BY_ID.get(s.id) : undefined
@@ -311,7 +334,12 @@ export default function App() {
                 <span><b>21,104</b> position records</span>
               </p>
             )}
-            <button type="button" className="band__btn" onClick={() => setMode('static')}>Static view</button>
+            <div className="band__btns">
+              {journey && (
+                <button type="button" className="band__btn" onClick={goHome} aria-keyshortcuts="Home">Back to the start</button>
+              )}
+              <button type="button" className="band__btn" onClick={() => setMode('static')}>Static view</button>
+            </div>
           </div>
           <p className="band__fine">
             <span>Independent educational prototype; not an official NASA product and not endorsed by NASA.</span>

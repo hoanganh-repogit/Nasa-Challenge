@@ -144,7 +144,7 @@ export default function RoverPage() {
   const toStop = (e: React.MouseEvent<HTMLAnchorElement>, n: number) => {
     if (e.button !== 0 || e.metaKey || e.ctrlKey || e.shiftKey) return
     e.preventDefault()
-    navigate(`/#stop-${n}`)
+    navigate(`/#stop-${n}`, { journey: true }) // Back from the stop returns here
   }
 
   return (

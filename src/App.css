@@ -341,6 +341,7 @@ a.btn { text-decoration: none; }
   cursor: pointer;
 }
 .band__btn:hover { border-bottom-color: var(--tungsten); }
+.band__btns { flex: none; display: flex; gap: 1.6rem; }
 
 .fps {
   position: fixed;
@@ -460,6 +461,10 @@ a.btn { text-decoration: none; }
   .stop--part { width: auto; max-height: 48dvh; }
   .band__credits { display: none; }
   .band__live { gap: 0.1rem 1.1rem !important; }
+  /* journey: readout on its own line, the two controls under it */
+  .ui[data-phase='journey'] { --band-h: 7.6rem; }
+  .ui[data-phase='journey'] .band__row { flex-wrap: wrap; row-gap: 0.35rem; }
+  .ui[data-phase='journey'] .band__live { flex: 1 1 100%; }
   .print__lead { display: block; }
   .lead h1 { font-size: clamp(2.1rem, 9vw, 2.8rem); }
   .stop { right: var(--gutter); width: auto; bottom: calc(var(--band-h) + 0.9rem); }
