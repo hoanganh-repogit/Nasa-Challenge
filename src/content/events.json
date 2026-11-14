@@ -14,7 +14,7 @@
     },
     "anchor": "0/0",
     "lead": "Opportunity landed on Mars on 25 January 2004 (UTC). Airbags cushioned the landing, and the rover came to rest inside a crater about 20 metres wide. It was designed to last just 90 Martian days and drive about 1,000 metres. Scientists picked this flat plain, Meridiani Planum, because it shows signs of hematite, an iron-rich mineral that typically forms in water.",
-    "card": "Opportunity is a 185-kilogram robot geologist on six wheels. Its panoramic camera (Pancam) and navigation cameras sit on top of a mast, about 1.4 metres above the base of the wheels. Its other tools ride on a robotic arm. Six of them together are called the Athena science package: Pancam, the Mini-TES heat spectrometer, the APXS and Mössbauer spectrometers, the Microscopic Imager and the Rock Abrasion Tool. The mission's job was to look closely at rocks and soils for clues about water in Mars's past. The panorama shown here was taken weeks later, on sols 58 and 60, as the rover drove out of Eagle crater. The empty lander sits in the middle.",
+    "card": "Opportunity is a 185-kilogram robot geologist on six wheels. Its panoramic camera (Pancam) and navigation cameras sit on top of a mast, about 1.4 metres above the base of the wheels. The Mini-TES heat spectrometer sits inside the body and looks out through the mast. The APXS and Mössbauer spectrometers, the Microscopic Imager and the Rock Abrasion Tool ride on the end of a robotic arm. Together these six science tools are called the Athena science package. The mission's job was to look closely at rocks and soils for clues about water in Mars's past. The panorama shown here was taken weeks later, on sols 58 and 60, as the rover drove out of Eagle crater. The empty lander sits in the middle.",
     "quote": {
       "text": "Designed to last just 90 Martian days",
       "who": "NASA/JPL, 2019",
@@ -189,7 +189,7 @@
       "precision": "date"
     },
     "anchor": "169/553",
-    "lead": "On a part of Endeavour's rim called Cape York, where the orbiter had detected clay minerals, Opportunity found a pale, cracked rock the team named Esperance. In May 2013 the rover ground into it and measured what it was made of. After nine years on Mars, the answer was new: a rock changed by water that was not harshly acidic.",
+    "lead": "On a part of Endeavour's rim called Cape York, where the orbiter had detected clay minerals, Opportunity found a rock the team named Esperance. In May 2013 the rover ground into it and measured what it was made of. After nine years on Mars, the answer was new: a rock changed by water that was not harshly acidic.",
     "card": "Two tools on the end of the arm worked one after the other. First, the Rock Abrasion Tool's rotating, grinding teeth gnawed into the surface of the rock. Then the APXS read which elements it contained. Esperance was higher in aluminium and silica, and lower in calcium and iron, than any rock Opportunity had examined in nine years. The team read this as a sign of clay minerals. Clays typically form in wet environments that are not harshly acidic. For years the rover had been finding signs of very acidic water, so this was a turning point. A team scientist said there was enough water not only to make the clays but also to flush out ions set loose by those reactions.",
     "quote": {
       "text": "Water that moved through fractures during this rock's history would have provided more favorable conditions for biology than any other wet environment recorded in rocks Opportunity has seen.",
