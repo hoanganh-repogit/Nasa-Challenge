@@ -6,7 +6,9 @@
   height: 100dvh;
   display: block;
   background: var(--night);
+  transition: opacity 600ms var(--ease-out);
 }
+.stage[data-ready='false'] { opacity: 0; }
 .poster {
   position: fixed;
   right: -4vw;

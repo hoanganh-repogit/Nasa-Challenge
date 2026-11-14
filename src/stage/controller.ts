@@ -57,6 +57,17 @@ export class StageController {
   setReducedMotion(on: boolean) { this.opts.reducedMotion = on }
   setSkyPaused(on: boolean) { this.skyPaused = on }
 
+  /** Pre-compile shaders, then draw one frame of the current shot. */
+  async warm() {
+    this.stage.resize()
+    const r = this.assets.replay
+    const at = (shot: Shot): StageState => ({ sol: shot.sol, cam: shot.pose, exaggeration: shot.exaggeration, studio: shot.studio, skyAngle: this.skyAngle, trailIntensity: 1, fog: shot.fog })
+    const st = this.shots.stops
+    // map rover close up, the whole route with both dashed gaps, the opening portrait
+    await this.stage.warm([at(st[6]), at(st[st.length - 1]), at({ ...st[3], sol: r.maxSol }), at({ ...st[6], studio: 0.7 }), at(this.shots.opening)])
+    this.frame(performance.now())
+  }
+
   start() {
     this.stage.resize()
     const loop = (t: number) => {

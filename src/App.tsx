@@ -89,6 +89,8 @@ export default function App() {
       }
       const initial = shot !== null ? Number(shot) : stopFromHash()
       if (initial >= 0 || cam) { ctrl.goTo(initial, true); setStop(initial) }
+      await ctrl.warm()
+      if (disposed) return
       ctrl.start()
       ;(window as unknown as { stage: StageController }).stage = ctrl
       setReady(true)

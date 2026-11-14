@@ -32,6 +32,8 @@ export interface MissionStage {
   render(state: StageState): void
   resize(): void
   setQuality(q: Quality): void
+  /** Compile every shader variant the journey will need, so the first flight never stalls. */
+  warm(states: StageState[]): Promise<void>
   dispose(): void
   readonly quality: Quality
 }
@@ -144,8 +146,22 @@ export function createMissionStage(canvas: HTMLCanvasElement, assets: StageAsset
 
   applyQuality()
 
+  /**
+   * ANGLE on D3D11 (Chrome on Windows) only builds a shader at its first real draw, so compiling is not
+   * enough: draw each given state once, through the composer and the direct (Low tier) path.
+   */
+  async function warm(states: StageState[]) {
+    renderer.setRenderTarget(composer.readBuffer)
+    try { await renderer.compileAsync(world, camera) } finally { renderer.setRenderTarget(null) }
+    for (const st of states) {
+      render(st)
+      composer.render()
+      renderer.render(world, camera)
+    }
+  }
+
   return {
-    render, resize,
+    render, resize, warm,
     setQuality(next) { q = next; applyQuality() },
     get quality() { return q },
     dispose() {
