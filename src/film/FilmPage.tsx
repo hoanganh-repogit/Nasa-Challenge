@@ -1,25 +1,61 @@
 // /film: the 30 s film, drawn by the real stage. ?render freezes the clock and exposes
 // window.seek(t), window.DURATION and window.FPS for frame-by-frame capture (scripts/capture_film.mjs).
-// Without ?render it plays in a loop, for previews or a manual screen recording.
-import { useEffect, useRef, useState } from 'react'
+// Without ?render it is a player for visitors: the picture follows the sound track (voice-over and music), with
+// Back, Replay and Sound controls, scaled to fit any screen.
+import { useEffect, useRef, useState, type CSSProperties } from 'react'
 import { flushSync } from 'react-dom'
 import '../App.css'
 import './film.css'
 import type { MissionStage } from '../stage/createMissionStage'
 import captions from '../../film/captions.json'
+import { navigate } from '../nav'
+import { Icon } from '../ui/Icon'
 import { BEATS, countAt, DURATION, FPS, frameAt, SCENES, show } from './script'
 
 const RENDER = new URLSearchParams(location.search).has('render')
 const NUM = new Intl.NumberFormat('en-US')
+const SOUND = '/film/echoes-of-the-cosmos-30s.m4a'
+const VIDEO = '/film/echoes-of-the-cosmos-30s.mp4'
+/** the overlay is laid out for 1600x900 and scaled to fit the window */
+const fitScale = () => Math.min(innerWidth / 1600, innerHeight / 900)
 
 interface Readout { sol: number; km: number }
 
+/** Portrait phones: the 16:9 film would be a sliver, so play the finished video (captions burned in) instead. */
+function PortraitFilm() {
+  useEffect(() => { document.title = 'Film · Echoes of the Cosmos' }, [])
+  return (
+    <main className="film-m">
+      <a className="film__btn" href="/" onClick={(e) => { e.preventDefault(); navigate('/') }}>
+        <Icon name="prev" size={16} /> The site
+      </a>
+      <h1>Echoes of the Cosmos, in 30 seconds</h1>
+      {/* captions are burned into the picture */}
+      <video src={VIDEO} controls playsInline autoPlay preload="auto" poster="/posters/stop-1.webp" />
+      <p className="caption">English voice-over (synthetic voice) and captions. Turn your phone sideways for a bigger picture.</p>
+    </main>
+  )
+}
+
+const PORTRAIT = !RENDER && typeof matchMedia === 'function' && matchMedia('(orientation: portrait) and (max-width: 900px)').matches
+
 export default function FilmPage() {
+  if (PORTRAIT) return <PortraitFilm />
+  return <LandscapeFilm />
+}
+
+function LandscapeFilm() {
   const canvasRef = useRef<HTMLCanvasElement>(null)
   const lineRef = useRef<SVGLineElement>(null)
   const [t, setT] = useState(0)
   const [read, setRead] = useState<Readout>({ sol: 1, km: 0 })
   const [leader, setLeader] = useState<{ x: number; y: number } | null>(null)
+  const [scale, setScale] = useState(RENDER ? 1 : fitScale())
+  const [needTap, setNeedTap] = useState(false)
+  const [ended, setEnded] = useState(false)
+  const [muted, setMuted] = useState(false)
+  const audioRef = useRef<HTMLAudioElement | null>(null)
+  const startRef = useRef<() => void>(() => {})
 
   useEffect(() => {
     document.title = 'Film · Echoes of the Cosmos'
@@ -54,15 +90,40 @@ export default function FilmPage() {
         w.seek = draw
         draw(0)
         if (!RENDER) {
-          const t0 = performance.now()
-          const loop = (now: number) => { raf = requestAnimationFrame(loop); draw(((now - t0) / 1000) % DURATION) }
+          // the sound track is the clock; if the browser blocks sound, play silently and offer a button
+          const audio = new Audio(SOUND)
+          audio.preload = 'auto'
+          audioRef.current = audio
+          const clock = { sound: false, t0: performance.now(), done: false }
+          const start = () => {
+            clock.done = false
+            setEnded(false)
+            audio.currentTime = 0
+            clock.t0 = performance.now()
+            audio.play().then(() => { clock.sound = true; setNeedTap(false) }).catch(() => { clock.sound = false; setNeedTap(true) })
+          }
+          startRef.current = start
+          start()
+          const loop = (now: number) => {
+            raf = requestAnimationFrame(loop)
+            if (clock.done) return
+            let time = clock.sound ? audio.currentTime : (now - clock.t0) / 1000
+            if (time >= DURATION - 0.02 || (clock.sound && audio.ended)) { time = DURATION - 0.02; clock.done = true; setEnded(true) }
+            draw(time)
+          }
           raf = requestAnimationFrame(loop)
         }
       },
     )
-    const onResize = () => stage?.resize()
+    const onResize = () => { stage?.resize(); if (!RENDER) setScale(fitScale()) }
     window.addEventListener('resize', onResize)
-    return () => { disposed = true; cancelAnimationFrame(raf); window.removeEventListener('resize', onResize); stage?.dispose() }
+    return () => {
+      disposed = true
+      cancelAnimationFrame(raf)
+      window.removeEventListener('resize', onResize)
+      audioRef.current?.pause()
+      stage?.dispose()
+    }
   }, [])
 
   const [d0, d1] = SCENES.drive
@@ -75,6 +136,7 @@ export default function FilmPage() {
     <div className="film">
       <canvas ref={canvasRef} className="stage" aria-hidden="true" data-ready="true" />
 
+      <div className="film__ui" style={{ '--s': scale } as CSSProperties}>
       <section className="film__open" style={{ opacity: show(t, 0.15, SCENES.opening[1] + 0.25, 0.35) }}>
         <h1>
           Built for 90 sols.
@@ -119,13 +181,6 @@ export default function FilmPage() {
         <p className="film__url">echoes-of-the-cosmos-2026.vercel.app</p>
       </section>
 
-      {leader && (
-        <div className="film__leader" aria-hidden="true">
-          <svg><line ref={lineRef} x1={leader.x} y1={leader.y} x2={leader.x + 90} y2={leader.y - 120} /></svg>
-          <span className="leader__label caption" style={{ transform: `translate(${leader.x + 90}px, ${leader.y - 120}px)` }}>Turret: RAT → APXS</span>
-        </div>
-      )}
-
       {cap && <p className="film__sub" style={{ opacity: show(t, cap.start, cap.end, 0.1) }}>{cap.text}</p>}
 
       <aside className="film__labels caption">
@@ -138,6 +193,41 @@ export default function FilmPage() {
         Independent educational prototype; not an official NASA product. Route: MER Analyst's Notebook, PDS Geosciences Node ·
         Model: NASA/JPL-Caltech · Map: PIA23178, NASA/JPL-Caltech/MSSS
       </p>
+      </div>
+
+      {leader && (
+        <div className="film__leader" aria-hidden="true">
+          <svg><line ref={lineRef} x1={leader.x} y1={leader.y} x2={leader.x + 90 * scale} y2={leader.y - 120 * scale} /></svg>
+          <span className="leader__label caption" style={{ transform: `translate(${leader.x + 90 * scale}px, ${leader.y - 120 * scale}px)`, fontSize: `${0.95 * Math.max(scale, 0.6)}rem` }}>Turret: RAT → APXS</span>
+        </div>
+      )}
+
+      {!RENDER && (
+        <nav className="film__player" aria-label="Film">
+          <a className="film__btn" href="/" onClick={(e) => { e.preventDefault(); navigate('/') }}>
+            <Icon name="prev" size={16} /> The site
+          </a>
+          <button type="button" className="film__btn" onClick={() => startRef.current()}>Replay</button>
+          <button
+            type="button" className="film__btn" aria-pressed={muted}
+            onClick={() => { const a = audioRef.current; if (a) { a.muted = !a.muted; setMuted(a.muted) } }}
+          >
+            {muted ? 'Sound off' : 'Sound on'}
+          </button>
+          <a className="film__btn" href={VIDEO} target="_blank" rel="noreferrer">Video file</a>
+        </nav>
+      )}
+      {!RENDER && needTap && !ended && (
+        <button type="button" className="btn btn--primary film__tap" onClick={() => startRef.current()}>
+          <Icon name="play" /> Play with sound
+        </button>
+      )}
+      {!RENDER && ended && (
+        <div className="film__again">
+          <button type="button" className="btn btn--primary" onClick={() => startRef.current()}>Watch again</button>
+          <a className="btn btn--ghost" href="/" onClick={(e) => { e.preventDefault(); navigate('/') }}>Explore the site</a>
+        </div>
+      )}
     </div>
   )
 }

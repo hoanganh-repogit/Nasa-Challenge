@@ -1,6 +1,44 @@
 /* /film: laid out for a 1600x900 frame. Words sit on the picture like print on a photograph. */
 .film { position: fixed; inset: 0; overflow: hidden; --gutter: 4.5rem; }
 .film > * { position: absolute; }
+/* the words are laid out on a 1600x900 frame and scaled to fit; at capture size the scale is exactly 1 */
+.film__ui {
+  left: 50%;
+  top: 50%;
+  width: 1600px;
+  height: 900px;
+  transform: translate(-50%, -50%) scale(var(--s, 1));
+  pointer-events: none;
+}
+.film__ui > * { position: absolute; }
+.film__player {
+  left: 1rem;
+  top: 1rem;
+  z-index: 3;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+.film__btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  min-height: 2.5rem;
+  padding: 0.35rem 0.85rem;
+  border: 1px solid color-mix(in oklab, var(--star) 24%, transparent);
+  border-radius: 999px;
+  background: color-mix(in oklab, var(--night) 72%, transparent);
+  color: var(--star);
+  font: 600 0.8rem / 1 var(--font-sans);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  text-decoration: none;
+  cursor: pointer;
+}
+.film__btn:hover { border-color: var(--star-dim); }
+.film__btn[aria-pressed='true'] { color: var(--tungsten); border-color: var(--tungsten); }
+.film__tap { left: 50%; top: 50%; translate: -50% -50%; z-index: 3; }
+.film__again { left: 50%; bottom: 12%; translate: -50% 0; z-index: 3; display: flex; flex-wrap: wrap; gap: 0.75rem; justify-content: center; }
 .film__open { left: var(--gutter); top: 5.5rem; max-width: 60rem; }
 .film__open h1 { margin: 0 0 1.1rem; font-size: 5rem; line-height: 1.02; font-weight: 640; letter-spacing: -0.02em; }
 .film__open h1 .lead__amber { font-variant-numeric: tabular-nums; white-space: nowrap; }
@@ -51,3 +89,9 @@
 .film__labels span { text-shadow: 0 1px 6px var(--night); }
 .film__credit { left: var(--gutter); right: var(--gutter); bottom: 1rem; margin: 0; font-size: 0.62rem; letter-spacing: 0.04em; color: color-mix(in oklab, var(--star-dim) 85%, var(--night)); }
 .film section, .film p, .film aside { transition: none; }
+/* portrait phones: the finished video, not the live stage */
+.film-m { min-height: 100dvh; padding: 1rem var(--gutter, 1rem) 2rem; display: grid; align-content: start; gap: 1rem; }
+.film-m .film__btn { justify-self: start; }
+.film-m h1 { margin: 0.5rem 0 0; font-size: 1.6rem; line-height: 1.15; font-weight: 640; }
+.film-m video { width: 100%; height: auto; aspect-ratio: 16 / 9; background: #000; border-radius: 3px; }
+.film-m p { margin: 0; font-size: 0.7rem; text-transform: none; letter-spacing: 0.02em; }

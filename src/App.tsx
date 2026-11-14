@@ -320,6 +320,10 @@ export default function App() {
               <a className="btn btn--ghost lead__rover" href="/rover" onClick={toPage('/rover')}>
                 Meet the rover
               </a>
+              <a className="btn btn--ghost lead__rover" href="/film" onClick={toPage('/film')}>
+                <Icon name="play" />
+                Watch the 30 s film
+              </a>
             </div>
           </section>
         )}

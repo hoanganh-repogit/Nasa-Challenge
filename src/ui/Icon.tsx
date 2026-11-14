@@ -1,11 +1,12 @@
 // One authored stroke icon set (1.6px, round caps) so controls never fall back to glyphs.
-type Name = 'next' | 'prev' | 'pause' | 'motion'
+type Name = 'next' | 'prev' | 'pause' | 'motion' | 'play'
 
 const paths: Record<Name, string> = {
   next: 'M5 12h13M13 6l6 6-6 6',
   prev: 'M19 12H6M11 6l-6 6 6 6',
   pause: 'M8 5v14M16 5v14',
   motion: 'M3 12c3-5 6-5 9 0s6 5 9 0',
+  play: 'M8 5.5v13l10.5-6.5z',
 }
 
 export function Icon({ name, size = 18 }: { name: Name; size?: number }) {
