@@ -11,6 +11,13 @@ const getJSON = async <T,>(url: string): Promise<T> => {
   return r.json() as Promise<T>
 }
 
+/** Just NASA's rover model (the /rover explorer). */
+export function loadRoverModel() {
+  const loader = new GLTFLoader()
+  loader.setMeshoptDecoder(MeshoptDecoder)
+  return loader.loadAsync('/models/mer.glb')
+}
+
 /** Data first (the route can be drawn without the model), then the textures and the NASA model. */
 export async function loadStageAssets(onProgress?: (what: string) => void): Promise<StageAssets> {
   const [traverse, route] = await Promise.all([

@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useRef, useState } from 'react'
 import './App.css'
-import { EVENT_BY_ID } from './content'
+import { EVENT_BY_ID, PART_BY_ID } from './content'
 import { STOPS } from './content/stops'
 import type { Provenance } from './engine/replay'
 import type { StageController } from './stage/controller'
@@ -8,6 +8,8 @@ import type { Quality } from './stage/director'
 import { ChapterRail } from './ui/ChapterRail'
 import { EvidenceCard } from './ui/EvidenceCard'
 import { Icon } from './ui/Icon'
+import { PartCaption } from './ui/PartCaption'
+import { navigate } from './nav'
 import { StaticView } from './ui/StaticView'
 
 const params = new URLSearchParams(location.search)
@@ -24,6 +26,10 @@ const PROVENANCE: Record<Provenance, string> = {
   gap: 'No position records',
 }
 
+/** parts with a leader-line label (the anchor lives in stage/lightpaint.ts) */
+const LEADER: Record<string, string> = { arm: 'Turret' }
+const TOOL_ABBR: Record<string, string> = { rat: 'RAT', apxs: 'APXS', mb: 'MB', mi: 'MI' }
+
 const stopFromHash = () => {
   const m = /^#stop-(\d+)$/.exec(location.hash)
   return m ? Math.min(STOPS.length, Math.max(1, Number(m[1]))) - 1 : -1
@@ -37,6 +43,13 @@ export default function App() {
   const kmRef = useRef<HTMLSpanElement>(null)
   const provRef = useRef<HTMLSpanElement>(null)
   const markerRef = useRef<HTMLSpanElement>(null)
+  const leaderRef = useRef<SVGLineElement>(null)
+  const leaderLabelRef = useRef<HTMLDivElement>(null)
+  const partHeadRef = useRef<HTMLHeadingElement>(null)
+  // the open instrument inset: part id, and whether the light has stopped on it
+  const [part, setPart] = useState<string | null>(null)
+  const [partReady, setPartReady] = useState(false)
+  const leaderOn = useRef(false)
   const [ready, setReady] = useState(false)
   const [error, setError] = useState<string | null>(null)
   const [stop, setStop] = useState(-1)
@@ -45,6 +58,24 @@ export default function App() {
   const closeCard = useCallback(() => {
     setCardOpen(false)
     document.querySelector<HTMLButtonElement>('.btn--evidence')?.focus()
+  }, [])
+  const openPart = useCallback((id: string) => {
+    setCardOpen(false)
+    setPart(id)
+    setPartReady(false)
+  }, [])
+  // start the light-paint on the frame after React has laid out the caption, so that work never lands mid-reveal
+  useEffect(() => {
+    if (!part) return
+    const raf = requestAnimationFrame(() => ctrlRef.current?.showPart(part))
+    return () => cancelAnimationFrame(raf)
+  }, [part])
+  const closePart = useCallback((refocus = true) => {
+    setPart(null)
+    setPartReady(false)
+    leaderOn.current = false
+    ctrlRef.current?.showPart(null)
+    if (refocus) requestAnimationFrame(() => document.querySelector<HTMLButtonElement>('.btn--part')?.focus())
   }, [])
   const [mode, setMode] = useState<'stage' | 'static'>(!hasWebGL || params.has('static') ? 'static' : 'stage')
 
@@ -66,6 +97,7 @@ export default function App() {
     const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches
     const q = (params.get('tier') as Quality) || 'mid'
     let lastSol = -1, lastKm = -1, lastProv = ''
+    const pt = { x: 0, y: 0 }
     // three.js and the stage load as a separate chunk so the words paint first
     Promise.all([import('./stage/controller'), import('./stage/load')]).then(async ([{ StageController }, { loadStageAssets }]) => {
       const assets = await loadStageAssets()
@@ -81,8 +113,22 @@ export default function App() {
           if (prov !== lastProv && provRef.current) { provRef.current.textContent = prov; lastProv = prov }
           if (markerRef.current) markerRef.current.style.left = `${((fix.sol - 1) / 5110) * 100}%`
           if (DEBUG && fpsRef.current) fpsRef.current.textContent = `${ctrl.fpsValue.toFixed(0)} fps · ${ctrl.stage.quality}`
+          // leader line from the lit part to its label
+          const line = leaderRef.current, label = leaderLabelRef.current
+          if (line && label) {
+            const ok = leaderOn.current && ctrl.stage.anchorScreen(pt)
+            line.parentElement!.parentElement!.style.opacity = ok ? '1' : '0'
+            if (ok) {
+              const wide = innerWidth / innerHeight > 1.05
+              const lx = pt.x + (wide ? 90 : -40), ly = pt.y - (wide ? 120 : 90)
+              line.setAttribute('x1', String(pt.x)); line.setAttribute('y1', String(pt.y))
+              line.setAttribute('x2', String(lx)); line.setAttribute('y2', String(ly))
+              label.style.transform = `translate(${lx}px, ${ly}px)`
+            }
+          }
         },
         onSettled: () => setSettled(true),
+        onPartReady: () => setPartReady(true),
       })
       ctrl.autoQuality = !params.has('tier')
       ctrlRef.current = ctrl
@@ -113,8 +159,20 @@ export default function App() {
     }
   }, [mode])
 
-  useEffect(() => { setCardOpen(false) }, [stop])
-  useEffect(() => { ctrlRef.current?.setSkyPaused(cardOpen) }, [cardOpen])
+  useEffect(() => {
+    setCardOpen(false)
+    setPart((p) => { if (p) { leaderOn.current = false; ctrlRef.current?.showPart(null) } return null })
+    setPartReady(false)
+  }, [stop])
+  useEffect(() => { ctrlRef.current?.setSkyPaused(cardOpen || !!part) }, [cardOpen, part])
+  useEffect(() => { if (part) partHeadRef.current?.focus() }, [part])
+  useEffect(() => { leaderOn.current = partReady && !!part && part in LEADER }, [part, partReady])
+  useEffect(() => {
+    if (!part) return
+    const onKey = (e: KeyboardEvent) => { if (e.key === 'Escape') closePart() }
+    window.addEventListener('keydown', onKey)
+    return () => window.removeEventListener('keydown', onKey)
+  }, [part, closePart])
 
   // Back / Forward walk the stops
   useEffect(() => {
@@ -142,6 +200,11 @@ export default function App() {
   const s = stop >= 0 ? STOPS[stop] : null
   const ev = s ? EVENT_BY_ID.get(s.id) : undefined
   const journey = stop >= 0
+  const stopPart = ev?.partIds.length ? PART_BY_ID.get(ev.partIds[0]) : undefined
+  const openP = part ? PART_BY_ID.get(part) : undefined
+  const leaderText = openP && ev && LEADER[openP.id]
+    ? `${LEADER[openP.id]}: ${(openP.toolsAt?.[ev.id] ?? openP.tools?.map((t) => t.id) ?? []).map((t) => TOOL_ABBR[t] ?? t).join(openP.toolsAt?.[ev.id] ? ' → ' : ' · ')}`
+    : ''
 
   if (mode === 'static') return <StaticView canExit={hasWebGL} onExit={() => setMode('stage')} />
 
@@ -165,12 +228,29 @@ export default function App() {
               {ready ? 'Start the journey' : 'Loading the route'}
               <Icon name="next" />
             </button>
+            <a className="btn btn--ghost lead__rover" href="/rover" onClick={(e) => { e.preventDefault(); navigate('/rover') }}>
+              Meet the rover
+            </a>
           </section>
         )}
 
         {journey && (
           <>
             <ChapterRail stop={stop} onChapter={(i) => go(i)} markerRef={markerRef} />
+            {openP ? (
+              <section className="stop stop--part" aria-labelledby="part-title" data-ready={partReady}>
+                <PartCaption part={openP} eventId={ev!.id} headingRef={partHeadRef} />
+                <div className="stop__actions">
+                  <button type="button" className="btn btn--next" onClick={() => closePart()}>
+                    <Icon name="prev" />
+                    Back to the stop
+                  </button>
+                  <a className="btn btn--ghost" href={`/rover#${openP.id}`} onClick={(e) => { e.preventDefault(); navigate(`/rover#${openP.id}`) }}>
+                    The whole rover
+                  </a>
+                </div>
+              </section>
+            ) : (
             <section className="stop" aria-labelledby="stop-title" data-settled={settled}>
               <h2 id="stop-title" className="stop__q">{ev!.question}</h2>
               <p className="stop__meta caption">
@@ -182,6 +262,11 @@ export default function App() {
                 <button type="button" className="btn btn--evidence" aria-expanded={cardOpen} onClick={() => setCardOpen((o) => !o)}>
                   {cardOpen ? 'Hide the evidence' : 'The evidence'}
                 </button>
+                {stopPart && (
+                  <button type="button" className="btn btn--evidence btn--part" onClick={() => openPart(stopPart.id)} disabled={!ready}>
+                    {stopPart.short}
+                  </button>
+                )}
                 {stop < STOPS.length - 1 && (
                   <button type="button" className="btn btn--next" onClick={() => go(stop + 1)}>
                     Next stop
@@ -193,13 +278,19 @@ export default function App() {
                 </button>
               </div>
             </section>
+            )}
             {cardOpen && <EvidenceCard event={ev!} onClose={closeCard} />}
-            <p className="sr-only" aria-live="polite">{`Stop ${stop + 1} of ${STOPS.length}: ${s!.place}. ${ev!.question}`}</p>
+            <div className="leader" aria-hidden="true">
+              <svg><line ref={leaderRef} /></svg>
+              <div ref={leaderLabelRef} className="leader__label caption">{leaderText}</div>
+            </div>
+            <p className="sr-only" aria-live="polite">{openP ? (partReady ? `${openP.name}, lit on the rover.` : '') : `Stop ${stop + 1} of ${STOPS.length}: ${s!.place}. ${ev!.question}`}</p>
           </>
         )}
 
         <aside className="labels caption" aria-label="About this view">
           <span>Night sky and light trail are illustrative; the rover drove by day.</span>
+          {openP && <span>Lighting is illustrative · Model: NASA/JPL-Caltech</span>}
           {journey && <span>Rover not to scale · Flat plane, no terrain height</span>}
           {journey && <span>Route aligned to NASA map by a 2-point fit; offsets up to ~0.5 km.</span>}
         </aside>

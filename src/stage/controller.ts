@@ -9,9 +9,13 @@ export interface ControllerOptions {
   onFrame?: (s: StageState) => void
   onSettled?: (key: string) => void
   onQuality?: (q: Quality) => void
+  /** the light has stopped on the selected part: its caption may show */
+  onPartReady?: (partId: string) => void
 }
 
 const SKY_RAD_PER_SEC = 0.006
+const INSET_MS = 700
+const easeInOut = (k: number) => (k < 0.5 ? 4 * k * k * k : 1 - Math.pow(-2 * k + 2, 3) / 2)
 
 export class StageController {
   readonly stage: MissionStage
@@ -23,6 +27,9 @@ export class StageController {
   private settledKey = ''
   private skyPaused = false
   private fps = { frames: 0, since: 0, low: 0, value: 60 }
+  private part: string | null = null
+  private partAnnounced = true
+  private inset = { from: 0, to: 0, start: 0, value: 0 }
   autoQuality = true
   private assets: StageAssets
   private opts: ControllerOptions
@@ -54,6 +61,16 @@ export class StageController {
     return isSettled(this.tr, now) ? this.tr.to.key : this.tr.from.key
   }
 
+  /** Open the instrument inset on a part (light-paint), or close it with null. */
+  showPart(id: string | null) {
+    const now = performance.now()
+    const cut = this.opts.reducedMotion
+    this.inset = { from: cut ? (id ? 1 : 0) : this.inset.value, to: id ? 1 : 0, start: now, value: this.inset.value }
+    this.part = id
+    this.partAnnounced = !id
+    this.stage.selectPart(id, now, cut)
+  }
+
   setReducedMotion(on: boolean) { this.opts.reducedMotion = on }
   setSkyPaused(on: boolean) { this.skyPaused = on }
 
@@ -61,10 +78,10 @@ export class StageController {
   async warm() {
     this.stage.resize()
     const r = this.assets.replay
-    const at = (shot: Shot): StageState => ({ sol: shot.sol, cam: shot.pose, exaggeration: shot.exaggeration, studio: shot.studio, skyAngle: this.skyAngle, trailIntensity: 1, fog: shot.fog })
+    const at = (shot: Shot, inset = 0): StageState => ({ sol: shot.sol, cam: shot.pose, exaggeration: shot.exaggeration, studio: shot.studio, skyAngle: this.skyAngle, trailIntensity: 1, fog: shot.fog, inset, now: performance.now() })
     const st = this.shots.stops
-    // map rover close up, the whole route with both dashed gaps, the opening portrait
-    await this.stage.warm([at(st[6]), at(st[st.length - 1]), at({ ...st[3], sol: r.maxSol }), at({ ...st[6], studio: 0.7 }), at(this.shots.opening)])
+    // map rover close up, the whole route with both dashed gaps, the instrument inset, the opening portrait
+    await this.stage.warm([at(st[6]), at(st[st.length - 1]), at({ ...st[3], sol: r.maxSol }), at({ ...st[6], studio: 0.7 }), at(st[5], 1), at(this.shots.opening)])
     this.frame(performance.now())
   }
 
@@ -82,7 +99,15 @@ export class StageController {
     this.last = now
     if (!this.skyPaused && !this.opts.reducedMotion) this.skyAngle += dt * SKY_RAD_PER_SEC
     const s = stateAt(this.tr, now, this.assets.replay, this.skyAngle)
+    const ins = this.inset
+    ins.value = ins.from + (ins.to - ins.from) * easeInOut(Math.min(1, (now - ins.start) / INSET_MS))
+    s.inset = ins.value
+    s.trailIntensity = 1 - 0.7 * ins.value
     this.stage.render(s)
+    if (!this.partAnnounced && this.part && this.stage.partReady(now)) {
+      this.partAnnounced = true
+      this.opts.onPartReady?.(this.part)
+    }
     this.opts.onFrame?.(s)
     if (!this.settledKey && isSettled(this.tr, now)) {
       this.settledKey = this.tr.to.key

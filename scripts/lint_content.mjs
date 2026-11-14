@@ -9,9 +9,10 @@ const events = read('src/content/events.json')
 const faq = read('src/content/faq.json')
 const sources = read('src/content/sources.json')
 const media = read('src/content/media.json')
+const parts = read('src/content/parts.json')
 
 const BANNED = [/drinkable/i, /proved life/i, /life was found/i, /measured position/i, /\bdrink/i]
-const PARTS = new Set(['mast', 'panels', 'body', 'arm', 'instruments', 'wheels'])
+const PARTS = new Set(parts.map((p) => p.id))
 const srcIds = new Set(sources.map((s) => s.id))
 const mediaIds = new Set(media.map((m) => m.id))
 const words = (t) => t.trim().split(/\s+/).filter((w) => /[\p{L}\p{N}]/u.test(w)).length
@@ -58,6 +59,25 @@ for (const m of media) {
   if (!m.alt) bad(m.id, 'missing alt')
   for (const id of m.sourceIds ?? []) if (!srcIds.has(id)) bad(m.id, `unknown sourceId ${id}`)
 }
+// parts (block E): every caption sourced, every 'found' tied to an event that names the part
+const eventById = new Map(events.map((e) => [e.id, e]))
+for (const p of parts) {
+  const w = `part ${p.id}`
+  for (const k of ['name', 'whatItIs', 'howItWorks']) { if (!p[k]) bad(w, `missing ${k}`); else scanText(`${w}.${k}`, p[k]) }
+  if (!p.materials?.length) bad(w, 'no materials')
+  if (!p.sourceIds?.length) bad(w, 'no sources')
+  for (const id of p.sourceIds ?? []) if (!srcIds.has(id)) bad(w, `unknown sourceId ${id}`)
+  if (!srcIds.has(p.quote?.sourceId)) bad(w, 'quote has unknown sourceId')
+  else if (!p.sourceIds.includes(p.quote.sourceId)) bad(w, `quote source ${p.quote.sourceId} not in sourceIds`)
+  for (const [eid, text] of Object.entries(p.found ?? {})) {
+    scanText(`${w}.found.${eid}`, text)
+    if (!eventById.get(eid)?.partIds.includes(p.id)) bad(w, `found text for ${eid}, but that event does not list ${p.id}`)
+  }
+  const toolIds = new Set((p.tools ?? []).map((t) => t.id))
+  for (const [eid, list] of Object.entries(p.toolsAt ?? {})) for (const t of list) if (!toolIds.has(t)) bad(w, `toolsAt ${eid} names unknown tool ${t}`)
+}
+for (const e of events) for (const pid of e.partIds) if (!parts.find((p) => p.id === pid)?.found?.[e.id]) bad(e.id, `names part ${pid} but that part has no 'found' text for it`)
+
 const ids = sources.map((s) => s.id)
 for (const id of ids.filter((x, i) => ids.indexOf(x) !== i)) bad('sources', `duplicate id ${id}`)
 
@@ -65,4 +85,4 @@ if (problems.length) {
   console.error(`\n${problems.length} problem(s):\n` + problems.map((p) => '  - ' + p).join('\n'))
   process.exit(1)
 }
-console.log(`\ncontent lint passed: ${events.length} events, ${faq.length} FAQ, ${sources.length} sources, ${media.length} media`)
+console.log(`\ncontent lint passed: ${events.length} events, ${faq.length} FAQ, ${sources.length} sources, ${media.length} media, ${parts.length} parts`)

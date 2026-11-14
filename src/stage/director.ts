@@ -18,6 +18,10 @@ export interface StageState {
   /** 0..1 dims the route while a card or instrument view needs attention */
   trailIntensity: number
   fog: number
+  /** 0..1 instrument inset: the studio rover framed on a lit part, the map veiled behind it */
+  inset: number
+  /** clock (ms) for time-based reveals such as the light-paint */
+  now: number
 }
 
 interface ShotDef { target?: number[]; az: number; el: number; dist: number; fov: number; exaggeration: number; studio: number; durationMs?: number; fog?: number }
@@ -85,6 +89,8 @@ export function stateAt(tr: Transition, now: number, replay: Replay, skyAngle: n
     skyAngle,
     trailIntensity: 1,
     fog: lerp(from.fog, to.fog, k),
+    inset: 0,
+    now,
   }
 }
 

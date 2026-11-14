@@ -1,0 +1,78 @@
+/* /rover: the model alone in the dark, a part list on the left, the lit part on the right */
+.rv-stage { cursor: grab; touch-action: pan-y; }
+.rv-stage:active { cursor: grabbing; }
+.rv__home {
+  position: absolute;
+  top: clamp(0.9rem, 3vh, 1.6rem);
+  left: var(--gutter);
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  color: var(--star);
+  text-decoration: none;
+}
+.rv__home:hover { color: var(--print); }
+.rv__col {
+  position: absolute;
+  left: var(--gutter);
+  top: clamp(3.6rem, 10vh, 5.5rem);
+  bottom: 3.4rem;
+  width: min(30rem, 38vw);
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  padding-right: 0.75rem;
+  scrollbar-width: thin;
+  scrollbar-color: var(--dusk) transparent;
+}
+.rv h1 {
+  margin: 0 0 0.6rem;
+  font-size: clamp(2rem, 1.4rem + 2.2vw, 3.2rem);
+  line-height: 1.04;
+  font-weight: 640;
+  letter-spacing: -0.02em;
+  text-wrap: balance;
+}
+.rv__intro { margin: 0 0 1.4rem; max-width: 28rem; color: var(--star-dim); line-height: 1.55; text-wrap: pretty; }
+.rv__parts { list-style: none; margin: 0; padding: 0; border-top: 1px solid color-mix(in oklab, var(--star) 14%, transparent); }
+.rv__part {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 1rem;
+  padding: 0.75rem 0;
+  background: none;
+  border: 0;
+  border-bottom: 1px solid color-mix(in oklab, var(--star) 14%, transparent);
+  color: var(--star);
+  font: 600 var(--step-0) / 1.3 var(--font-sans);
+  text-align: left;
+  cursor: pointer;
+  transition: color 160ms var(--ease-out), border-color 160ms var(--ease-out);
+}
+.rv__part:hover:not(:disabled) .rv__pname { color: var(--print); }
+.rv__part:disabled { cursor: progress; color: var(--star-dim); }
+.rv__part[aria-pressed='true'] { color: var(--tungsten); border-bottom-color: var(--tungsten); }
+.rv__part[aria-pressed='true'] .rv__pname { color: var(--tungsten); }
+.rv__pstops { flex: none; font-size: 0.68rem; }
+.rv__tour { display: flex; align-items: center; gap: 0.9rem; margin: 0.9rem 0 0; }
+.rv__tour .band__btn { display: inline-flex; align-items: center; gap: 0.35rem; }
+.rv__caption { margin-top: 1.8rem; }
+.rv__fine {
+  position: absolute;
+  left: var(--gutter);
+  right: var(--gutter);
+  bottom: 0.9rem;
+  margin: 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.2rem 1.5rem;
+  font-size: 0.62rem;
+  letter-spacing: 0.05em;
+  pointer-events: none;
+}
+@media (max-width: 720px) {
+  .rv__col { top: 50dvh; left: var(--gutter); right: var(--gutter); width: auto; bottom: 5.6rem; }
+  .rv__fine { font-size: 0.58rem; }
+  .rv h1 { font-size: 1.8rem; }
+}

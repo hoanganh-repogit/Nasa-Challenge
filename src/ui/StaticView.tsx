@@ -1,5 +1,7 @@
 import { useEffect, useState } from 'react'
-import { EVENT_BY_ID } from '../content'
+import { EVENT_BY_ID, PART_BY_ID } from '../content'
+import { navigate } from '../nav'
+import { Icon } from './Icon'
 import { STOPS } from '../content/stops'
 import { EvidenceCard } from './EvidenceCard'
 import type { RouteFile, TraverseFile } from '../data/types'
@@ -90,6 +92,14 @@ export function StaticView({ onExit, canExit }: { onExit: () => void; canExit: b
                 <p className="caption">{s.place} · {s.solLabel} · {ev.time.earthDateLabel} · Stop {i + 1} of {STOPS.length}</p>
                 <p className="stop__finding">{ev.finding}</p>
                 <p className="static__lead">{ev.lead}</p>
+                {ev.partIds.slice(0, 1).map((pid) => (
+                  <p key={pid} className="static__part">
+                    <a className="part__go" href={`/rover#${pid}`} onClick={(e) => { e.preventDefault(); navigate(`/rover#${pid}`) }}>
+                      {PART_BY_ID.get(pid)!.short}, on the rover
+                      <Icon name="next" size={16} />
+                    </a>
+                  </p>
+                ))}
                 <img src={`/posters/stop-${i + 1}.webp`} alt="" loading="lazy" width={1280} height={800} />
               </div>
               <EvidenceCard event={ev} inline />

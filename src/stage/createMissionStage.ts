@@ -10,6 +10,7 @@ import type { RouteFile, TraverseFile } from '../data/types'
 import type { Replay } from '../engine/replay'
 import type { Quality, StageState } from './director'
 import { createGround } from './ground'
+import { LightPaint, placeCamera, type Pose } from './lightpaint'
 import { createRover, NIGHT } from './rover'
 import { createSky } from './sky'
 import { createTrail } from './trail'
@@ -34,6 +35,12 @@ export interface MissionStage {
   setQuality(q: Quality): void
   /** Compile every shader variant the journey will need, so the first flight never stalls. */
   warm(states: StageState[]): Promise<void>
+  /** Light-paint one part of the studio rover (null = none). Shows while state.inset > 0. */
+  selectPart(id: string | null, now: number, instant?: boolean): void
+  /** true once the light has stopped on the selected part */
+  partReady(now: number): boolean
+  /** Screen position (CSS px) of the selected part's leader-line anchor, from the last frame. */
+  anchorScreen(out: { x: number; y: number }): boolean
   dispose(): void
   readonly quality: Quality
 }
@@ -44,7 +51,7 @@ export function createMissionStage(canvas: HTMLCanvasElement, assets: StageAsset
   renderer.toneMapping = THREE.ACESFilmicToneMapping
   renderer.toneMappingExposure = NIGHT.exposure
   renderer.shadowMap.enabled = true
-  renderer.shadowMap.type = THREE.PCFSoftShadowMap
+  renderer.shadowMap.type = THREE.PCFShadowMap
   renderer.setClearColor(0x0b1020, 1)
 
   const { replay } = assets
@@ -63,6 +70,19 @@ export function createMissionStage(canvas: HTMLCanvasElement, assets: StageAsset
   world.environmentIntensity = 0.5
 
   const studioCam = rover.studio.camera
+  const paint = new LightPaint(rover.studio.root, rover.studio.parts, rover.studio.spot, rover.studio.lights)
+
+  // instrument inset: a veil drawn first in the studio pass darkens the map behind the lit rover
+  const veilMat = new THREE.ShaderMaterial({
+    uniforms: { uAlpha: { value: 0 } },
+    vertexShader: 'void main(){ gl_Position = vec4(position.xy, 0.0, 1.0); }',
+    fragmentShader: 'uniform float uAlpha; void main(){ gl_FragColor = vec4(0.03, 0.04, 0.09, uAlpha); }',
+    blending: THREE.CustomBlending, transparent: false, depthTest: false, depthWrite: false,
+  })
+  const veil = new THREE.Mesh(new THREE.PlaneGeometry(2, 2), veilMat)
+  veil.frustumCulled = false
+  veil.renderOrder = -10
+  rover.studio.scene.add(veil)
 
   // post: bloom on the trail only (HDR > threshold); the studio portrait is drawn after bloom
   const composer = new EffectComposer(renderer)
@@ -104,6 +124,7 @@ export function createMissionStage(canvas: HTMLCanvasElement, assets: StageAsset
   }
 
   const v = new THREE.Vector3()
+  const portrait: Pose = { target: new THREE.Vector3(0, rover.studio.size.y * 0.42, 0), az: 35, el: 12, dist: 5.6 }
   function heading(i: number) {
     const { xs, ys, count } = replay
     const a = Math.max(0, i - 2), b = Math.min(count - 1, i + 2)
@@ -128,16 +149,26 @@ export function createMissionStage(canvas: HTMLCanvasElement, assets: StageAsset
     camera.lookAt(v.set(tx, 0, tz))
     sky.update(camera, s.skyAngle)
 
-    // studio portrait: right foreground; slides out to the right as `studio` goes to 0
-    const size = rover.studio.size
+    // studio portrait: right foreground; slides out to the right as `studio` goes to 0.
+    // Instrument inset: the same rover, framed on the lit part, beside the text column.
     studioCam.fov = 30
-    const sa = THREE.MathUtils.degToRad(35), se = THREE.MathUtils.degToRad(12), sd = 5.6
-    const ty = size.y * 0.42
-    studioCam.position.set(Math.sin(sa) * Math.cos(se) * sd, ty + Math.sin(se) * sd, Math.cos(sa) * Math.cos(se) * sd)
-    studioCam.lookAt(0, ty, 0)
-    const p = s.studio
-    studioCam.setViewOffset(w, h, -w * (0.3 + (1 - p) * 0.75), -h * 0.17, w, h)
+    const lit = paint.update(s.now, studioCam.fov, w / h)
+    const k = s.inset
+    const pose: Pose = k <= 0 ? portrait : {
+      target: portrait.target.clone().lerp(lit.target, k),
+      az: portrait.az + ((((lit.az - portrait.az) % 360) + 540) % 360 - 180) * k,
+      el: portrait.el + (lit.el - portrait.el) * k,
+      dist: Math.exp(Math.log(portrait.dist) + (Math.log(lit.dist) - Math.log(portrait.dist)) * k),
+    }
+    placeCamera(studioCam, pose)
+    const p = Math.max(s.studio, k)
+    const wide = w / h > 1.05
+    const ox0 = -w * (0.3 + (1 - p) * 0.75), oy0 = -h * 0.17
+    const ox1 = wide ? -w * 0.21 : 0, oy1 = wide ? -h * 0.02 : h * 0.2
+    studioCam.setViewOffset(w, h, ox0 + (ox1 - ox0) * k, oy0 + (oy1 - oy0) * k, w, h)
     studioCam.updateProjectionMatrix()
+    veilMat.uniforms.uAlpha.value = 0.86 * k
+    veil.visible = k > 0.001
     studioPass.enabled = p > 0.001
 
     if (TIERS[q].bloom || studioPass.enabled) composer.render()
@@ -160,11 +191,23 @@ export function createMissionStage(canvas: HTMLCanvasElement, assets: StageAsset
     }
   }
 
+  const anchor = new THREE.Vector3()
   return {
     render, resize, warm,
+    selectPart(id, now, instant = false) { paint.select(id, now, instant) },
+    partReady(now) { return paint.ready(now) },
+    anchorScreen(out) {
+      if (!studioPass.enabled || !paint.anchor(paint.selected, anchor)) return false
+      anchor.project(studioCam)
+      if (anchor.z > 1) return false
+      out.x = (anchor.x * 0.5 + 0.5) * w
+      out.y = (-anchor.y * 0.5 + 0.5) * h
+      return true
+    },
     setQuality(next) { q = next; applyQuality() },
     get quality() { return q },
     dispose() {
+      veil.geometry.dispose(); veilMat.dispose()
       ground.dispose(); trail.dispose(); sky.dispose(); rover.dispose()
       composer.dispose(); renderer.dispose()
     },

@@ -1,0 +1,86 @@
+[
+  {
+    "id": "mast",
+    "short": "The camera mast",
+    "name": "Camera mast",
+    "materials": ["tex_mast", "foil_silver"],
+    "whatItIs": "A mast at the front of the deck. Pancam and the navigation cameras sit on top of it, about 1.4 metres above the base of the wheels.",
+    "howItWorks": "Pancam's two cameras work together to take detailed, multi-wavelength, 3-D panoramic pictures from about human eye height. The mast also works as a periscope for Mini-TES, a heat spectrometer that sits inside the body and reads the heat given off by minerals in rocks and soils.",
+    "quote": { "text": "To take panoramic color images of the Martian surface, the sun, and the sky.", "who": "Pancam's main job", "sourceId": "SRC-MER-INSTRUMENTS" },
+    "found": {
+      "evt-landing": "Pancam and the navigation cameras look out from the top of the mast. Mini-TES, inside the body, looks out through it too.",
+      "evt-victoria": "Pancam took the first views from the rim of Victoria crater. The layers in the crater wall were what made the place exciting.",
+      "evt-last-contact": "The last picture was taken with the left Pancam camera through a solar filter. It came out almost black because dust had blocked the Sun."
+    },
+    "sourceIds": ["SRC-MER-INSTRUMENTS", "SRC-NSSDCA-OPP", "SRC-VICTORIA-2006", "SRC-PIA22929"]
+  },
+  {
+    "id": "arm",
+    "short": "The arm's tools",
+    "name": "Robotic arm and its tools",
+    "materials": ["tex_arm"],
+    "whatItIs": "The instrument deployment device: a long hinged arm on the lower front of the body. Four tools ride on the turret at its end.",
+    "howItWorks": "The arm reaches out and places one tool right up to a rock or soil for close-up study. The Rock Abrasion Tool can first grind away dust and weathered rock, so the other tools see fresh rock.",
+    "quote": { "text": "Attached to the lower front of the WEB is the instrument deployment device, a long hinged arm which protrudes in front of the rover.", "who": "NSSDCA spacecraft record", "sourceId": "SRC-NSSDCA-OPP" },
+    "tools": [
+      { "id": "rat", "name": "Rock Abrasion Tool (RAT)", "job": "Grinds away dust and weathered rock to expose fresh rock underneath." },
+      { "id": "apxs", "name": "Alpha Particle X-Ray Spectrometer (APXS)", "job": "Reads which chemical elements a rock or soil contains, from the way it responds to X-rays and alpha particles." },
+      { "id": "mb", "name": "Mössbauer spectrometer (MB)", "job": "Identifies iron-bearing minerals, which tell about early conditions on Mars." },
+      { "id": "mi", "name": "Microscopic Imager (MI)", "job": "Takes extreme close-up, black-and-white pictures of rocks and soils." }
+    ],
+    "toolsAt": { "evt-wet-meridiani": ["apxs", "mb"], "evt-esperance": ["rat", "apxs"] },
+    "found": {
+      "evt-wet-meridiani": "APXS found very high levels of sulfur, in sulfate salts. The Mössbauer spectrometer found jarosite, which may point to an acidic lake or acidic hot springs.",
+      "evt-esperance": "The tools worked one after the other. First the RAT ground into the rock; then APXS read its elements. More aluminium and silica, less calcium and iron: a sign of clay minerals."
+    },
+    "sourceIds": ["SRC-NSSDCA-OPP", "SRC-MER-INSTRUMENTS", "SRC-WET-2004", "SRC-ESPERANCE-2013"]
+  },
+  {
+    "id": "wheels",
+    "short": "The wheels",
+    "name": "Wheels and suspension",
+    "materials": ["tex_suspension_n"],
+    "whatItIs": "Six wheels on a rocker-bogie suspension.",
+    "howItWorks": "Each wheel has its own motor, and the two front and two rear wheels can steer on their own. The rover is built to withstand a tilt of 45 degrees without falling over, but it is programmed to avoid tilts of more than 30 degrees.",
+    "quote": { "text": "The wheels are attached to a rocker-bogie suspension system.", "who": "NSSDCA spacecraft record", "sourceId": "SRC-NSSDCA-OPP" },
+    "found": {
+      "evt-purgatory": "The wheels sank more than 10 centimetres, to the depth of the wheel hubs, in a sand ripple. Getting out took more than five weeks of planning, testing and carefully monitored driving."
+    },
+    "sourceIds": ["SRC-NSSDCA-OPP", "SRC-PIA07922", "SRC-PIA07999"]
+  },
+  {
+    "id": "panels",
+    "short": "The solar arrays",
+    "name": "Solar arrays",
+    "materials": ["tex_panels_n", "tex_panels2_n"],
+    "whatItIs": "Solar arrays attached to the two front sides of the deck, spread out like a pair of swept-back wings.",
+    "howItWorks": "They make up to 140 watts in full sunshine. The energy is stored in two rechargeable batteries.",
+    "quote": { "text": "Power is provided by the solar arrays, generating up to 140 W of power under full Sun conditions.", "who": "NSSDCA spacecraft record", "sourceId": "SRC-NSSDCA-OPP" },
+    "found": {
+      "evt-last-contact": "In June 2018 a dust storm that covered the planet blanketed the rover's location and blocked the sunlight. The rover could not recharge, and it went silent."
+    },
+    "sourceIds": ["SRC-NSSDCA-OPP", "SRC-END-2019", "SRC-PIA22929"]
+  },
+  {
+    "id": "body",
+    "short": "The body",
+    "name": "Warm electronics box",
+    "materials": ["tex_body_n"],
+    "whatItIs": "The box-like body, called the warm electronics box (WEB). It holds the computer, the batteries and other electronics. Mini-TES is mostly inside it too.",
+    "howItWorks": "It protects the electronics and keeps their temperature under control, using gold paint, aerogel insulation, heaters, thermostats and radiators.",
+    "quote": { "text": "The warm electronics box houses the computer, batteries, and other electronic components.", "who": "NSSDCA spacecraft record", "sourceId": "SRC-NSSDCA-OPP" },
+    "found": {},
+    "sourceIds": ["SRC-NSSDCA-OPP", "SRC-MER-INSTRUMENTS"]
+  },
+  {
+    "id": "deck",
+    "short": "The deck",
+    "name": "Deck and antennas",
+    "materials": ["tex_instruments", "Silver"],
+    "whatItIs": "The flat equipment deck on top of the body. It carries the camera mast, the antennas, a magnet array that collects airborne dust and a camera calibration target shaped like a sundial.",
+    "howItWorks": "Radio contact with Earth went through a dish-shaped high-gain antenna and a low-gain antenna that does not need to be pointed. A separate UHF radio talked to spacecraft orbiting Mars.",
+    "quote": { "text": "Pancam calibration target was in the shape of a sundial mounted on the rover deck.", "who": "NASA Science, MER instruments", "sourceId": "SRC-MER-INSTRUMENTS" },
+    "found": {},
+    "sourceIds": ["SRC-NSSDCA-OPP", "SRC-MER-INSTRUMENTS"]
+  }
+]

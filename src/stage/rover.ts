@@ -15,8 +15,11 @@ export const NIGHT = {
   envIntensity: 0.6,
 }
 
-/** glTF assets face +Z; yaw = PI - compass heading turns +Z towards the direction of travel. */
-const FORWARD_YAW = Math.PI
+/**
+ * glTF assets face +Z. Verified on NASA's model (block E): the arm and the camera mast, both at the front
+ * of the rover (NSSDCA 2003-032A), sit at +Z. yaw = PI - compass heading turns +Z towards the direction of travel.
+ */
+export const FORWARD_YAW = Math.PI
 
 export type PartGroup = { name: string; meshes: THREE.Mesh[] }
 
@@ -42,7 +45,15 @@ function instance(gltf: GLTF) {
 }
 
 export interface Rover {
-  studio: { scene: THREE.Scene; camera: THREE.PerspectiveCamera; size: THREE.Vector3; parts: Map<string, THREE.Mesh[]> }
+  studio: {
+    scene: THREE.Scene; camera: THREE.PerspectiveCamera; size: THREE.Vector3; parts: Map<string, THREE.Mesh[]>
+    /** the model, re-centred on the floor */
+    root: THREE.Group
+    /** light-paint spot; always in the scene (intensity 0 when idle) so the shaders never change */
+    spot: THREE.SpotLight
+    /** the studio's own lights, dimmed while a part is light-painted */
+    lights: THREE.Light[]
+  }
   world: { group: THREE.Group; parts: Map<string, THREE.Mesh[]> }
   /** place the map copy: position in km, heading in radians (0 = north), exaggeration factor */
   place(xKm: number, zKm: number, heading: number, exaggeration: number, visible: boolean): void
@@ -58,7 +69,8 @@ export function createRover(gltf: GLTF, renderer: THREE.WebGLRenderer): Rover {
   pm.dispose()
   scene.environment = env
   scene.environmentIntensity = NIGHT.envIntensity
-  scene.add(new THREE.HemisphereLight(NIGHT.hemi[0], NIGHT.hemi[1], NIGHT.hemi[2]))
+  const hemi = new THREE.HemisphereLight(NIGHT.hemi[0], NIGHT.hemi[1], NIGHT.hemi[2])
+  scene.add(hemi)
   const key = new THREE.DirectionalLight(NIGHT.key[0], NIGHT.key[1])
   key.position.set(...NIGHT.key[2])
   key.castShadow = true
@@ -68,6 +80,8 @@ export function createRover(gltf: GLTF, renderer: THREE.WebGLRenderer): Rover {
   const rim = new THREE.DirectionalLight(NIGHT.rim[0], NIGHT.rim[1])
   rim.position.set(...NIGHT.rim[2])
   scene.add(key, rim)
+  const spot = new THREE.SpotLight(0xffb36b, 0, 0, 0.4, 0.55, 2)
+  scene.add(spot, spot.target)
   const floor = new THREE.Mesh(new THREE.CircleGeometry(4, 48).rotateX(-Math.PI / 2), new THREE.ShadowMaterial({ opacity: 0.6 }))
   floor.receiveShadow = true
   scene.add(floor)
@@ -95,7 +109,7 @@ export function createRover(gltf: GLTF, renderer: THREE.WebGLRenderer): Rover {
   group.add(beacon)
 
   return {
-    studio: { scene, camera, size: s.size, parts: s.parts },
+    studio: { scene, camera, size: s.size, parts: s.parts, root: s.holder, spot, lights: [hemi, key, rim] },
     world: { group, parts: w.parts },
     place(xKm, zKm, heading, exaggeration, visible) {
       group.position.set(xKm, 0, zKm)

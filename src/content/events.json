@@ -56,10 +56,7 @@
       "sourceId": "SRC-WET-2004-NSSDC"
     },
     "limitations": "The water was acidic. In 2004 the team still had to work out whether the rocks formed in water or were changed by water later. This is evidence of water, not of life.",
-    "partIds": [
-      "instruments",
-      "arm"
-    ],
+    "partIds": ["arm"],
     "mediaIds": [
       "img-berry-bowl"
     ],
@@ -163,9 +160,7 @@
       "sourceId": "SRC-ENDEAVOUR-2011"
     },
     "limitations": "The arrival sol (≈ 2680) is derived from the date. The clays were detected from orbit; checking them on the ground came later (next stop).",
-    "partIds": [
-      "mast"
-    ],
+    "partIds": [],
     "mediaIds": [
       "img-endeavour-spirit-point"
     ],
@@ -197,10 +192,7 @@
       "sourceId": "SRC-ESPERANCE-2013"
     },
     "limitations": "'More favourable for biology' describes conditions; it is not evidence of life. The photo is false colour and was taken on sol 3230, before the grinding in May 2013 (≈ sol 3304, derived).",
-    "partIds": [
-      "instruments",
-      "arm"
-    ],
+    "partIds": ["arm"],
     "mediaIds": [
       "img-esperance"
     ],
