@@ -56,7 +56,9 @@
       "sourceId": "SRC-WET-2004-NSSDC"
     },
     "limitations": "The water was acidic. In 2004 the team still had to work out whether the rocks formed in water or were changed by water later. This is evidence of water, not of life.",
-    "partIds": ["arm"],
+    "partIds": [
+      "arm"
+    ],
     "mediaIds": [
       "img-berry-bowl"
     ],
@@ -192,7 +194,9 @@
       "sourceId": "SRC-ESPERANCE-2013"
     },
     "limitations": "'More favourable for biology' describes conditions; it is not evidence of life. The photo is false colour and was taken on sol 3230, before the grinding in May 2013 (≈ sol 3304, derived).",
-    "partIds": ["arm"],
+    "partIds": [
+      "arm"
+    ],
     "mediaIds": [
       "img-esperance"
     ],
@@ -237,7 +241,23 @@
       "SRC-PV-2017",
       "SRC-NSSDCA-OPP",
       "SRC-TRAVERSE"
-    ]
+    ],
+    "markers": [
+      {
+        "sol": 5081,
+        "label": "Last position record",
+        "sourceId": "SRC-TRAVERSE"
+      },
+      {
+        "sol": 5111,
+        "label": "Last message received, 10 June 2018",
+        "sourceId": "SRC-NSSDCA-OPP"
+      }
+    ],
+    "dramatization": {
+      "text": "The sky has turned the colour of dust. The Sun is only a smudge now. I will stay still, and keep listening for Earth.",
+      "label": "Narrative dramatization, not a message from the rover"
+    }
   },
   {
     "id": "evt-end-of-mission",
@@ -254,7 +274,7 @@
     },
     "anchor": null,
     "lead": "For eight months, engineers sent more than 1,000 commands, hoping Opportunity would wake up. The last attempt was on 12 February 2019, and the next day NASA declared the mission over. A rover designed for 90 Martian days had explored Mars for more than 14 years and driven more than 45 kilometres.",
-    "card": "Seen as a whole, the trail tells a story in steps. At Eagle crater, Opportunity found hematite, a mineral that forms in water, and rocks soaked by acidic water. Near Endeavour it found a mineral vein and clay-bearing rock that formed in gentler water. Along the way it set a one-day Mars driving record of 220 metres, on 20 March 2005. The trail on this stage is drawn from 21,104 position records in the MER Analyst's Notebook at the PDS Geosciences Node. NASA's own final traverse map, shown here, gives 45.16 kilometres; adding up the records gives 45.1. Opportunity rests where its route ends, in Perseverance Valley.",
+    "card": "Seen as a whole, the trail tells a story in steps. At Eagle crater, Opportunity found hematite, a mineral that forms in water, and rocks soaked by acidic water. Near Endeavour it found a mineral vein and clay-bearing rock that formed in gentler water. Along the way it set a one-day Mars driving record of 220 metres, on 20 March 2005. The trail on this stage is drawn from 21,089 position records in the MER Analyst's Notebook at the PDS Geosciences Node. NASA's own final traverse map, shown here, gives 45.16 kilometres; adding up the records gives 45.1. Opportunity rests where its route ends, in Perseverance Valley.",
     "quote": {
       "text": "For more than a decade, Opportunity has been an icon in the field of planetary exploration",
       "who": "Thomas Zurbuchen, NASA, 2019",

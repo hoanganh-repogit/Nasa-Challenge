@@ -29,6 +29,8 @@ export interface Sky {
   group: THREE.Group
   setArcCount(n: number): void
   update(camera: THREE.Camera, angle: number): void
+  /** illustrative dust: stars fade (they keep turning), the low sky goes brown. 0 = clear */
+  setHaze(amount: number): void
   dispose(): void
 }
 
@@ -96,9 +98,21 @@ export function createSky(maxArcs = 700): Sky {
   group.add(spin)
 
   const q = new THREE.Quaternion()
+  const u = (dome.material as THREE.ShaderMaterial).uniforms
+  const base = { mid: u.mid.value.clone(), horizon: u.horizon.value.clone(), zenith: u.zenith.value.clone() }
+  const dusty = { mid: new THREE.Color('#3b2e27'), horizon: new THREE.Color('#5a4434'), zenith: new THREE.Color('#1c1a20') }
+  let haze = -1
   return {
     group,
     setArcCount(n) { arcGeo.setDrawRange(0, Math.min(maxArcs, n) * SEG * 2) },
+    setHaze(a) {
+      if (Math.abs(a - haze) < 1e-3) return
+      haze = a
+      arcMat.opacity = 1 - 0.75 * a
+      u.mid.value.lerpColors(base.mid, dusty.mid, a)
+      u.horizon.value.lerpColors(base.horizon, dusty.horizon, a)
+      u.zenith.value.lerpColors(base.zenith, dusty.zenith, a)
+    },
     update(camera, angle) {
       group.position.copy(camera.position)
       spin.quaternion.copy(q.setFromAxisAngle(pole, angle))

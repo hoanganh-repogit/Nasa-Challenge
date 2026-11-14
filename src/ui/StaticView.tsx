@@ -4,6 +4,7 @@ import { navigate } from '../nav'
 import { Icon } from './Icon'
 import { STOPS } from '../content/stops'
 import { EvidenceCard } from './EvidenceCard'
+import { LegacyPanel } from './LegacyPanel'
 import type { RouteFile, TraverseFile } from '../data/types'
 import { createReplay } from '../engine/replay'
 import { metersToPixel } from '../engine/basemap'
@@ -76,7 +77,7 @@ export function StaticView({ onExit, canExit }: { onExit: () => void; canExit: b
           </svg>
         ) : <div className="static__placeholder" />}
         <figcaption id="map-cap" className="caption">
-          Opportunity's route, sol 1 to sol 5081, drawn from 21,104 position records over PIA23178 (NASA/JPL-Caltech/MSSS;
+          Opportunity's route, sol 1 to sol 5081, drawn from 21,089 position records over PIA23178 (NASA/JPL-Caltech/MSSS;
           NASA's drawn route and labels removed). Route aligned to NASA map by a 2-point fit; offsets up to ~0.5 km.
           Dashed: no position records.
         </figcaption>
@@ -91,7 +92,18 @@ export function StaticView({ onExit, canExit }: { onExit: () => void; canExit: b
                 <h2>{ev.question}</h2>
                 <p className="caption">{s.place} · {s.solLabel} · {ev.time.earthDateLabel} · Stop {i + 1} of {STOPS.length}</p>
                 <p className="stop__finding">{ev.finding}</p>
+                {ev.markers && (
+                  <dl className="stop__markers">
+                    {ev.markers.map((m) => <div key={m.sol}><dt>Sol {m.sol.toLocaleString('en-US')}</dt><dd>{m.label}</dd></div>)}
+                  </dl>
+                )}
                 <p className="static__lead">{ev.lead}</p>
+                {ev.dramatization && (
+                  <figure className="stop__drama">
+                    <blockquote><p>{ev.dramatization.text}</p></blockquote>
+                    <figcaption className="caption">I, Opportunity · {ev.dramatization.label}</figcaption>
+                  </figure>
+                )}
                 {ev.partIds.slice(0, 1).map((pid) => (
                   <p key={pid} className="static__part">
                     <a className="part__go" href={`/rover#${pid}`} onClick={(e) => { e.preventDefault(); navigate(`/rover#${pid}`) }}>
@@ -108,8 +120,18 @@ export function StaticView({ onExit, canExit }: { onExit: () => void; canExit: b
         })}
       </ol>
 
+      <section className="static__legacy" aria-labelledby="legacy-title">
+        <LegacyPanel
+          onStop={(n) => document.getElementById(`stop-${n}`)?.scrollIntoView()}
+          onHome={() => window.scrollTo(0, 0)}
+          onRover={(e) => { e.preventDefault(); navigate('/rover') }}
+          onAbout={(e) => { e.preventDefault(); navigate('/about') }}
+        />
+      </section>
+
       <p className="static__labels caption">
         Night sky and light trail are illustrative; the rover drove by day. Rover not to scale. Flat plane, no terrain height.
+        The dust storm at the Silence stop is illustrative.
       </p>
     </main>
   )

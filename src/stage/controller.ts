@@ -19,7 +19,7 @@ const easeInOut = (k: number) => (k < 0.5 ? 4 * k * k * k : 1 - Math.pow(-2 * k 
 
 export class StageController {
   readonly stage: MissionStage
-  readonly shots: { opening: Shot; stops: Shot[] }
+  readonly shots: { opening: Shot; stops: Shot[]; legacy: Shot }
   private tr: Transition
   private raf = 0
   private skyAngle = 0.4
@@ -47,11 +47,19 @@ export class StageController {
 
   /** Fly (or cut, with reduced motion) to a stop index, or -1 for the opening frame. */
   goTo(index: number, instant = false) {
-    const to = index < 0 ? this.shots.opening : this.shots.stops[index]
+    this.fly(index < 0 ? this.shots.opening : this.shots.stops[index], instant)
+  }
+
+  /** Legacy: rise above the whole exposure (true), or settle back to the last stop (false). */
+  goLegacy(on: boolean) {
+    this.fly(on ? this.shots.legacy : this.shots.stops[this.shots.stops.length - 1], false)
+  }
+
+  private fly(to: Shot, instant: boolean) {
     const now = performance.now()
     // start from wherever the camera is now, so an interrupted flight never jumps
     const cur = stateAt(this.tr, now, this.assets.replay, this.skyAngle)
-    const from: Shot = { ...this.tr.to, key: this.currentKeyFor(now), sol: cur.sol, pose: cur.cam, exaggeration: cur.exaggeration, studio: cur.studio, fog: cur.fog }
+    const from: Shot = { ...this.tr.to, key: this.currentKeyFor(now), sol: cur.sol, pose: cur.cam, exaggeration: cur.exaggeration, studio: cur.studio, fog: cur.fog, dust: cur.dust }
     const cut = instant || this.opts.reducedMotion
     this.tr = { from, to, start: now, duration: cut ? 0 : to.durationMs, instant: cut }
     this.settledKey = ''
@@ -78,7 +86,7 @@ export class StageController {
   async warm() {
     this.stage.resize()
     const r = this.assets.replay
-    const at = (shot: Shot, inset = 0): StageState => ({ sol: shot.sol, cam: shot.pose, exaggeration: shot.exaggeration, studio: shot.studio, skyAngle: this.skyAngle, trailIntensity: 1, fog: shot.fog, inset, now: performance.now() })
+    const at = (shot: Shot, inset = 0): StageState => ({ sol: shot.sol, cam: shot.pose, exaggeration: shot.exaggeration, studio: shot.studio, skyAngle: this.skyAngle, trailIntensity: 1, fog: shot.fog, dust: shot.dust, inset, now: performance.now() })
     const st = this.shots.stops
     // map rover close up, the whole route with both dashed gaps, the instrument inset, the opening portrait
     await this.stage.warm([at(st[6]), at(st[st.length - 1]), at({ ...st[3], sol: r.maxSol }), at({ ...st[6], studio: 0.7 }), at(st[5], 1), at(this.shots.opening)])

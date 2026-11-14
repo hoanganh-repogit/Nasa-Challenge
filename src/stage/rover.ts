@@ -58,6 +58,8 @@ export interface Rover {
   /** place the map copy: position in km, heading in radians (0 = north), exaggeration factor */
   place(xKm: number, zKm: number, heading: number, exaggeration: number, visible: boolean): void
   setShadows(on: boolean): void
+  /** 0..1: the map rover's lights and beacon fade (illustrative dust at Silence) */
+  setDim(amount: number): void
   dispose(): void
 }
 
@@ -120,6 +122,11 @@ export function createRover(gltf: GLTF, renderer: THREE.WebGLRenderer): Rover {
       worldRim.target.position.set(0, 0, 0)
     },
     setShadows(on) { key.castShadow = on; floor.visible = on },
+    setDim(a) {
+      worldKey.intensity = 3.2 * (1 - 0.75 * a)
+      worldRim.intensity = 1.6 * (1 - 0.75 * a)
+      beaconMat.opacity = 1 - 0.7 * a
+    },
     dispose() {
       env.dispose()
       for (const inst of [s, w]) inst.parts.forEach((ms) => ms.forEach((m) => (m.material as THREE.Material).dispose()))

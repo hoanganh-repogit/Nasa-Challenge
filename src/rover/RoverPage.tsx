@@ -196,7 +196,7 @@ export default function RoverPage() {
         <p className="sr-only" aria-live="polite">{part && lit ? `${part.name}, lit on the rover.` : ''}</p>
         <footer className="rv__fine caption">
           <span>Model: Spirit and Opportunity Rover 3D Model, NASA/JPL-Caltech · Lighting is illustrative</span>
-          <span>Independent educational prototype; not an official NASA product and not endorsed by NASA.</span>
+          <span>Independent educational prototype; not an official NASA product and not endorsed by NASA. <a href="/about" onClick={(e) => { e.preventDefault(); navigate('/about') }}>How this was made</a></span>
         </footer>
       </div>
       {error && <p role="alert" className="stage-error">The 3D rover could not load ({error}).</p>}

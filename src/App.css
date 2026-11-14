@@ -362,6 +362,73 @@ a.btn { text-decoration: none; }
   z-index: 60;
 }
 
+/* opening count-up (proportional digits, so the finished line is exactly as wide as the static one) */
+
+/* Silence: the two real sols, and the one labelled dramatization */
+.stop__markers { display: flex; flex-wrap: wrap; gap: 0.4rem 2rem; margin: 0 0 1rem; }
+.stop__markers div { display: grid; gap: 0.05rem; }
+.stop__markers dt { font-weight: 650; font-variant-numeric: tabular-nums; }
+.stop__markers dd { margin: 0; font-size: var(--step--1); color: var(--star-dim); }
+.stop__drama { margin: 0 0 1.3rem; max-width: 34rem; }
+.stop__drama blockquote { margin: 0; }
+.stop__drama p { margin: 0; font-style: italic; line-height: 1.5; color: color-mix(in oklab, var(--star) 92%, var(--tungsten)); }
+.stop__drama figcaption { margin-top: 0.3rem; font-size: 0.68rem; }
+
+/* Legacy: the two columns over the whole exposure */
+.stop--legacy {
+  width: min(48rem, 60vw);
+  max-height: calc(100dvh - var(--band-h) - clamp(6.5rem, 13vh, 8rem) - clamp(1.25rem, 4vh, 2.5rem));
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  padding-right: 0.75rem;
+  scrollbar-width: thin;
+  scrollbar-color: var(--dusk) transparent;
+}
+.legacy__title {
+  margin: 0 0 0.6rem;
+  font-size: clamp(1.7rem, 1.2rem + 1.8vw, 2.6rem);
+  line-height: 1.06;
+  font-weight: 620;
+  letter-spacing: -0.015em;
+  text-wrap: balance;
+}
+.legacy__title:focus { outline: none; }
+.legacy__intro { margin: 0 0 1.2rem; max-width: 40rem; color: color-mix(in oklab, var(--star) 86%, var(--star-dim)); line-height: 1.55; }
+.legacy__table { width: 100%; border-collapse: collapse; }
+.legacy__table th {
+  text-align: left;
+  padding: 0 1.2rem 0.5rem 0;
+  font-size: var(--step--1);
+  font-weight: 650;
+  color: var(--star-dim);
+  border-bottom: 1px solid color-mix(in oklab, var(--star) 22%, transparent);
+}
+.legacy__table td {
+  width: 50%;
+  padding: 0.85rem 1.2rem 0.85rem 0;
+  vertical-align: top;
+  line-height: 1.5;
+  border-bottom: 1px solid color-mix(in oklab, var(--star) 12%, transparent);
+}
+.legacy__table td p { margin: 0; text-wrap: pretty; }
+.legacy__wanted { color: var(--star-dim); }
+.legacy__wanted q { quotes: '“' '”'; }
+.legacy__cite { margin: 0.35rem 0 0 !important; font-size: 0.72rem; line-height: 1.5; color: var(--star-dim); }
+.legacy__stop {
+  padding: 0;
+  background: none;
+  border: 0;
+  border-bottom: 1px solid color-mix(in oklab, var(--star-dim) 60%, transparent);
+  color: var(--star);
+  font: 600 0.72rem / 1.4 var(--font-sans);
+  cursor: pointer;
+}
+.legacy__stop:hover { border-bottom-color: var(--tungsten); }
+.legacy__limit { margin: 1.2rem 0 0.6rem; font-weight: 600; max-width: 42rem; }
+.legacy__closing { margin: 0; max-width: 42rem; line-height: 1.55; color: color-mix(in oklab, var(--star) 86%, var(--star-dim)); }
+.legacy__actions { margin: 1.4rem 0 1rem; }
+.band__fine a { color: inherit; }
+
 /* instrument inset: the lit part's caption takes the stop column; it reads once the light has stopped */
 .stop--part {
   max-height: calc(100dvh - var(--band-h) - clamp(6.5rem, 13vh, 8rem) - clamp(1.25rem, 4vh, 2.5rem));
@@ -459,6 +526,19 @@ a.btn { text-decoration: none; }
 @media (max-width: 720px) {
   .ui { --band-h: 6.4rem; }
   .stop--part { width: auto; max-height: 48dvh; }
+  .stop--legacy {
+    width: auto;
+    max-height: 62dvh;
+    padding: 1rem 1rem 0;
+    margin-inline: -1rem;
+    background: color-mix(in oklab, var(--night) 84%, transparent);
+    border-radius: 3px;
+  }
+  .legacy__table thead { display: none; }
+  .legacy__table, .legacy__table tbody, .legacy__table tr, .legacy__table td { display: block; width: auto; }
+  .legacy__table tr { padding: 0.7rem 0; border-bottom: 1px solid color-mix(in oklab, var(--star) 12%, transparent); }
+  .legacy__table td { padding: 0 0 0.4rem; border: 0; }
+  .legacy__table td::before { content: attr(data-head); display: block; font-size: 0.68rem; font-weight: 650; color: var(--star-dim); }
   .band__credits { display: none; }
   .band__live { gap: 0.1rem 1.1rem !important; }
   /* journey: readout on its own line, the two controls under it */
@@ -502,4 +582,5 @@ a.btn { text-decoration: none; }
 .static__stop img { width: 100%; height: auto; border-radius: 4px; background: var(--dusk); }
 .static__stop p { margin: 0; }
 .static__labels { margin-top: 3rem; }
+.static__legacy { margin-top: clamp(3rem, 8vw, 5rem); max-width: 56rem; }
 @media (max-width: 720px) { .static__stop { grid-template-columns: 1fr; } }

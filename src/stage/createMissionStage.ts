@@ -9,6 +9,7 @@ import type { GLTF } from 'three/addons/loaders/GLTFLoader.js'
 import type { RouteFile, TraverseFile } from '../data/types'
 import type { Replay } from '../engine/replay'
 import type { Quality, StageState } from './director'
+import { createDust } from './dust'
 import { createGround } from './ground'
 import { LightPaint, placeCamera, type Pose } from './lightpaint'
 import { createRover, NIGHT } from './rover'
@@ -64,7 +65,9 @@ export function createMissionStage(canvas: HTMLCanvasElement, assets: StageAsset
   const trail = createTrail(assets.traverse, assets.route, replay)
   const sky = createSky(700)
   const rover = createRover(assets.gltf, renderer)
-  world.add(sky.group, ground.group, trail.group, rover.world.group)
+  const dust = createDust()
+  const fogBase = fog.color.clone()
+  world.add(sky.group, ground.group, trail.group, rover.world.group, dust.points)
   world.add(new THREE.HemisphereLight(NIGHT.hemi[0], NIGHT.hemi[1], NIGHT.hemi[2] * 2))
   world.environment = rover.studio.scene.environment
   world.environmentIntensity = 0.5
@@ -133,7 +136,11 @@ export function createMissionStage(canvas: HTMLCanvasElement, assets: StageAsset
   }
 
   function render(s: StageState) {
-    fog.density = s.fog
+    fog.density = s.fog + 0.3 * s.dust
+    dust.fogColor(fogBase, s.dust, fog.color)
+    sky.setHaze(s.dust)
+    rover.setDim(s.dust)
+    world.environmentIntensity = 0.5 * (1 - 0.65 * s.dust)
     const fix = replay.positionAt(s.sol)
     trail.update(fix)
     trail.setIntensity(s.trailIntensity)
@@ -148,6 +155,8 @@ export function createMissionStage(canvas: HTMLCanvasElement, assets: StageAsset
     camera.updateProjectionMatrix()
     camera.lookAt(v.set(tx, 0, tz))
     sky.update(camera, s.skyAngle)
+    // dust drifts on the sky's clock, so it rests with reduced motion or while a card is open
+    dust.update(s.dust, xKm, zKm, s.skyAngle / 0.006, renderer.getPixelRatio())
 
     // studio portrait: right foreground; slides out to the right as `studio` goes to 0.
     // Instrument inset: the same rover, framed on the lit part, beside the text column.
@@ -208,7 +217,7 @@ export function createMissionStage(canvas: HTMLCanvasElement, assets: StageAsset
     get quality() { return q },
     dispose() {
       veil.geometry.dispose(); veilMat.dispose()
-      ground.dispose(); trail.dispose(); sky.dispose(); rover.dispose()
+      ground.dispose(); trail.dispose(); sky.dispose(); rover.dispose(); dust.dispose()
       composer.dispose(); renderer.dispose()
     },
   }

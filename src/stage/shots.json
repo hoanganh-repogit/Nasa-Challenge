@@ -1,9 +1,9 @@
 {
-  "_note": "Camera per stop. az = compass bearing from the rover to the camera (deg, 0 = north), el = elevation (deg), dist in km, exaggeration = rover scale on the map (not to scale). Tuned by eye.",
+  "_note": "Camera per stop. az = compass bearing from the rover to the camera (deg, 0 = north), el = elevation (deg), dist in km, exaggeration = rover scale on the map (not to scale). Tuned by eye. dust = illustrative dust storm (Silence). legacy = the whole exposure from high above.",
   "opening": {
     "target": [
-      5.0,
-      12.0
+      5,
+      12
     ],
     "az": 300,
     "el": 7,
@@ -69,13 +69,14 @@
       "durationMs": 3600
     },
     "evt-last-contact": {
-      "az": 200,
+      "az": 60,
       "el": 34,
       "dist": 2.4,
       "fov": 36,
       "exaggeration": 90,
       "studio": 0,
-      "durationMs": 6000
+      "durationMs": 6000,
+      "dust": 1
     },
     "evt-end-of-mission": {
       "target": [
@@ -91,5 +92,19 @@
       "durationMs": 4200,
       "fog": 0.008
     }
+  },
+  "legacy": {
+    "target": [
+      -8.5,
+      12.3
+    ],
+    "az": 180,
+    "el": 78,
+    "dist": 56,
+    "fov": 40,
+    "exaggeration": 0,
+    "studio": 0,
+    "durationMs": 4200,
+    "fog": 0.006
   }
 }

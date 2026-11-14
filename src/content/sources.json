@@ -215,6 +215,24 @@
     "verifiedOn": "2026-11-14"
   },
   {
+    "id": "SRC-MER-OBJECTIVES",
+    "title": "Mars Exploration Rovers — Science Objectives",
+    "institution": "NASA",
+    "url": "https://science.nasa.gov/mission/mars-exploration-rovers-spirit-and-opportunity/science-objectives/",
+    "verifiedOn": "2026-11-14",
+    "note": "Seven science objectives, e.g. \"Search for and characterize a variety of rocks and soils that hold clues to past water activity.\"",
+    "verifiedVia": "Opened with a web-fetch tool on 2026-11-14 (HTTP 200, last updated 7 Apr 2025)."
+  },
+  {
+    "id": "SRC-MER-OVERVIEW",
+    "title": "Mars Exploration Rovers: Spirit and Opportunity",
+    "institution": "NASA",
+    "url": "https://science.nasa.gov/mission/mars-exploration-rovers-spirit-and-opportunity/",
+    "verifiedOn": "2026-11-14",
+    "note": "Objective: \"Look for signs of past water on Mars\"; 45.16 km driven when it fell silent in June 2018.",
+    "verifiedVia": "Opened with a web-fetch tool on 2026-11-14 (HTTP 200)."
+  },
+  {
     "id": "SRC-JPL-IMAGE-POLICY",
     "title": "JPL Image Use Policy",
     "institution": "NASA/JPL-Caltech",

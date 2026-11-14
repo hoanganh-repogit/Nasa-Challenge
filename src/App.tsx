@@ -1,6 +1,6 @@
-import { useCallback, useEffect, useRef, useState } from 'react'
+import { useCallback, useEffect, useRef, useState, type MouseEvent } from 'react'
 import './App.css'
-import { EVENT_BY_ID, PART_BY_ID } from './content'
+import { EVENT_BY_ID, LEGACY, PART_BY_ID } from './content'
 import { STOPS } from './content/stops'
 import type { Provenance } from './engine/replay'
 import type { StageController } from './stage/controller'
@@ -8,6 +8,7 @@ import type { Quality } from './stage/director'
 import { ChapterRail } from './ui/ChapterRail'
 import { EvidenceCard } from './ui/EvidenceCard'
 import { Icon } from './ui/Icon'
+import { LegacyPanel } from './ui/LegacyPanel'
 import { PartCaption } from './ui/PartCaption'
 import { navigate, spaNavigated } from './nav'
 import { StaticView } from './ui/StaticView'
@@ -39,6 +40,33 @@ if (!spaNavigated && /^#stop-\d+$/.test(location.hash) && !params.has('shot')) {
   history.pushState({ journey: true, fromHome: true } satisfies JourneyState, '', hash)
 }
 
+const NUM = new Intl.NumberFormat('en-US')
+
+/** The opening's number counts up from the design life to the real one, once per showing. */
+function CountUp({ from, to, ms }: { from: number; to: number; ms: number }) {
+  const reduced = typeof matchMedia === 'function' && matchMedia('(prefers-reduced-motion: reduce)').matches
+  const ref = useRef<HTMLSpanElement>(null)
+  useEffect(() => {
+    if (reduced) return
+    let raf = 0
+    const t0 = performance.now() + 450
+    const tick = (t: number) => {
+      const k = Math.min(1, Math.max(0, (t - t0) / ms))
+      const e = k >= 1 ? 1 : 1 - Math.pow(2, -10 * k)
+      if (ref.current) ref.current.textContent = NUM.format(Math.round(from + (to - from) * e))
+      if (k < 1) raf = requestAnimationFrame(tick)
+    }
+    raf = requestAnimationFrame(tick)
+    return () => cancelAnimationFrame(raf)
+  }, [from, to, ms, reduced])
+  return (
+    <>
+      <span ref={ref} className="countup" aria-hidden="true">{NUM.format(reduced ? to : from)}</span>
+      <span className="sr-only">{NUM.format(to)}</span>
+    </>
+  )
+}
+
 const stopFromHash = () => {
   const m = /^#stop-(\d+)$/.exec(location.hash)
   return m ? Math.min(STOPS.length, Math.max(1, Number(m[1]))) - 1 : -1
@@ -59,6 +87,9 @@ export default function App() {
   const [part, setPart] = useState<string | null>(null)
   const [partReady, setPartReady] = useState(false)
   const leaderOn = useRef(false)
+  // Legacy (after the last stop): the two-column panel, the camera high above the whole exposure
+  const [legacy, setLegacy] = useState(false)
+  const legacyHeadRef = useRef<HTMLHeadingElement>(null)
   const [ready, setReady] = useState(false)
   const [error, setError] = useState<string | null>(null)
   const [stop, setStop] = useState(-1)
@@ -182,10 +213,35 @@ export default function App() {
 
   useEffect(() => {
     setCardOpen(false)
+    setLegacy(false)
     setPart((p) => { if (p) { leaderOn.current = false; ctrlRef.current?.showPart(null) } return null })
     setPartReady(false)
   }, [stop])
   useEffect(() => { ctrlRef.current?.setSkyPaused(cardOpen || !!part) }, [cardOpen, part])
+  const openLegacy = useCallback(() => { setCardOpen(false); setLegacy(true) }, [])
+  // rise on the frame after React has laid out the table, so that work never lands mid-flight
+  useEffect(() => {
+    if (!legacy) return
+    const raf = requestAnimationFrame(() => ctrlRef.current?.goLegacy(true))
+    return () => cancelAnimationFrame(raf)
+  }, [legacy])
+  const closeLegacy = useCallback(() => {
+    setLegacy(false)
+    ctrlRef.current?.goLegacy(false)
+    requestAnimationFrame(() => document.querySelector<HTMLButtonElement>('.btn--legacy')?.focus())
+  }, [])
+  useEffect(() => { if (legacy) legacyHeadRef.current?.focus() }, [legacy])
+  useEffect(() => {
+    if (!legacy) return
+    const onKey = (e: KeyboardEvent) => { if (e.key === 'Escape') closeLegacy() }
+    window.addEventListener('keydown', onKey)
+    return () => window.removeEventListener('keydown', onKey)
+  }, [legacy, closeLegacy])
+  const toPage = (path: string) => (e: MouseEvent<HTMLAnchorElement>) => {
+    if (e.button !== 0 || e.metaKey || e.ctrlKey || e.shiftKey) return
+    e.preventDefault()
+    navigate(path)
+  }
   useEffect(() => { if (part) partHeadRef.current?.focus() }, [part])
   useEffect(() => { leaderOn.current = partReady && !!part && part in LEADER }, [part, partReady])
   useEffect(() => {
@@ -207,7 +263,7 @@ export default function App() {
     const onKey = (e: KeyboardEvent) => {
       if (e.altKey || e.ctrlKey || e.metaKey) return
       const t = e.target as HTMLElement
-      if (t.closest('input, textarea, select, [contenteditable="true"], .print')) return
+      if (t.closest('input, textarea, select, [contenteditable="true"], .print, .legacy')) return
       if (e.key === 'ArrowRight' || (e.key === ' ' && !t.closest('button, a'))) {
         e.preventDefault(); go(stop + 1)
       } else if (e.key === 'ArrowLeft' && stop >= 0) {
@@ -241,7 +297,7 @@ export default function App() {
           <section className="lead" aria-labelledby="title">
             <h1 id="title">
               Built for 90 sols.
-              <span className="lead__amber">It kept going for 5,111.</span>
+              <span className="lead__amber">It kept going for <CountUp from={90} to={5111} ms={1900} />.</span>
             </h1>
             <p className="lead__body">
               Follow NASA's Opportunity rover along its real recorded route across Meridiani Planum, Mars, and meet the
@@ -251,7 +307,7 @@ export default function App() {
               {ready ? 'Start the journey' : 'Loading the route'}
               <Icon name="next" />
             </button>
-            <a className="btn btn--ghost lead__rover" href="/rover" onClick={(e) => { e.preventDefault(); navigate('/rover') }}>
+            <a className="btn btn--ghost lead__rover" href="/rover" onClick={toPage('/rover')}>
               Meet the rover
             </a>
           </section>
@@ -273,6 +329,16 @@ export default function App() {
                   </a>
                 </div>
               </section>
+            ) : legacy ? (
+              <section className="stop stop--legacy" aria-labelledby="legacy-title">
+                <LegacyPanel
+                  headingRef={legacyHeadRef}
+                  onStop={(n) => go(n - 1)}
+                  onHome={goHome}
+                  onRover={toPage('/rover')}
+                  onAbout={toPage('/about')}
+                />
+              </section>
             ) : (
             <section className="stop" aria-labelledby="stop-title" data-settled={settled}>
               <h2 id="stop-title" className="stop__q">{ev!.question}</h2>
@@ -280,7 +346,20 @@ export default function App() {
                 {s!.place} · {s!.solLabel} · {ev!.time.earthDateLabel} · Stop {stop + 1} of {STOPS.length}
               </p>
               <p className="stop__finding">{ev!.finding}</p>
+              {ev!.markers && (
+                <dl className="stop__markers">
+                  {ev!.markers.map((m) => (
+                    <div key={m.sol}><dt>Sol {NUM.format(m.sol)}</dt><dd>{m.label}</dd></div>
+                  ))}
+                </dl>
+              )}
               <p className="stop__lead">{ev!.lead}</p>
+              {ev!.dramatization && (
+                <figure className="stop__drama">
+                  <blockquote><p>{ev!.dramatization.text}</p></blockquote>
+                  <figcaption className="caption">I, Opportunity · {ev!.dramatization.label}</figcaption>
+                </figure>
+              )}
               <div className="stop__actions">
                 <button type="button" className="btn btn--evidence" aria-expanded={cardOpen} onClick={() => setCardOpen((o) => !o)}>
                   {cardOpen ? 'Hide the evidence' : 'The evidence'}
@@ -290,9 +369,14 @@ export default function App() {
                     {stopPart.short}
                   </button>
                 )}
-                {stop < STOPS.length - 1 && (
+                {stop < STOPS.length - 1 ? (
                   <button type="button" className="btn btn--next" onClick={() => go(stop + 1)}>
                     Next stop
+                    <Icon name="next" />
+                  </button>
+                ) : (
+                  <button type="button" className="btn btn--next btn--legacy" onClick={openLegacy}>
+                    What it all revealed
                     <Icon name="next" />
                   </button>
                 )}
@@ -307,13 +391,14 @@ export default function App() {
               <svg><line ref={leaderRef} /></svg>
               <div ref={leaderLabelRef} className="leader__label caption">{leaderText}</div>
             </div>
-            <p className="sr-only" aria-live="polite">{openP ? (partReady ? `${openP.name}, lit on the rover.` : '') : `Stop ${stop + 1} of ${STOPS.length}: ${s!.place}. ${ev!.question}`}</p>
+            <p className="sr-only" aria-live="polite">{legacy ? `${LEGACY.title}.` : openP ? (partReady ? `${openP.name}, lit on the rover.` : '') : `Stop ${stop + 1} of ${STOPS.length}: ${s!.place}. ${ev!.question}`}</p>
           </>
         )}
 
         <aside className="labels caption" aria-label="About this view">
           <span>Night sky and light trail are illustrative; the rover drove by day.</span>
           {openP && <span>Lighting is illustrative · Model: NASA/JPL-Caltech</span>}
+          {ev?.id === 'evt-last-contact' && !openP && <span>Dust storm is illustrative</span>}
           {journey && <span>Rover not to scale · Flat plane, no terrain height</span>}
           {journey && <span>Route aligned to NASA map by a 2-point fit; offsets up to ~0.5 km.</span>}
         </aside>
@@ -342,7 +427,7 @@ export default function App() {
             </div>
           </div>
           <p className="band__fine">
-            <span>Independent educational prototype; not an official NASA product and not endorsed by NASA.</span>
+            <span>Independent educational prototype; not an official NASA product and not endorsed by NASA. <a href="/about" onClick={toPage('/about')}>How this was made</a></span>
             <span className="band__credits">Route: MER Analyst's Notebook, PDS Geosciences Node · Model: NASA/JPL-Caltech · Map: PIA23178, NASA/JPL-Caltech/MSSS</span>
           </p>
         </footer>

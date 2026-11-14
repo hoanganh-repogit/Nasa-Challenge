@@ -71,6 +71,7 @@
   letter-spacing: 0.05em;
   pointer-events: none;
 }
+.rv__fine a { pointer-events: auto; color: inherit; }
 @media (max-width: 720px) {
   .rv__col { top: 50dvh; left: var(--gutter); right: var(--gutter); width: auto; bottom: 5.6rem; }
   .rv__fine { font-size: 0.58rem; }

@@ -1,0 +1,58 @@
+{
+  "_note": "Numbers shown on /about. tests/about.test.ts checks them against public/data/traverse.json.",
+  "tableRows": 21104,
+  "duplicateRowsDropped": 15,
+  "records": 21089,
+  "routeKm": 45.105,
+  "nasaKm": 45.16,
+  "firstSol": 1,
+  "lastRecordSol": 5081,
+  "lastContactSol": 5111,
+  "fit": {
+    "metersPerPixel": 17.67,
+    "rotationDeg": 0.59,
+    "maxOffsetKm": 0.5
+  },
+  "gapRule": {
+    "maxUncoveredSols": 5,
+    "gapJumpMinMeters": 5
+  },
+  "gaps": [
+    {
+      "fromSol": 215,
+      "toSol": 219,
+      "jumpMeters": 0.46,
+      "render": "hold"
+    },
+    {
+      "fromSol": 640,
+      "toSol": 754,
+      "jumpMeters": 181.3,
+      "render": "dashed"
+    },
+    {
+      "fromSol": 1367,
+      "toSol": 1381,
+      "jumpMeters": 0.01,
+      "render": "hold"
+    },
+    {
+      "fromSol": 2907,
+      "toSol": 2914,
+      "jumpMeters": 0,
+      "render": "hold"
+    },
+    {
+      "fromSol": 3503,
+      "toSol": 3509,
+      "jumpMeters": 19.09,
+      "render": "dashed"
+    },
+    {
+      "fromSol": 4249,
+      "toSol": 4261,
+      "jumpMeters": 1.71,
+      "render": "hold"
+    }
+  ]
+}

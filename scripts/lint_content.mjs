@@ -10,6 +10,7 @@ const faq = read('src/content/faq.json')
 const sources = read('src/content/sources.json')
 const media = read('src/content/media.json')
 const parts = read('src/content/parts.json')
+const legacy = read('src/content/legacy.json')
 
 const BANNED = [/drinkable/i, /proved life/i, /life was found/i, /measured position/i, /\bdrink/i]
 const PARTS = new Set(parts.map((p) => p.id))
@@ -77,6 +78,25 @@ for (const p of parts) {
   for (const [eid, list] of Object.entries(p.toolsAt ?? {})) for (const t of list) if (!toolIds.has(t)) bad(w, `toolsAt ${eid} names unknown tool ${t}`)
 }
 for (const e of events) for (const pid of e.partIds) if (!parts.find((p) => p.id === pid)?.found?.[e.id]) bad(e.id, `names part ${pid} but that part has no 'found' text for it`)
+
+// Silence markers and the dramatization line (block F)
+for (const e of events) {
+  for (const m of e.markers ?? []) if (!srcIds.has(m.sourceId)) bad(e.id, `marker sol ${m.sol} has unknown sourceId ${m.sourceId}`)
+  if (e.dramatization) {
+    scanText(`${e.id}.dramatization`, e.dramatization.text)
+    if (!/narrative dramatization/i.test(e.dramatization.label ?? '')) bad(e.id, 'dramatization must be labelled "Narrative dramatization"')
+  }
+}
+// Legacy (block F): every row sourced and tied to a real stop
+for (const [i, r] of legacy.rows.entries()) {
+  const w = `legacy row ${i + 1}`
+  scanText(w, r.wanted + ' ' + r.revealed)
+  if (!r.sourceIds?.length) bad(w, 'no sources')
+  for (const id of r.sourceIds ?? []) if (!srcIds.has(id)) bad(w, `unknown sourceId ${id}`)
+  if (!(r.stop >= 1 && r.stop <= events.length)) bad(w, `stop ${r.stop} out of range`)
+}
+scanText('legacy', legacy.intro + ' ' + legacy.limitation + ' ' + legacy.closing)
+for (const id of legacy.closingSourceIds) if (!srcIds.has(id)) bad('legacy closing', `unknown sourceId ${id}`)
 
 const ids = sources.map((s) => s.id)
 for (const id of ids.filter((x, i) => ids.indexOf(x) !== i)) bad('sources', `duplicate id ${id}`)

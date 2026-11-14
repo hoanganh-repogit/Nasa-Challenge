@@ -2,6 +2,7 @@
 import type { MediaItem } from '../data/types'
 import eventsJson from './events.json'
 import faqJson from './faq.json'
+import legacyJson from './legacy.json'
 import mediaJson from './media.json'
 import partsJson from './parts.json'
 import sourcesJson from './sources.json'
@@ -20,6 +21,15 @@ export interface StoryEvent {
   partIds: string[]
   mediaIds: string[]
   sourceIds: string[]
+  /** real dates on the record, shown at the stop (Silence: sol 5081 and sol 5111) */
+  markers?: { sol: number; label: string; sourceId: string }[]
+  /** an "I, Opportunity" line: always shown with its label, never as a quote */
+  dramatization?: { text: string; label: string }
+}
+export interface LegacyRow { wanted: string; wantedQuoted: boolean; revealed: string; stop: number; sourceIds: string[] }
+export interface Legacy {
+  title: string; intro: string; wantedHead: string; revealedHead: string
+  rows: LegacyRow[]; limitation: string; closing: string; closingSourceIds: string[]
 }
 export interface PartTool { id: string; name: string; job: string }
 export interface Part {
@@ -47,6 +57,7 @@ export const FAQ = faqJson as Faq[]
 export const MEDIA = mediaJson as MediaItem[]
 export const SOURCES = sourcesJson as Source[]
 export const PARTS = partsJson as Part[]
+export const LEGACY = legacyJson as Legacy
 
 const byId = <T extends { id: string }>(list: T[]) => new Map(list.map((x) => [x.id, x]))
 export const EVENT_BY_ID = byId(EVENTS)

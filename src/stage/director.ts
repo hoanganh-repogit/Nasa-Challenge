@@ -20,22 +20,24 @@ export interface StageState {
   fog: number
   /** 0..1 instrument inset: the studio rover framed on a lit part, the map veiled behind it */
   inset: number
+  /** 0..1 illustrative dust storm (Silence) */
+  dust: number
   /** clock (ms) for time-based reveals such as the light-paint */
   now: number
 }
 
-interface ShotDef { target?: number[]; az: number; el: number; dist: number; fov: number; exaggeration: number; studio: number; durationMs?: number; fog?: number }
+interface ShotDef { target?: number[]; az: number; el: number; dist: number; fov: number; exaggeration: number; studio: number; durationMs?: number; fog?: number; dust?: number }
 
-export interface Shot { key: string; sol: number; pose: CamPose; exaggeration: number; studio: number; durationMs: number; follow: boolean; fog: number }
+export interface Shot { key: string; sol: number; pose: CamPose; exaggeration: number; studio: number; durationMs: number; follow: boolean; fog: number; dust: number }
 
 const OPENING_SOL = 5111
 
-export function buildShots(replay: Replay): { opening: Shot; stops: Shot[] } {
+export function buildShots(replay: Replay): { opening: Shot; stops: Shot[]; legacy: Shot } {
   const mk = (key: string, def: ShotDef, sol: number): Shot => {
     const at = replay.positionAt(sol)
     const [tx, tz] = def.target ? [def.target[0], def.target[1]] : [at.x / 1000, -at.y / 1000]
     return {
-      key, sol, exaggeration: def.exaggeration, studio: def.studio, durationMs: def.durationMs ?? 3000, follow: !def.target, fog: def.fog ?? 0.035,
+      key, sol, exaggeration: def.exaggeration, studio: def.studio, durationMs: def.durationMs ?? 3000, follow: !def.target, fog: def.fog ?? 0.035, dust: def.dust ?? 0,
       pose: { tx, tz, az: def.az, el: def.el, dist: def.dist, fov: def.fov },
     }
   }
@@ -43,6 +45,7 @@ export function buildShots(replay: Replay): { opening: Shot; stops: Shot[] } {
   return {
     opening: mk('opening', shots.opening as ShotDef, OPENING_SOL),
     stops: STOPS.map((s) => mk(s.id, defs[s.id], s.sol)),
+    legacy: mk('legacy', shots.legacy as ShotDef, replay.maxSol),
   }
 }
 
@@ -90,6 +93,7 @@ export function stateAt(tr: Transition, now: number, replay: Replay, skyAngle: n
     trailIntensity: 1,
     fog: lerp(from.fog, to.fog, k),
     inset: 0,
+    dust: lerp(from.dust, to.dust, k),
     now,
   }
 }

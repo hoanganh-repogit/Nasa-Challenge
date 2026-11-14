@@ -1,0 +1,66 @@
+{
+  "title": "What the long exposure adds up to",
+  "intro": "NASA sent Opportunity with a list of questions. Here are five of them, each next to what the rover helped reveal.",
+  "wantedHead": "What NASA wanted to know",
+  "revealedHead": "What Opportunity helped reveal",
+  "rows": [
+    {
+      "wanted": "Search for and characterize a variety of rocks and soils that hold clues to past water activity.",
+      "wantedQuoted": true,
+      "revealed": "At Eagle crater, the outcrop rocks had been soaked by water: very high levels of sulfur in sulfate salts, and jarosite, which may point to an acidic lake or acidic hot springs.",
+      "stop": 2,
+      "sourceIds": [
+        "SRC-MER-OBJECTIVES",
+        "SRC-WET-2004"
+      ]
+    },
+    {
+      "wanted": "Find iron-bearing minerals that contain water or were formed in water.",
+      "wantedQuoted": false,
+      "revealed": "The small round 'blueberry' grains contain hematite, an iron-rich mineral that NASA says was deposited in water.",
+      "stop": 2,
+      "sourceIds": [
+        "SRC-MER-OBJECTIVES",
+        "SRC-PIA05634",
+        "SRC-ASTROBIO-BLUEBERRIES"
+      ]
+    },
+    {
+      "wanted": "Check what orbiters see from above with a look from the ground, a 'ground truth' test.",
+      "wantedQuoted": false,
+      "revealed": "NASA's Mars Reconnaissance Orbiter detected clay minerals at Endeavour crater. The rover drove about 21 kilometres, over nearly three years, to check them up close.",
+      "stop": 5,
+      "sourceIds": [
+        "SRC-MER-OBJECTIVES",
+        "SRC-ENDEAVOUR-2011"
+      ]
+    },
+    {
+      "wanted": "Determine what geologic processes have shaped the local terrain and influenced the chemistry.",
+      "wantedQuoted": true,
+      "revealed": "On the rim of Endeavour it found bright veins of a mineral, apparently gypsum, left by water that flowed through underground fractures in the rock.",
+      "stop": 8,
+      "sourceIds": [
+        "SRC-MER-OBJECTIVES",
+        "SRC-HOMESTAKE-2011"
+      ]
+    },
+    {
+      "wanted": "Search for clues to the conditions when liquid water was present, and whether they were conducive to life.",
+      "wantedQuoted": false,
+      "revealed": "Esperance held clay minerals from water that was not harshly acidic. A team scientist said it was more favourable for biology than any other wet environment the rover had found in rocks.",
+      "stop": 6,
+      "sourceIds": [
+        "SRC-MER-OBJECTIVES",
+        "SRC-ESPERANCE-2013"
+      ]
+    }
+  ],
+  "limitation": "Evidence that water was once there, even gentle water, is not evidence that anything lived there.",
+  "closing": "Built for 90 sols and about 1,000 metres of driving, Opportunity kept working for more than 14 years and drove 45.16 kilometres. It rests where its route ends, in Perseverance Valley.",
+  "closingSourceIds": [
+    "SRC-END-2019",
+    "SRC-NSSDCA-OPP",
+    "SRC-PIA23178"
+  ]
+}
