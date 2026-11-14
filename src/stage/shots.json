@@ -1,0 +1,93 @@
+{
+  "_note": "Camera per stop. az = compass bearing from the rover to the camera (deg, 0 = north), el = elevation (deg), dist in km, exaggeration = rover scale on the map (not to scale). Tuned by eye.",
+  "opening": {
+    "target": [
+      5.0,
+      12.0
+    ],
+    "az": 300,
+    "el": 7,
+    "dist": 20,
+    "fov": 40,
+    "exaggeration": 0,
+    "studio": 1
+  },
+  "stops": {
+    "evt-landing": {
+      "az": 330,
+      "el": 26,
+      "dist": 0.9,
+      "fov": 34,
+      "exaggeration": 70,
+      "studio": 0,
+      "durationMs": 3200
+    },
+    "evt-wet-meridiani": {
+      "az": 300,
+      "el": 30,
+      "dist": 0.8,
+      "fov": 34,
+      "exaggeration": 70,
+      "studio": 0,
+      "durationMs": 2600
+    },
+    "evt-purgatory": {
+      "az": 20,
+      "el": 32,
+      "dist": 0.9,
+      "fov": 34,
+      "exaggeration": 70,
+      "studio": 0,
+      "durationMs": 4200
+    },
+    "evt-victoria": {
+      "az": 340,
+      "el": 34,
+      "dist": 2.0,
+      "fov": 36,
+      "exaggeration": 90,
+      "studio": 0,
+      "durationMs": 4600
+    },
+    "evt-endeavour": {
+      "az": 315,
+      "el": 22,
+      "dist": 3.4,
+      "fov": 38,
+      "exaggeration": 110,
+      "studio": 0,
+      "durationMs": 6000
+    },
+    "evt-esperance": {
+      "az": 250,
+      "el": 26,
+      "dist": 1.4,
+      "fov": 36,
+      "exaggeration": 80,
+      "studio": 0,
+      "durationMs": 3600
+    },
+    "evt-last-contact": {
+      "az": 200,
+      "el": 18,
+      "dist": 2.0,
+      "fov": 36,
+      "exaggeration": 90,
+      "studio": 0,
+      "durationMs": 6000
+    },
+    "evt-end-of-mission": {
+      "target": [
+        5.2,
+        11.3
+      ],
+      "az": 320,
+      "el": 34,
+      "dist": 30,
+      "fov": 40,
+      "exaggeration": 0,
+      "studio": 0,
+      "durationMs": 4200
+    }
+  }
+}

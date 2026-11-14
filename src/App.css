@@ -1,23 +1,18 @@
-.hello {
-  min-height: 100dvh;
-  display: grid;
-  grid-template-rows: 1fr auto auto;
-  gap: 3rem;
-  padding: clamp(1.5rem, 4vw, 4rem) clamp(1rem, 5vw, 5rem) 2rem;
+.stage {
+  position: fixed;
+  inset: 0;
+  width: 100vw;
+  height: 100dvh;
+  display: block;
+  background: var(--night);
 }
-.hello__lead { align-self: center; max-width: 40rem; }
-.hello h1 {
-  font-size: var(--step-4);
-  line-height: 1.02;
-  font-weight: 640;
-  letter-spacing: -0.02em;
-  margin: 1.25rem 0 1.5rem;
-  text-wrap: balance;
+.fps {
+  position: fixed;
+  left: 0.75rem;
+  bottom: 3.25rem;
+  font: 600 0.75rem/1 var(--font-sans);
+  font-variant-numeric: tabular-nums;
+  color: var(--star-dim);
+  z-index: 50;
 }
-.hello__amber { display: block; color: var(--tungsten); }
-.hello__body { max-width: 52ch; color: var(--star-dim); margin: 0; }
-.hello__about { max-width: 70ch; border-top: 1px solid var(--dusk); padding-top: 1.5rem; }
-.hello__about h2 { font-size: var(--step-1); font-weight: 600; margin: 0 0 0.75rem; }
-.hello__about ul { margin: 0; padding-left: 1.1rem; color: var(--star-dim); }
-.hello__footer { max-width: 80ch; font-size: var(--step--1); color: var(--star-dim); }
-.hello__footer p { margin: 0; }
+.stage-error { position: fixed; top: 1rem; left: 1rem; color: var(--star); }
