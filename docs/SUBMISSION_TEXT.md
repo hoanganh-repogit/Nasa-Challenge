@@ -20,7 +20,8 @@ Solo team · Local event: Ho Chi Minh City, Vietnam (online)
 ## Links
 
 - **Final project (live site):** https://echoes-of-the-cosmos-2026.vercel.app
-- **Demo video (30 s, English voice-over and captions):** _[paste the YouTube / Drive link here]_
+- **Demo video (30 s, English voice-over and captions):** https://echoes-of-the-cosmos-2026.vercel.app/film/echoes-of-the-cosmos-30s.mp4
+  _(if the form asks for YouTube or Drive, upload the same file and paste that link instead)_
 - **Code repository:** https://github.com/hoanganh-repogit/Nasa-Challenge
 
 ---
