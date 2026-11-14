@@ -1,0 +1,26 @@
+/* Night Exposure tokens. Contrast (WCAG 2.2, scripts/contrast.mjs, 14/11/2026):
+   star     on night 16.72:1 · on dusk 12.39:1   (AA text)
+   star-dim on night  9.91:1 · on dusk  7.34:1   (AA text)
+   tungsten on night  9.36:1 · on dusk  6.93:1   (AA text)
+   night on tungsten button 9.36:1               (AA text)
+   Tungsten is reserved for what moves or is selected. */
+:root {
+  --night: #0b1020;
+  --dusk: #1f2a4d;
+  --ground: #5a3a2a;
+  --tungsten: #f2a65a;
+  --star: #eef1f6;
+  --star-dim: #b3bccd;
+  --print: #f6f1e7;
+  --print-ink: #1a1712;
+
+  --font-sans: 'Commissioner Variable', system-ui, sans-serif;
+  --track-caption: 0.12em;
+
+  --step--1: clamp(0.78rem, 0.75rem + 0.15vw, 0.86rem);
+  --step-0: clamp(1rem, 0.96rem + 0.2vw, 1.12rem);
+  --step-1: clamp(1.25rem, 1.1rem + 0.6vw, 1.6rem);
+  --step-4: clamp(2.4rem, 1.6rem + 3.4vw, 4.6rem);
+
+  --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+}
