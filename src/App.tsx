@@ -1,10 +1,12 @@
 import { useCallback, useEffect, useRef, useState } from 'react'
 import './App.css'
+import { EVENT_BY_ID } from './content'
 import { STOPS } from './content/stops'
 import type { Provenance } from './engine/replay'
 import type { StageController } from './stage/controller'
 import type { Quality } from './stage/director'
 import { ChapterRail } from './ui/ChapterRail'
+import { EvidenceCard } from './ui/EvidenceCard'
 import { Icon } from './ui/Icon'
 import { StaticView } from './ui/StaticView'
 
@@ -39,6 +41,11 @@ export default function App() {
   const [error, setError] = useState<string | null>(null)
   const [stop, setStop] = useState(-1)
   const [settled, setSettled] = useState(true)
+  const [cardOpen, setCardOpen] = useState(false)
+  const closeCard = useCallback(() => {
+    setCardOpen(false)
+    document.querySelector<HTMLButtonElement>('.btn--evidence')?.focus()
+  }, [])
   const [mode, setMode] = useState<'stage' | 'static'>(!hasWebGL || params.has('static') ? 'static' : 'stage')
 
   const go = useCallback((n: number, opts: { push?: boolean; instant?: boolean } = {}) => {
@@ -106,6 +113,9 @@ export default function App() {
     }
   }, [mode])
 
+  useEffect(() => { setCardOpen(false) }, [stop])
+  useEffect(() => { ctrlRef.current?.setSkyPaused(cardOpen) }, [cardOpen])
+
   // Back / Forward walk the stops
   useEffect(() => {
     const onPop = () => go(stopFromHash(), { push: false })
@@ -118,7 +128,7 @@ export default function App() {
     const onKey = (e: KeyboardEvent) => {
       if (e.altKey || e.ctrlKey || e.metaKey) return
       const t = e.target as HTMLElement
-      if (t.closest('input, textarea, select, [contenteditable="true"]')) return
+      if (t.closest('input, textarea, select, [contenteditable="true"], .print')) return
       if (e.key === 'ArrowRight' || (e.key === ' ' && !t.closest('button, a'))) {
         e.preventDefault(); go(stop + 1)
       } else if (e.key === 'ArrowLeft' && stop >= 0) {
@@ -130,6 +140,7 @@ export default function App() {
   }, [go, stop])
 
   const s = stop >= 0 ? STOPS[stop] : null
+  const ev = s ? EVENT_BY_ID.get(s.id) : undefined
   const journey = stop >= 0
 
   if (mode === 'static') return <StaticView canExit={hasWebGL} onExit={() => setMode('stage')} />
@@ -160,24 +171,30 @@ export default function App() {
         {journey && (
           <>
             <ChapterRail stop={stop} onChapter={(i) => go(i)} markerRef={markerRef} />
-            <section className="stop" aria-live="polite" aria-labelledby="stop-title" data-settled={settled}>
-              <h2 id="stop-title" className="stop__place">{s!.place}</h2>
+            <section className="stop" aria-labelledby="stop-title" data-settled={settled}>
+              <h2 id="stop-title" className="stop__q">{ev!.question}</h2>
               <p className="stop__meta caption">
-                Stop {stop + 1} of {STOPS.length} · {s!.solLabel} · {s!.earthDate}
+                {s!.place} · {s!.solLabel} · {ev!.time.earthDateLabel} · Stop {stop + 1} of {STOPS.length}
               </p>
-            </section>
-            <div className="nav">
-              <button type="button" className="btn btn--ghost" onClick={() => go(stop - 1)} aria-label={stop === 0 ? 'Back to the opening' : 'Previous stop'}>
-                <Icon name="prev" />
-                <span className="nav__label">{stop === 0 ? 'Opening' : 'Previous'}</span>
-              </button>
-              {stop < STOPS.length - 1 && (
-                <button type="button" className="btn btn--next" onClick={() => go(stop + 1)}>
-                  Next stop
-                  <Icon name="next" />
+              <p className="stop__finding">{ev!.finding}</p>
+              <p className="stop__lead">{ev!.lead}</p>
+              <div className="stop__actions">
+                <button type="button" className="btn btn--evidence" aria-expanded={cardOpen} onClick={() => setCardOpen((o) => !o)}>
+                  {cardOpen ? 'Hide the evidence' : 'The evidence'}
                 </button>
-              )}
-            </div>
+                {stop < STOPS.length - 1 && (
+                  <button type="button" className="btn btn--next" onClick={() => go(stop + 1)}>
+                    Next stop
+                    <Icon name="next" />
+                  </button>
+                )}
+                <button type="button" className="btn btn--ghost btn--icon" onClick={() => go(stop - 1)} aria-label={stop === 0 ? 'Back to the opening' : 'Previous stop'}>
+                  <Icon name="prev" />
+                </button>
+              </div>
+            </section>
+            {cardOpen && <EvidenceCard event={ev!} onClose={closeCard} />}
+            <p className="sr-only" aria-live="polite">{`Stop ${stop + 1} of ${STOPS.length}: ${s!.place}. ${ev!.question}`}</p>
           </>
         )}
 
@@ -188,23 +205,26 @@ export default function App() {
         </aside>
 
         <footer className="band caption">
-          {journey ? (
-            <p className="band__live">
-              <span>Sol <b ref={solRef}>1</b></span>
-              <span>Route <b ref={kmRef}>0.0</b> km</span>
-              <span ref={provRef}>Recorded position</span>
-            </p>
-          ) : (
-            <p className="band__exif">
-              <span>Sol 1 → Sol 5111 · Meridiani Planum, Mars</span>
-              <span>Exposure <b>14 years</b></span>
-              <span>Route <b>45.1 km</b></span>
-              <span><b>21,104</b> position records</span>
-            </p>
-          )}
-          <p className="band__sources">
-            Route: MER Analyst's Notebook, PDS Geosciences Node · Model: NASA · Map: PIA23178, NASA/JPL-Caltech/MSSS
+          <div className="band__row">
+            {journey ? (
+              <p className="band__live">
+                <span>Sol <b ref={solRef}>1</b></span>
+                <span>Route <b ref={kmRef}>0.0</b> km</span>
+                <span ref={provRef}>Recorded position</span>
+              </p>
+            ) : (
+              <p className="band__exif">
+                <span>Sol 1 → Sol 5111 · Meridiani Planum, Mars</span>
+                <span>Exposure <b>14 years</b></span>
+                <span>Route <b>45.1 km</b></span>
+                <span><b>21,104</b> position records</span>
+              </p>
+            )}
             <button type="button" className="band__btn" onClick={() => setMode('static')}>Static view</button>
+          </div>
+          <p className="band__fine">
+            <span>Independent educational prototype; not an official NASA product and not endorsed by NASA.</span>
+            <span className="band__credits">Route: MER Analyst's Notebook, PDS Geosciences Node · Model: NASA/JPL-Caltech · Map: PIA23178, NASA/JPL-Caltech/MSSS</span>
           </p>
         </footer>
       </div>}

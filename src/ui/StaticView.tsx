@@ -1,5 +1,7 @@
 import { useEffect, useState } from 'react'
+import { EVENT_BY_ID } from '../content'
 import { STOPS } from '../content/stops'
+import { EvidenceCard } from './EvidenceCard'
 import type { RouteFile, TraverseFile } from '../data/types'
 import { createReplay } from '../engine/replay'
 import { metersToPixel } from '../engine/basemap'
@@ -79,15 +81,21 @@ export function StaticView({ onExit, canExit }: { onExit: () => void; canExit: b
       </figure>
 
       <ol className="static__stops">
-        {STOPS.map((s, i) => (
-          <li key={s.id} id={`stop-${i + 1}`} className="static__stop">
-            <img src={`/posters/stop-${i + 1}.webp`} alt="" loading="lazy" width={1280} height={800} />
-            <div>
-              <h2>{s.place}</h2>
-              <p className="caption">Stop {i + 1} of {STOPS.length} · {s.solLabel} · {s.earthDate}</p>
-            </div>
-          </li>
-        ))}
+        {STOPS.map((s, i) => {
+          const ev = EVENT_BY_ID.get(s.id)!
+          return (
+            <li key={s.id} id={`stop-${i + 1}`} className="static__stop">
+              <div className="static__text">
+                <h2>{ev.question}</h2>
+                <p className="caption">{s.place} · {s.solLabel} · {ev.time.earthDateLabel} · Stop {i + 1} of {STOPS.length}</p>
+                <p className="stop__finding">{ev.finding}</p>
+                <p className="static__lead">{ev.lead}</p>
+                <img src={`/posters/stop-${i + 1}.webp`} alt="" loading="lazy" width={1280} height={800} />
+              </div>
+              <EvidenceCard event={ev} inline />
+            </li>
+          )
+        })}
       </ol>
 
       <p className="static__labels caption">

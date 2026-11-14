@@ -1,0 +1,231 @@
+[
+  {
+    "id": "SRC-MISSION",
+    "title": "Opportunity (MER-B) mission page",
+    "institution": "NASA",
+    "url": "https://science.nasa.gov/mission/mer-opportunity/",
+    "verifiedOn": "2026-11-01"
+  },
+  {
+    "id": "SRC-NSSDCA-OPP",
+    "title": "Opportunity (MER-B), NSSDCA/COSPAR ID 2003-032A",
+    "institution": "NASA Space Science Data Coordinated Archive (NSSDCA)",
+    "url": "https://nssdc.gsfc.nasa.gov/nmc/spacecraft/display.action?id=2003-032A",
+    "verifiedOn": "2026-11-14",
+    "note": "Challenge-recommended catalog. Mass 185 kg; six wheels on a rocker-bogie suspension; Athena science package; final communication 10 June 2018."
+  },
+  {
+    "id": "SRC-TRAVERSE",
+    "title": "MER Opportunity traverse table MERB_traverse_5130",
+    "institution": "MER Analyst's Notebook, PDS Geosciences Node (WUSTL); traverse by Tim Parker",
+    "url": "https://an.rsl.wustl.edu/mera/AN/pages/mer/mer_traverse.htm",
+    "verifiedOn": "2026-11-01",
+    "caveat": "Not a formally archived PDS product (per LBL)."
+  },
+  {
+    "id": "SRC-WET-2004",
+    "title": "Opportunity Rover Finds Strong Evidence Meridiani Planum Was Wet",
+    "institution": "NASA/JPL",
+    "releaseId": "2004-074",
+    "published": "2004-03-02",
+    "url": "https://www.jpl.nasa.gov/news/opportunity-rover-finds-strong-evidence-meridiani-planum-was-wet/",
+    "verifiedOn": "2026-11-01"
+  },
+  {
+    "id": "SRC-WET-2004-NSSDC",
+    "title": "NASA Press Release 2004-074 (archive copy)",
+    "institution": "NASA NSSDCA",
+    "published": "2004-03-02",
+    "url": "https://nssdc.gsfc.nasa.gov/planetary/news/merb_pr_20040302.html",
+    "verifiedOn": "2026-11-01"
+  },
+  {
+    "id": "SRC-PIA05634",
+    "title": "Discovery Served Up in a Bowl",
+    "institution": "NASA/JPL-Caltech/Cornell",
+    "published": "2004-03-25",
+    "url": "https://science.nasa.gov/resource/discovery-served-up-in-a-bowl/",
+    "verifiedOn": "2026-11-01"
+  },
+  {
+    "id": "SRC-ASTROBIO-BLUEBERRIES",
+    "title": "Iron Blueberries",
+    "institution": "NASA Astrobiology",
+    "published": "2004-03-24",
+    "url": "https://astrobiology.nasa.gov/news/check-type-iron-blueberries/",
+    "verifiedOn": "2026-11-01"
+  },
+  {
+    "id": "SRC-PIA06865",
+    "title": "'Endurance Crater' Overview",
+    "institution": "NASA/JPL/Cornell/OSU/MSSS",
+    "url": "https://science.nasa.gov/photojournal/endurance-crater-overview",
+    "verifiedOn": "2026-11-01"
+  },
+  {
+    "id": "SRC-METEORITE-2005",
+    "title": "Opportunity Rover Finds an Iron Meteorite on Mars",
+    "institution": "NASA/JPL",
+    "published": "2005-01-19",
+    "url": "https://www.jpl.nasa.gov/news/opportunity-rover-finds-an-iron-meteorite-on-mars/",
+    "verifiedOn": "2026-11-01"
+  },
+  {
+    "id": "SRC-PIA07922",
+    "title": "Opportunity's Sol 446 Position, with Relative Heights",
+    "institution": "NASA/JPL",
+    "published": "2005-05-06",
+    "url": "https://www.jpl.nasa.gov/images/pia07922-opportunitys-sol-446-position-with-relative-heights/",
+    "verifiedOn": "2026-11-01"
+  },
+  {
+    "id": "SRC-PIA07999",
+    "title": "Looking Back at 'Purgatory Dune'",
+    "institution": "NASA/JPL",
+    "published": "2005-06-21",
+    "url": "https://www.jpl.nasa.gov/images/pia07999-looking-back-at-purgatory-dune",
+    "verifiedOn": "2026-11-01"
+  },
+  {
+    "id": "SRC-VICTORIA-2006",
+    "title": "NASA Mars Rover Arrives at Dramatic Vista on Red Planet",
+    "institution": "NASA/JPL",
+    "published": "2006-09-27",
+    "url": "https://www.jpl.nasa.gov/news/nasa-mars-rover-arrives-at-dramatic-vista-on-red-planet/",
+    "verifiedOn": "2026-11-01"
+  },
+  {
+    "id": "SRC-PIA08813",
+    "title": "'Victoria Crater' at Meridiani Planum",
+    "institution": "NASA/JPL-Caltech/University of Arizona/Cornell/Ohio State University",
+    "url": "https://science.nasa.gov/photojournal/victoria-crater-at-meridiani-planum",
+    "verifiedOn": "2026-11-01"
+  },
+  {
+    "id": "SRC-ENDEAVOUR-2011",
+    "title": "NASA Mars Rover Arrives at New Site on Martian Surface",
+    "institution": "NASA/JPL",
+    "releaseId": "2011-248",
+    "published": "2011-08-10",
+    "url": "https://www.jpl.nasa.gov/news/nasa-mars-rover-arrives-at-new-site-on-martian-surface",
+    "verifiedOn": "2026-11-01"
+  },
+  {
+    "id": "SRC-PIA14510",
+    "title": "Small 'Odyssey' Crater on Rim of Huge 'Endeavour' Crater",
+    "institution": "NASA/JPL-Caltech",
+    "published": "2011-08-10",
+    "url": "https://www.jpl.nasa.gov/images/pia14510-small-odyssey-crater-on-rim-of-huge-endeavour-crater/",
+    "verifiedOn": "2026-11-01"
+  },
+  {
+    "id": "SRC-PIA14509",
+    "title": "Arrival at 'Spirit Point' by Mars Rover Opportunity",
+    "institution": "NASA/JPL-Caltech/Cornell/ASU",
+    "published": "2011-08-10",
+    "url": "https://www.jpl.nasa.gov/images/pia14509-arrival-at-spirit-point-by-mars-rover-opportunity/",
+    "verifiedOn": "2026-11-01"
+  },
+  {
+    "id": "SRC-HOMESTAKE-2011",
+    "title": "NASA Mars Rover Finds Mineral Vein Deposited by Water",
+    "institution": "NASA/JPL",
+    "published": "2011-12-07",
+    "url": "https://www.jpl.nasa.gov/news/nasa-mars-rover-finds-mineral-vein-deposited-by-water",
+    "verifiedOn": "2026-11-01"
+  },
+  {
+    "id": "SRC-ESPERANCE-2013",
+    "title": "Mars Rover Opportunity Examines Clay Clues in Rock",
+    "institution": "NASA/JPL",
+    "releaseId": "2013-167",
+    "published": "2013-05-17",
+    "url": "https://www.jpl.nasa.gov/news/mars-rover-opportunity-examines-clay-clues-in-rock/",
+    "verifiedOn": "2026-11-01"
+  },
+  {
+    "id": "SRC-PIA17074",
+    "title": "'Esperance' Target Examined by Opportunity",
+    "institution": "NASA/JPL-Caltech/Cornell Univ./Arizona State Univ.",
+    "published": "2013-06-07",
+    "url": "https://www.jpl.nasa.gov/images/pia17074-esperance-target-examined-by-opportunity/",
+    "verifiedOn": "2026-11-01"
+  },
+  {
+    "id": "SRC-PV-2017",
+    "title": "Mars Rover Opportunity Begins Study of Valley's Origin",
+    "institution": "NASA/JPL",
+    "published": "2017-05-15",
+    "url": "https://www.jpl.nasa.gov/news/mars-rover-opportunity-begins-study-of-valleys-origin/",
+    "verifiedOn": "2026-11-01"
+  },
+  {
+    "id": "SRC-PIA21723",
+    "title": "Panorama Above 'Perseverance Valley' on Mars",
+    "institution": "NASA/JPL-Caltech/Cornell/Arizona State Univ.",
+    "url": "https://science.nasa.gov/photojournal/panorama-above-perseverance-valley-on-mars",
+    "verifiedOn": "2026-11-01"
+  },
+  {
+    "id": "SRC-PIA22929",
+    "title": "Opportunity's Last Message",
+    "institution": "NASA/JPL-Caltech/Cornell/ASU",
+    "published": "2019-03-12",
+    "url": "https://www.jpl.nasa.gov/images/pia22929-opportunitys-last-message/",
+    "verifiedOn": "2026-11-01"
+  },
+  {
+    "id": "SRC-PIA23178",
+    "title": "Opportunity's Final Traverse Map",
+    "institution": "NASA/JPL-Caltech/MSSS",
+    "published": "2019-04-25",
+    "url": "https://science.nasa.gov/photojournal/opportunitys-final-traverse-map/",
+    "verifiedOn": "2026-11-01"
+  },
+  {
+    "id": "SRC-END-2019",
+    "title": "NASA's Opportunity Rover Mission on Mars Comes to End",
+    "institution": "NASA/JPL",
+    "releaseId": "2019-023",
+    "published": "2019-02-13",
+    "url": "https://www.jpl.nasa.gov/news/nasas-opportunity-rover-mission-on-mars-comes-to-end/",
+    "verifiedOn": "2026-11-01"
+  },
+  {
+    "id": "SRC-PIA05755",
+    "title": "'Lion King' Panorama",
+    "institution": "NASA/JPL-Caltech/Cornell",
+    "published": "2004-04-14",
+    "url": "https://science.nasa.gov/resource/lion-king-panorama/",
+    "verifiedOn": "2026-11-01"
+  },
+  {
+    "id": "SRC-MER-MODEL",
+    "title": "Spirit and Opportunity Rover 3D Model (24883_MER_static.glb)",
+    "institution": "NASA/JPL-Caltech",
+    "url": "https://science.nasa.gov/resource/spirit-and-opportunity-rover-3d-model/",
+    "verifiedOn": "2026-11-01"
+  },
+  {
+    "id": "SRC-MER-INSTRUMENTS",
+    "title": "Mars Exploration Rovers — Science Instruments",
+    "institution": "NASA",
+    "url": "https://science.nasa.gov/mission/mars-exploration-rovers-spirit-and-opportunity/science-instruments",
+    "verifiedOn": "2026-11-01"
+  },
+  {
+    "id": "SRC-JPL-IMAGE-POLICY",
+    "title": "JPL Image Use Policy",
+    "institution": "NASA/JPL-Caltech",
+    "url": "https://www.jpl.nasa.gov/jpl-image-use-policy/",
+    "verifiedOn": "2026-11-01"
+  },
+  {
+    "id": "SRC-SPACEAPPS-2026",
+    "title": "Abandoned but not Forgotten: Storytelling about NASA's Discarded Equipment on the Moon and Mars (Resources tab)",
+    "institution": "NASA International Space Apps Challenge 2026",
+    "url": "https://www.spaceappschallenge.org/2026/challenges/nasas-discarded-equipment-storytelling/?tab=resources",
+    "verifiedOn": "2026-11-14",
+    "note": "Text supplied by the participant from the challenge page; the site does not load from the build machine."
+  }
+]

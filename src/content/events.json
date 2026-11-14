@@ -1,0 +1,285 @@
+[
+  {
+    "id": "evt-landing",
+    "chapterId": "arrival",
+    "question": "Why land here?",
+    "finding": "To look for rocks that remember water.",
+    "time": {
+      "earthDate": "2004-01-25",
+      "earthDateLabel": "24 Jan 2004 (PST) / 25 Jan 2004 (UTC)",
+      "timeZone": "UTC",
+      "sol": 1,
+      "solSource": "published",
+      "precision": "minute"
+    },
+    "anchor": "0/0",
+    "lead": "Opportunity landed on Mars on 25 January 2004 (UTC). Airbags cushioned the landing, and the rover came to rest inside a crater about 20 metres wide. It was designed to last just 90 Martian days and drive about 1,000 metres. Scientists picked this flat plain, Meridiani Planum, because it shows signs of hematite, an iron-rich mineral that typically forms in water.",
+    "card": "Opportunity is a 185-kilogram robot geologist on six wheels. Its panoramic camera (Pancam) and navigation cameras sit on top of a mast, about 1.4 metres above the base of the wheels. Its other tools ride on a robotic arm. Six of them together are called the Athena science package: Pancam, the Mini-TES heat spectrometer, the APXS and Mössbauer spectrometers, the Microscopic Imager and the Rock Abrasion Tool. The mission's job was to look closely at rocks and soils for clues about water in Mars's past. The panorama shown here was taken weeks later, on sols 58 and 60, as the rover drove out of Eagle crater. The empty lander sits in the middle.",
+    "quote": {
+      "text": "Designed to last just 90 Martian days",
+      "who": "NASA/JPL, 2019",
+      "sourceId": "SRC-END-2019"
+    },
+    "limitations": "The panorama is a context image from sols 58 and 60, not a photo from landing day.",
+    "partIds": [
+      "mast"
+    ],
+    "mediaIds": [
+      "img-lion-king"
+    ],
+    "sourceIds": [
+      "SRC-MISSION",
+      "SRC-NSSDCA-OPP",
+      "SRC-END-2019",
+      "SRC-PIA05755"
+    ]
+  },
+  {
+    "id": "evt-wet-meridiani",
+    "chapterId": "arrival",
+    "question": "Was this place ever wet?",
+    "finding": "Yes. Liquid water once flowed through these rocks.",
+    "time": {
+      "earthDate": "2004-03-02",
+      "earthDateLabel": "2 Mar 2004 (announcement)",
+      "timeZone": "UTC",
+      "sol": 37,
+      "solSource": "derived",
+      "precision": "date"
+    },
+    "anchor": "5/38",
+    "lead": "In its first weeks, Opportunity studied the layered rock at the edge of Eagle crater. Its tools found salts called sulfates and a mineral called jarosite, which points to acidic water. Small round grains in the rock, nicknamed blueberries, turned out to hold hematite. On 2 March 2004, NASA announced strong evidence that this part of Mars had once been wet.",
+    "card": "The tools on the arm did the detective work. The Alpha Particle X-Ray Spectrometer (APXS) reveals which chemical elements a rock contains. It found very high levels of sulfur, in the form of sulfate salts. The Mössbauer spectrometer identifies iron-bearing minerals. It found jarosite, which may point to a wet past in an acidic lake or acidic hot springs. The rock's shape told the same story in three ways: small holes left by salt crystals (vugs), round grains (spherules) and layers laid down at an angle (crossbedding). Later, Pancam images of an area nicknamed 'Berry Bowl', shown here, helped confirm that the hematite in the spherules was deposited in water.",
+    "quote": {
+      "text": "Liquid water once flowed through these rocks. It changed their texture, and it changed their chemistry.",
+      "who": "Steve Squyres, principal investigator, 2004",
+      "sourceId": "SRC-WET-2004-NSSDC"
+    },
+    "limitations": "The water was acidic. In 2004 the team still had to work out whether the rocks formed in water or were changed by water later. This is evidence of water, not of life.",
+    "partIds": [
+      "instruments",
+      "arm"
+    ],
+    "mediaIds": [
+      "img-berry-bowl"
+    ],
+    "sourceIds": [
+      "SRC-WET-2004",
+      "SRC-WET-2004-NSSDC",
+      "SRC-PIA05634",
+      "SRC-ASTROBIO-BLUEBERRIES",
+      "SRC-MER-INSTRUMENTS"
+    ]
+  },
+  {
+    "id": "evt-purgatory",
+    "chapterId": "stuck",
+    "question": "What happens when a rover gets stuck?",
+    "finding": "It took more than five weeks of careful driving to get out.",
+    "time": {
+      "earthDate": "2005-04-26",
+      "earthDateLabel": "26 Apr 2005 → early Jun 2005",
+      "timeZone": "UTC",
+      "sol": 446,
+      "solSource": "published",
+      "precision": "date"
+    },
+    "anchor": "55/226 → 55/802",
+    "lead": "On sol 446, Opportunity was driving backward across a field of sand ripples. It had covered nearly 40 metres of a planned 90 when its wheels began to slip. They had dug into a ripple about a third of a metre tall, down to the depth of the wheel hubs. The ripple got a name: Purgatory dune.",
+    "card": "This stop is an engineering story, not a science discovery. NASA says the escape required more than five weeks of planning, testing and carefully monitored driving. The route records show how slow that was. Between sols 447 and 484 the traverse table holds 326 position records, yet the rover ended up only about 1.6 metres from where it started. On this stage every record is a point of light, so the stacked records make this spot glow brighter. Opportunity's six wheels are attached to a rocker-bogie suspension. It finally rolled onto firmer ground in early June 2005. The Navcam picture shown here looks back at the dune a week later, on sol 491.",
+    "quote": {
+      "text": "required more than five weeks of planning, testing, and carefully monitored driving",
+      "who": "NASA/JPL caption for PIA07999, 2005",
+      "sourceId": "SRC-PIA07999"
+    },
+    "limitations": "The escape sol (≈ 484) is derived from the route records and the photo caption; NASA does not state it. The records show where the rover ended each move, not every turn of the wheels.",
+    "partIds": [
+      "wheels"
+    ],
+    "mediaIds": [
+      "img-purgatory"
+    ],
+    "sourceIds": [
+      "SRC-PIA07922",
+      "SRC-PIA07999",
+      "SRC-TRAVERSE",
+      "SRC-NSSDCA-OPP"
+    ]
+  },
+  {
+    "id": "evt-victoria",
+    "chapterId": "stuck",
+    "question": "What's inside a crater 800 metres wide?",
+    "finding": "Walls of layered rock, a record of conditions long ago.",
+    "time": {
+      "earthDate": "2006-09-26",
+      "earthDateLabel": "26 Sep 2006",
+      "timeZone": "UTC",
+      "sol": 951,
+      "solSource": "published",
+      "precision": "date"
+    },
+    "anchor": "76/264",
+    "lead": "After a 21-month journey, Opportunity drove its last 26 metres to the rim of Victoria crater on sol 951. The crater is about 800 metres across, roughly five times wider than Endurance, the crater it had explored before. The first views showed rugged walls with layers of exposed rock and a floor blanketed with dunes.",
+    "card": "Pancam took the first views from the rim. Its two cameras work together to take detailed, multi-wavelength, 3-D panoramic pictures from about human eye height. Days later, a camera far above joined in. HiRISE, on NASA's Mars Reconnaissance Orbiter, photographed Victoria from orbit; that picture, shown here, was published ten days after the rover arrived. The layers in the crater wall are what made the place exciting: each layer formed at a different time, so a stack of them is a record of how conditions changed. To reach this rim, Opportunity had driven more than 9.2 kilometres since landing.",
+    "quote": {
+      "text": "This is a geologist's dream come true.",
+      "who": "Steve Squyres, principal investigator, 2006",
+      "sourceId": "SRC-VICTORIA-2006"
+    },
+    "limitations": "The orbital picture and the rover's views come from different spacecraft and different days. Summing the route records to sol 952 gives about 9.3 km, consistent with NASA's 'more than 9.2 kilometres'.",
+    "partIds": [
+      "mast"
+    ],
+    "mediaIds": [
+      "img-victoria-hirise"
+    ],
+    "sourceIds": [
+      "SRC-VICTORIA-2006",
+      "SRC-PIA08813",
+      "SRC-MER-INSTRUMENTS",
+      "SRC-TRAVERSE"
+    ]
+  },
+  {
+    "id": "evt-endeavour",
+    "chapterId": "water",
+    "question": "Why drive 21 kilometres to a bigger crater?",
+    "finding": "An orbiter had spotted clay minerals in its rim.",
+    "time": {
+      "earthDate": "2011-08-09",
+      "earthDateLabel": "9 Aug 2011",
+      "timeZone": "UTC",
+      "sol": 2680,
+      "solSource": "derived",
+      "precision": "date"
+    },
+    "anchor": "158/0",
+    "lead": "On 9 August 2011, Opportunity reached Spirit Point on the rim of Endeavour, a crater 22 kilometres wide. Getting there from Victoria took nearly three years and about 21 kilometres of driving. Why go so far? From orbit, NASA's Mars Reconnaissance Orbiter had spotted clay minerals there. They may have formed when early Mars was warmer and wetter.",
+    "card": "This stop shows orbit and ground working as a team. An orbiter can map minerals across a whole region, but it cannot touch a rock. A rover can, but only where it drives. Up to now, Opportunity's tools had found rocks soaked by acidic water. Clay minerals hinted at something different, so the team aimed the rover at Endeavour's rim, more than 25 times wider than Victoria. Mission scientist Matt Golombek looked forward to a new kind of rock. The picture shown here is the rover's view on arrival at Spirit Point.",
+    "quote": {
+      "text": "We're soon going to get the opportunity to sample a rock type the rovers haven't seen yet",
+      "who": "Matt Golombek, mission scientist, 2011",
+      "sourceId": "SRC-ENDEAVOUR-2011"
+    },
+    "limitations": "The arrival sol (≈ 2680) is derived from the date. The clays were detected from orbit; checking them on the ground came later (next stop).",
+    "partIds": [
+      "mast"
+    ],
+    "mediaIds": [
+      "img-endeavour-spirit-point"
+    ],
+    "sourceIds": [
+      "SRC-ENDEAVOUR-2011",
+      "SRC-PIA14509",
+      "SRC-PIA14510"
+    ]
+  },
+  {
+    "id": "evt-esperance",
+    "chapterId": "water",
+    "question": "Was the water ever gentler?",
+    "finding": "Yes. This rock was changed by water that was not harshly acidic.",
+    "time": {
+      "earthDate": "2013-05-17",
+      "earthDateLabel": "Photo 23 Feb 2013 · ground May 2013",
+      "timeZone": "UTC",
+      "sol": 3230,
+      "solSource": "published",
+      "precision": "date"
+    },
+    "anchor": "169/553",
+    "lead": "On a part of Endeavour's rim called Cape York, where the orbiter had detected clay minerals, Opportunity found a pale, cracked rock the team named Esperance. In May 2013 the rover ground into it and measured what it was made of. After nine years on Mars, the answer was new: a rock changed by water that was not harshly acidic.",
+    "card": "Two tools on the end of the arm worked one after the other. First, the Rock Abrasion Tool's rotating, grinding teeth gnawed into the surface of the rock. Then the APXS read which elements it contained. Esperance was higher in aluminium and silica, and lower in calcium and iron, than any rock Opportunity had examined in nine years. The team read this as a sign of clay minerals. Clays typically form in wet environments that are not harshly acidic. For years the rover had been finding signs of very acidic water, so this was a turning point. A team scientist said there was enough water not only to make the clays but also to flush out ions set loose by those reactions.",
+    "quote": {
+      "text": "Water that moved through fractures during this rock's history would have provided more favorable conditions for biology than any other wet environment recorded in rocks Opportunity has seen.",
+      "who": "Steve Squyres, principal investigator, 2013",
+      "sourceId": "SRC-ESPERANCE-2013"
+    },
+    "limitations": "'More favourable for biology' describes conditions; it is not evidence of life. The photo is false colour and was taken on sol 3230, before the grinding in May 2013 (≈ sol 3304, derived).",
+    "partIds": [
+      "instruments",
+      "arm"
+    ],
+    "mediaIds": [
+      "img-esperance"
+    ],
+    "sourceIds": [
+      "SRC-ESPERANCE-2013",
+      "SRC-PIA17074",
+      "SRC-MER-INSTRUMENTS"
+    ]
+  },
+  {
+    "id": "evt-last-contact",
+    "chapterId": "silence",
+    "question": "How does a solar-powered rover go silent?",
+    "finding": "A planet-wide dust storm blocked the Sun.",
+    "time": {
+      "earthDate": "2018-06-10",
+      "earthDateLabel": "10 Jun 2018",
+      "timeZone": "UTC",
+      "sol": 5111,
+      "solSource": "published",
+      "precision": "date"
+    },
+    "anchor": "210/277",
+    "lead": "In June 2018 a dust storm grew until it covered the whole planet. Opportunity was working in Perseverance Valley, on the inner slope of Endeavour's rim. Its power came from solar panels, and the dust blocked the Sun. On sol 5111, 10 June 2018, the rover sent its last data, including the picture shown here.",
+    "card": "The last picture was taken with the left Pancam camera through a solar filter. It came out almost black because dust had blocked the Sun. The white specks are camera noise. The bottom of the frame is blank because the transmission was cut off. Opportunity had reached the top of Perseverance Valley in May 2017, and NASA described it as an ancient fluid-carved valley on the inner slope of a crater rim. Scientists were still testing ideas about how it formed: flowing water, a debris flow carrying water, or wind. The route records end on sol 5081, so on this stage the rover stays at its last recorded position.",
+    "quote": {
+      "text": "The final communication from the rover was received on 10 June 2018.",
+      "who": "NASA NSSDCA catalog",
+      "sourceId": "SRC-NSSDCA-OPP"
+    },
+    "limitations": "The dust storm is not drawn on this stage. Popular lines such as 'My battery is low and it's getting dark' are not messages from the rover.",
+    "partIds": [
+      "panels",
+      "mast"
+    ],
+    "mediaIds": [
+      "img-last-message"
+    ],
+    "sourceIds": [
+      "SRC-PIA22929",
+      "SRC-END-2019",
+      "SRC-PV-2017",
+      "SRC-NSSDCA-OPP",
+      "SRC-TRAVERSE"
+    ]
+  },
+  {
+    "id": "evt-end-of-mission",
+    "chapterId": "silence",
+    "question": "When do you stop calling?",
+    "finding": "After more than 1,000 commands, NASA ended the mission.",
+    "time": {
+      "earthDate": "2019-02-13",
+      "earthDateLabel": "13 Feb 2019",
+      "timeZone": "UTC",
+      "sol": null,
+      "solSource": null,
+      "precision": "date"
+    },
+    "anchor": null,
+    "lead": "For eight months, engineers sent more than 1,000 commands, hoping Opportunity would wake up. The last attempt was on 12 February 2019, and the next day NASA declared the mission over. A rover designed for 90 Martian days had explored Mars for more than 14 years and driven more than 45 kilometres.",
+    "card": "Seen as a whole, the trail tells a story in steps. At Eagle crater, Opportunity found hematite, a mineral that forms in water, and rocks soaked by acidic water. Near Endeavour it found a mineral vein and clay-bearing rock that formed in gentler water. Along the way it set a one-day Mars driving record of 220 metres, on 20 March 2005. The trail on this stage is drawn from 21,104 position records in the MER Analyst's Notebook at the PDS Geosciences Node. NASA's own final traverse map, shown here, gives 45.16 kilometres; adding up the records gives 45.1. Opportunity rests where its route ends, in Perseverance Valley.",
+    "quote": {
+      "text": "For more than a decade, Opportunity has been an icon in the field of planetary exploration",
+      "who": "Thomas Zurbuchen, NASA, 2019",
+      "sourceId": "SRC-END-2019"
+    },
+    "limitations": "13 February 2019 is the date NASA ended the mission, not the day the rover last moved. The route records end on sol 5081.",
+    "partIds": [],
+    "mediaIds": [
+      "img-final-map"
+    ],
+    "sourceIds": [
+      "SRC-END-2019",
+      "SRC-HOMESTAKE-2011",
+      "SRC-ESPERANCE-2013",
+      "SRC-PIA23178",
+      "SRC-TRAVERSE",
+      "SRC-SPACEAPPS-2026"
+    ]
+  }
+]
