@@ -2,6 +2,7 @@
   "name": "echoes-of-the-cosmos",
   "private": true,
   "version": "0.0.0",
+  "description": "Echoes of the Cosmos (NASA Space Apps 2026). Code and text written with SI (AI) assistance: Claude Code, Claude Opus 5.5 (Anthropic); film voice-over SI-generated (Kokoro-82M). See docs/AI_DISCLOSURE.md",
   "type": "module",
   "scripts": {
     "dev": "vite",

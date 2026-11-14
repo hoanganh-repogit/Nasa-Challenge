@@ -87,6 +87,7 @@
 }
 .film__labels { right: var(--gutter); top: 1.6rem; display: grid; justify-items: end; gap: 0.15rem; font-size: 0.78rem; text-align: right; }
 .film__labels span { text-shadow: 0 1px 6px var(--night); }
+.film__si { left: var(--gutter); top: 1.6rem; margin: 0; font-size: 0.78rem; text-shadow: 0 1px 6px var(--night); }
 .film__credit { left: var(--gutter); right: var(--gutter); bottom: 1rem; margin: 0; font-size: 0.62rem; letter-spacing: 0.04em; color: color-mix(in oklab, var(--star-dim) 85%, var(--night)); }
 .film section, .film p, .film aside { transition: none; }
 /* portrait phones: the finished video, not the live stage */

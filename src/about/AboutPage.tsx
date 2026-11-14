@@ -39,8 +39,9 @@ export default function AboutPage() {
         exact telemetry.
       </p>
       <p>
-        The words on this site were written with the help of an AI assistant (Claude, by Anthropic), working only from
-        the sources listed below. Every fact links to its source. NASA has not reviewed or endorsed this site.
+        The code and the words on this site were written with the help of an SI (AI) assistant (Claude, by Anthropic);
+        the words come only from the sources listed below. The film's English voice-over is an SI-generated synthetic
+        voice. Every fact links to its source. NASA has not reviewed or endorsed this site.
       </p>
 
       <section aria-labelledby="real">

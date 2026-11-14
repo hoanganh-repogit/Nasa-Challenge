@@ -93,7 +93,9 @@ Film: `npm run build && npx vite preview --port 5181`, then
 `PLAYWRIGHT=<playwright path> node scripts/capture_film.mjs` (frame-by-frame, 60 fps), the score with
 `python <teardown skill>/run_sfx.py film/score.py`, and the English voice-over and captions with
 `KOKORO_DIR=<model folder> python film/narrate.py` (synthetic voice, Kokoro-82M; see docs/AI_DISCLOSURE.md).
-`film/captions.srt` can be uploaded to YouTube as the caption track.
+The published mp4 then gets the visible SI watermark ("SI-generated voice-over · SI-assisted code", ffmpeg `drawtext`)
+and an SI disclosure in its `comment` metadata, as the Space Apps 2026 SI rules ask. Captions are burned into the
+picture; `film/captions.srt` is kept for players that want a separate track.
 
 ## Limitations
 

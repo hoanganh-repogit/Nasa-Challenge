@@ -32,3 +32,17 @@
 
 The author chose the challenge, the rover, the story, the visual direction and every scope decision (for example,
 Mars only), reviewed the work at each stage, and is responsible for the result. NASA has not reviewed or endorsed it.
+
+## Space Apps SI rules: where the indicators are
+
+Space Apps 2026 calls these tools Super Intelligence (SI) and asks for visible or written indicators. Here they are:
+
+| Element | SI use | Indicator |
+|---|---|---|
+| Film (video) | Pictures rendered by the project's own code (written with SI help); voice-over SI-generated | Visible watermark in the top-left corner for the whole film: "SI-generated voice-over · SI-assisted code"; the same line on /film |
+| Film audio | Voice-over SI-generated (Kokoro-82M); music synthesised by code | This page, /about, CREDITS.md, the YouTube description, and the `comment` metadata of the mp4 and m4a files |
+| Code | Written with SI assistance (Claude Code) | This page, the README, `package.json` description, the `ai-disclosure` meta tag in `index.html` |
+| Text | Drafted with SI assistance from NASA, JPL and NSSDCA sources | This page and /about |
+| Images, 3D model, data | No SI generation: NASA images, NASA's model, NASA's traverse table | Credits on every image; CREDITS.md |
+
+No NASA logo, flag, insignia or mission patch is used, by SI or otherwise.

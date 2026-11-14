@@ -32,7 +32,7 @@ function PortraitFilm() {
       <h1>Echoes of the Cosmos, in 30 seconds</h1>
       {/* captions are burned into the picture */}
       <video src={VIDEO} controls playsInline autoPlay preload="auto" poster="/posters/stop-1.webp" />
-      <p className="caption">English voice-over (synthetic voice) and captions. Turn your phone sideways for a bigger picture.</p>
+      <p className="caption">English voice-over (SI-generated synthetic voice) and captions. Turn your phone sideways for a bigger picture.</p>
     </main>
   )
 }
@@ -183,6 +183,7 @@ function LandscapeFilm() {
 
       {cap && <p className="film__sub" style={{ opacity: show(t, cap.start, cap.end, 0.1) }}>{cap.text}</p>}
 
+      {!RENDER && <p className="film__si caption">SI-generated voice-over · SI-assisted code</p>}
       <aside className="film__labels caption">
         <span>Night sky and light trail are illustrative; the rover drove by day.</span>
         {t >= SCENES.dive[0] && <span>Rover not to scale · Flat plane, no terrain height</span>}

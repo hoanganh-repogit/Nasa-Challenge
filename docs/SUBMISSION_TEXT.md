@@ -94,36 +94,69 @@ which is also the performance target.
 
 ---
 
-## NASA data used
+## NASA Data (form: one "Link Text" + "Link Url" per row)
 
-- **MER Opportunity traverse table `MERB_traverse_5130`**, MER Analyst's Notebook, PDS Geosciences Node (Washington
-  University in St. Louis); traverse by Tim Parker. https://an.rsl.wustl.edu/mera/AN/pages/mer/mer_traverse.htm
-- **Opportunity (2003-032A)**, NASA Space Science Data Coordinated Archive.
-  https://nssdc.gsfc.nasa.gov/nmc/spacecraft/display.action?id=2003-032A
-- **Spirit and Opportunity Rover 3D Model**, NASA/JPL-Caltech.
-  https://science.nasa.gov/resource/spirit-and-opportunity-rover-3d-model/
-- **PIA23178 Opportunity's Final Traverse Map** (NASA/JPL-Caltech/MSSS) and 7 more NASA photojournal images: PIA05755,
-  PIA05634, PIA07999, PIA08813, PIA14509, PIA17074, PIA22929.
-- **NASA mission pages:** MER Science Instruments, MER Science Objectives, the Opportunity mission page, and JPL news
-  releases (2004–2019).
+| Link Text | Link Url |
+|---|---|
+| MER Opportunity traverse table MERB_traverse_5130 (MER Analyst's Notebook, PDS Geosciences Node) | https://an.rsl.wustl.edu/mera/AN/pages/mer/mer_traverse.htm |
+| Opportunity (MER-B), NSSDCA 2003-032A | https://nssdc.gsfc.nasa.gov/nmc/spacecraft/display.action?id=2003-032A |
+| Spirit and Opportunity Rover 3D Model (NASA/JPL-Caltech) | https://science.nasa.gov/resource/spirit-and-opportunity-rover-3d-model/ |
+| PIA23178 Opportunity's Final Traverse Map | https://science.nasa.gov/photojournal/opportunitys-final-traverse-map/ |
+| PIA05755 'Lion King' Panorama | https://science.nasa.gov/resource/lion-king-panorama/ |
+| PIA05634 Discovery Served Up in a Bowl | https://science.nasa.gov/resource/discovery-served-up-in-a-bowl/ |
+| PIA07999 Looking Back at 'Purgatory Dune' | https://www.jpl.nasa.gov/images/pia07999-looking-back-at-purgatory-dune |
+| PIA08813 'Victoria Crater' at Meridiani Planum | https://science.nasa.gov/photojournal/victoria-crater-at-meridiani-planum |
+| PIA14509 Arrival at 'Spirit Point' by Mars Rover Opportunity | https://www.jpl.nasa.gov/images/pia14509-arrival-at-spirit-point-by-mars-rover-opportunity/ |
+| PIA17074 'Esperance' Target Examined by Opportunity | https://www.jpl.nasa.gov/images/pia17074-esperance-target-examined-by-opportunity/ |
+| PIA22929 Opportunity's Last Message | https://www.jpl.nasa.gov/images/pia22929-opportunitys-last-message/ |
+| Opportunity (MER-B) mission page | https://science.nasa.gov/mission/mer-opportunity/ |
+| Mars Exploration Rovers: Science Instruments | https://science.nasa.gov/mission/mars-exploration-rovers-spirit-and-opportunity/science-instruments |
+| Mars Exploration Rovers: Science Objectives | https://science.nasa.gov/mission/mars-exploration-rovers-spirit-and-opportunity/science-objectives/ |
+| NASA's Opportunity Rover Mission on Mars Comes to End (JPL, 2019) | https://www.jpl.nasa.gov/news/nasas-opportunity-rover-mission-on-mars-comes-to-end/ |
+| All 31 NASA, JPL and NSSDCA sources, with check dates | https://echoes-of-the-cosmos-2026.vercel.app/about |
 
-Full list with links and check dates: https://echoes-of-the-cosmos-2026.vercel.app/about
+## Space Agency Partner & Other Data (form: one row each; open-source code, fonts, tools)
 
-## Space agency partner and other data
+No Space Agency Partner data. Other resources:
 
-None. All data and images are from NASA, JPL or NSSDCA.
+| Link Text | Link Url |
+|---|---|
+| three.js (MIT), 3D rendering | https://threejs.org |
+| React (MIT), interface | https://react.dev |
+| Vite (MIT), build tool | https://vite.dev |
+| Commissioner typeface (SIL Open Font License) | https://fonts.google.com/specimen/Commissioner |
+| glTF Transform (MIT), compressing NASA's 3D model | https://gltf-transform.dev |
+| Kokoro-82M (Apache-2.0), synthetic voice for the film voice-over | https://huggingface.co/hexgrad/Kokoro-82M |
+| kokoro-onnx (MIT), runs Kokoro locally | https://github.com/thewh1teagle/kokoro-onnx |
+| claude-motion sfx kit (MIT), procedural film score | https://github.com/whaleyxbt/claude-motion |
+| Claude Code (Anthropic), SI coding and writing assistant | https://www.anthropic.com/claude-code |
+| FFmpeg, film encoding | https://ffmpeg.org |
+| Playwright, testing and frame capture | https://playwright.dev |
+| axe-core, accessibility testing | https://github.com/dequelabs/axe-core |
+| Vitest, unit tests | https://vitest.dev |
+| Vercel, hosting | https://vercel.com |
+| Space Apps challenge Resources tab | https://www.spaceappschallenge.org/2026/challenges/nasas-discarded-equipment-storytelling/?tab=resources |
 
-## Use of artificial intelligence
+## Use of Super Intelligence (SI)
+
+**Select (all that apply):** the options for **code**, **text / writing**, and **audio / voice**. Not images, not
+video generation, not data (the film's pictures are rendered by the project's own code; images and the 3D model are
+NASA's; data is NASA's traverse table). If the list has a "research / summarising sources" option, select it too.
+
+Where the indicators are (visible to judges): the film carries a visible watermark for its whole length,
+"SI-generated voice-over · SI-assisted code" (also on /film); the mp4 and m4a carry an SI disclosure in their
+metadata; the code is disclosed in the README, `package.json` and an `ai-disclosure` meta tag; the site's /about page
+says so; full table in docs/AI_DISCLOSURE.md.
+
+If the form also has a text box:
 
 Claude Code (Claude Opus 5.5, Anthropic) was used as a coding and writing assistant throughout. Two Claude Code skills
 were used as well: `impeccable` for design review and accessibility audit, and `teardown` for the frame-capture
-tooling and the procedural sound kit. AI helped write the code and draft the text, always from NASA, JPL or NSSDCA
-pages that were opened and quoted first; a content lint and a source checker verify it.
-
-AI did not produce any data, image or 3D model. Every rover position comes from the traverse table, every image is a
-NASA image with its credit, and the rover is NASA's own model. The film's music is synthesised by code, and its
-English voice-over is a synthetic voice (Kokoro-82M, an open-weight text-to-speech model run on the author's laptop),
-reading a script built from the site's sourced facts. The site has no AI chatbot. Details: https://github.com/hoanganh-repogit/Nasa-Challenge/blob/main/docs/AI_DISCLOSURE.md
+tooling and the procedural sound kit. SI helped write the code and draft the text, always from NASA, JPL or NSSDCA
+pages that were opened and quoted first; a content lint and a source checker verify it. The film's English
+voice-over is SI-generated (Kokoro-82M, an open-weight text-to-speech model run on the author's laptop) and marked by
+a visible watermark and file metadata. SI did not produce any data, image or 3D model, and no NASA logo or insignia is
+used. The site has no chatbot. Details: https://github.com/hoanganh-repogit/Nasa-Challenge/blob/main/docs/AI_DISCLOSURE.md
 
 ## References
 
