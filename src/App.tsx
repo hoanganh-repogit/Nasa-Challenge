@@ -44,12 +44,14 @@ if (!spaNavigated && /^#stop-\d+$/.test(location.hash) && !params.has('shot')) {
 const NUM = new Intl.NumberFormat('en-US')
 
 /** The opening's number counts up from the design life to the real one, once per showing. */
-function CountUp({ from, to, ms, reduced }: { from: number; to: number; ms: number; reduced: boolean }) {
+function CountUp({ from, to, ms, reduced, suffix = '' }: { from: number; to: number; ms: number; reduced: boolean; suffix?: string }) {
   const ref = useRef<HTMLSpanElement>(null)
   useEffect(() => {
     if (reduced) return
     let raf = 0
-    const t0 = performance.now() + 450
+    let t0 = Infinity
+    // start once the web font is in, so the swap from the fallback font never lands mid-count
+    document.fonts.ready.then(() => { t0 = performance.now() + 250 })
     const tick = (t: number) => {
       const k = Math.min(1, Math.max(0, (t - t0) / ms))
       const e = k >= 1 ? 1 : 1 - Math.pow(2, -10 * k)
@@ -61,8 +63,13 @@ function CountUp({ from, to, ms, reduced }: { from: number; to: number; ms: numb
   }, [from, to, ms, reduced])
   return (
     <>
-      <span ref={ref} className="countup" aria-hidden="true">{NUM.format(reduced ? to : from)}</span>
-      <span className="sr-only">{NUM.format(to)}</span>
+      {/* invisible stand-ins reserve the widest number this can show, so counting never re-wraps the headline;
+          the live number and its full stop sit left-aligned on top */}
+      <span className="countup" aria-hidden="true">
+        {['8,888', '0,000', '4,444', '9,999', NUM.format(to)].map((g) => <span key={g} className="countup__ghost">{g}{suffix}</span>)}
+        <span className="countup__live"><span ref={ref}>{NUM.format(reduced ? to : from)}</span>{suffix}</span>
+      </span>
+      <span className="sr-only">{NUM.format(to)}{suffix}</span>
     </>
   )
 }
@@ -299,7 +306,7 @@ export default function App() {
           <section className="lead" aria-labelledby="title">
             <h1 id="title">
               Built for 90 sols.
-              <span className="lead__amber">It kept going for <CountUp from={90} to={5111} ms={1900} reduced={reduced} />.</span>
+              <span className="lead__amber">It kept going for <CountUp from={90} to={5111} ms={1900} reduced={reduced} suffix="." /></span>
             </h1>
             <p className="lead__body">
               Follow NASA's Opportunity rover along its real recorded route across Meridiani Planum, Mars, and meet the

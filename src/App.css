@@ -44,6 +44,10 @@
   text-wrap: balance;
 }
 .lead__amber { display: block; color: var(--tungsten); }
+@media (min-width: 721px) { .lead__amber { white-space: nowrap; } }
+.countup { display: inline-grid; justify-items: start; }
+.countup > * { grid-area: 1 / 1; white-space: nowrap; }
+.countup__ghost { visibility: hidden; }
 .lead__body {
   margin: 0 0 1.9rem;
   max-width: 30rem;
