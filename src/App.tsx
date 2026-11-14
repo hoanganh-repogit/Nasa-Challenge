@@ -429,7 +429,13 @@ export default function App() {
                   <span className="lbl-long">Back to the start</span><span className="lbl-short" hidden>Home</span>
                 </button>
               )}
-              <button type="button" className="band__btn" aria-pressed={reduced} onClick={() => setReducedMotion(!reduced)}>Reduce motion</button>
+              <button
+                type="button" className="band__btn" aria-pressed={reduced} aria-label="Reduce motion"
+                title={reduced ? 'Camera moves are cut and the sky is still. Click to turn motion back on.' : 'Cut camera moves and stop the sky'}
+                onClick={() => setReducedMotion(!reduced)}
+              >
+                {reduced ? 'Motion off' : 'Reduce motion'}
+              </button>
               <button type="button" className="band__btn" onClick={() => setMode('static')}>Static view</button>
             </div>
           </div>

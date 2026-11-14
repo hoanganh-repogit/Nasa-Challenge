@@ -5,6 +5,13 @@ const KEY = 'eoc-motion' // 'reduce' | 'full'
 const EVT = 'eoc-motion'
 const query = () => (typeof matchMedia === 'function' ? matchMedia('(prefers-reduced-motion: reduce)') : null)
 
+// ?motion=on / ?motion=off in the URL sets the choice (handy when a remembered setting surprises someone)
+try {
+  const q = new URLSearchParams(location.search).get('motion')
+  if (q === 'on') localStorage.setItem(KEY, 'full')
+  if (q === 'off') localStorage.setItem(KEY, 'reduce')
+} catch { /* storage blocked */ }
+
 export function reducedMotionNow(): boolean {
   try {
     const v = localStorage.getItem(KEY)
