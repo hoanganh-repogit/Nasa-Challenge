@@ -2,6 +2,21 @@
 
 **Built for 90 sols. It kept going for 5,111.**
 
+<p align="center">
+  <a href="https://echoes-of-the-cosmos-2026.vercel.app/film/echoes-of-the-cosmos-30s.mp4">
+    <img src="docs/media/film-preview.webp" width="800" alt="The 30-second film: Opportunity's light trail across Meridiani Planum, the rover's arm light-painted at Esperance, the 2018 dust storm, and the whole route seen from above.">
+  </a>
+</p>
+
+<p align="center">
+  <a href="https://echoes-of-the-cosmos-2026.vercel.app/film/echoes-of-the-cosmos-30s.mp4"><b>Watch the 30-second film</b></a>
+  (English voice-over and captions) ·
+  <a href="public/film/echoes-of-the-cosmos-30s.mp4">mp4 in this repo</a> ·
+  <a href="film/captions.srt">captions (.srt)</a>
+</p>
+
+<p align="center"><sub>The preview above is silent; the film has sound. The voice is synthetic (see <a href="docs/AI_DISCLOSURE.md">AI disclosure</a>).</sub></p>
+
 An educational, story-driven web replay of NASA's Opportunity rover, made for the NASA Space Apps Challenge 2026
 challenge *Abandoned but not Forgotten: Storytelling about NASA's Discarded Equipment on the Moon and Mars*.
 
