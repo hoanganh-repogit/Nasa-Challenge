@@ -17,11 +17,12 @@ export interface StageState {
   skyAngle: number
   /** 0..1 dims the route while a card or instrument view needs attention */
   trailIntensity: number
+  fog: number
 }
 
-interface ShotDef { target?: number[]; az: number; el: number; dist: number; fov: number; exaggeration: number; studio: number; durationMs?: number }
+interface ShotDef { target?: number[]; az: number; el: number; dist: number; fov: number; exaggeration: number; studio: number; durationMs?: number; fog?: number }
 
-export interface Shot { key: string; sol: number; pose: CamPose; exaggeration: number; studio: number; durationMs: number; follow: boolean }
+export interface Shot { key: string; sol: number; pose: CamPose; exaggeration: number; studio: number; durationMs: number; follow: boolean; fog: number }
 
 const OPENING_SOL = 5111
 
@@ -30,7 +31,7 @@ export function buildShots(replay: Replay): { opening: Shot; stops: Shot[] } {
     const at = replay.positionAt(sol)
     const [tx, tz] = def.target ? [def.target[0], def.target[1]] : [at.x / 1000, -at.y / 1000]
     return {
-      key, sol, exaggeration: def.exaggeration, studio: def.studio, durationMs: def.durationMs ?? 3000, follow: !def.target,
+      key, sol, exaggeration: def.exaggeration, studio: def.studio, durationMs: def.durationMs ?? 3000, follow: !def.target, fog: def.fog ?? 0.035,
       pose: { tx, tz, az: def.az, el: def.el, dist: def.dist, fov: def.fov },
     }
   }
@@ -83,6 +84,7 @@ export function stateAt(tr: Transition, now: number, replay: Replay, skyAngle: n
     studio: lerp(from.studio, to.studio, Math.min(1, raw * 2.2)),
     skyAngle,
     trailIntensity: 1,
+    fog: lerp(from.fog, to.fog, k),
   }
 }
 

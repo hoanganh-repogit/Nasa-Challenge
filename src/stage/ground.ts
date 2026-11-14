@@ -2,7 +2,8 @@
 // darkened to a night exposure, edges fading into a plain dark plain. It is a flat plane, not terrain.
 import * as THREE from 'three'
 import type { BasemapTransform } from '../data/types'
-import { PALETTE, pixelToMeters, toScene } from './world'
+import { pixelToMeters } from '../engine/basemap'
+import { PALETTE, toScene } from './world'
 
 const vert = /* glsl */ `
 #include <common>

@@ -15,8 +15,8 @@ export const NIGHT = {
   envIntensity: 0.6,
 }
 
-/** Model axis that points forward (direction of travel). Checked by eye against the mast/arm. */
-const FORWARD_YAW = 0
+/** glTF assets face +Z; yaw = PI - compass heading turns +Z towards the direction of travel. */
+const FORWARD_YAW = Math.PI
 
 export type PartGroup = { name: string; meshes: THREE.Mesh[] }
 

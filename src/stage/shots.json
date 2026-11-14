@@ -10,13 +10,14 @@
     "dist": 20,
     "fov": 40,
     "exaggeration": 0,
-    "studio": 1
+    "studio": 1,
+    "fog": 0.035
   },
   "stops": {
     "evt-landing": {
       "az": 330,
-      "el": 26,
-      "dist": 0.9,
+      "el": 48,
+      "dist": 1.3,
       "fov": 34,
       "exaggeration": 70,
       "studio": 0,
@@ -24,8 +25,8 @@
     },
     "evt-wet-meridiani": {
       "az": 300,
-      "el": 30,
-      "dist": 0.8,
+      "el": 50,
+      "dist": 1.2,
       "fov": 34,
       "exaggeration": 70,
       "studio": 0,
@@ -33,8 +34,8 @@
     },
     "evt-purgatory": {
       "az": 20,
-      "el": 32,
-      "dist": 0.9,
+      "el": 52,
+      "dist": 1.3,
       "fov": 34,
       "exaggeration": 70,
       "studio": 0,
@@ -42,8 +43,8 @@
     },
     "evt-victoria": {
       "az": 340,
-      "el": 34,
-      "dist": 2.0,
+      "el": 50,
+      "dist": 2.4,
       "fov": 36,
       "exaggeration": 90,
       "studio": 0,
@@ -51,8 +52,8 @@
     },
     "evt-endeavour": {
       "az": 315,
-      "el": 22,
-      "dist": 3.4,
+      "el": 30,
+      "dist": 3.6,
       "fov": 38,
       "exaggeration": 110,
       "studio": 0,
@@ -60,8 +61,8 @@
     },
     "evt-esperance": {
       "az": 250,
-      "el": 26,
-      "dist": 1.4,
+      "el": 44,
+      "dist": 1.8,
       "fov": 36,
       "exaggeration": 80,
       "studio": 0,
@@ -69,8 +70,8 @@
     },
     "evt-last-contact": {
       "az": 200,
-      "el": 18,
-      "dist": 2.0,
+      "el": 34,
+      "dist": 2.4,
       "fov": 36,
       "exaggeration": 90,
       "studio": 0,
@@ -78,16 +79,17 @@
     },
     "evt-end-of-mission": {
       "target": [
-        5.2,
-        11.3
+        4.4,
+        8.6
       ],
-      "az": 320,
-      "el": 34,
-      "dist": 30,
+      "az": 330,
+      "el": 66,
+      "dist": 44,
       "fov": 40,
       "exaggeration": 0,
       "studio": 0,
-      "durationMs": 4200
+      "durationMs": 4200,
+      "fog": 0.008
     }
   }
 }

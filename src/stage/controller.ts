@@ -44,7 +44,7 @@ export class StageController {
     const now = performance.now()
     // start from wherever the camera is now, so an interrupted flight never jumps
     const cur = stateAt(this.tr, now, this.assets.replay, this.skyAngle)
-    const from: Shot = { ...this.tr.to, key: this.currentKeyFor(now), sol: cur.sol, pose: cur.cam, exaggeration: cur.exaggeration, studio: cur.studio }
+    const from: Shot = { ...this.tr.to, key: this.currentKeyFor(now), sol: cur.sol, pose: cur.cam, exaggeration: cur.exaggeration, studio: cur.studio, fog: cur.fog }
     const cut = instant || this.opts.reducedMotion
     this.tr = { from, to, start: now, duration: cut ? 0 : to.durationMs, instant: cut }
     this.settledKey = ''

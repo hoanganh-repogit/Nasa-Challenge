@@ -47,7 +47,8 @@ export function createMissionStage(canvas: HTMLCanvasElement, assets: StageAsset
 
   const { replay } = assets
   const world = new THREE.Scene()
-  world.fog = new THREE.FogExp2(0x262a44, 0.035)
+  const fog = new THREE.FogExp2(0x262a44, 0.035)
+  world.fog = fog
   const camera = new THREE.PerspectiveCamera(40, 16 / 9, 0.0005, 3000)
 
   const ground = createGround(assets.traverse.basemapTransform, assets.basemap)
@@ -109,6 +110,7 @@ export function createMissionStage(canvas: HTMLCanvasElement, assets: StageAsset
   }
 
   function render(s: StageState) {
+    fog.density = s.fog
     const fix = replay.positionAt(s.sol)
     trail.update(fix)
     trail.setIntensity(s.trailIntensity)
