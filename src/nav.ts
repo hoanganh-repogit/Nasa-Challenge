@@ -27,3 +27,4 @@ export function usePath() {
   return path
 }
 export const isAboutPath = (p: string) => /^\/about\/?$/.test(p)
+export const isFilmPath = (p: string) => /^\/film\/?$/.test(p)

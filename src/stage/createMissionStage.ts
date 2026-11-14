@@ -38,6 +38,8 @@ export interface MissionStage {
   warm(states: StageState[]): Promise<void>
   /** Light-paint one part of the studio rover (null = none). Shows while state.inset > 0. */
   selectPart(id: string | null, now: number, instant?: boolean): void
+  /** Film: light-paint `id` as if chosen at `start` (ms), independent of earlier frames. */
+  paintAt(id: string | null, start: number): void
   /** true once the light has stopped on the selected part */
   partReady(now: number): boolean
   /** Screen position (CSS px) of the selected part's leader-line anchor, from the last frame. */
@@ -205,6 +207,7 @@ export function createMissionStage(canvas: HTMLCanvasElement, assets: StageAsset
   return {
     render, resize, warm,
     selectPart(id, now, instant = false) { paint.select(id, now, instant) },
+    paintAt(id, start) { paint.seekTo(id, start) },
     partReady(now) { return paint.ready(now) },
     anchorScreen(out) {
       if (!studioPass.enabled || !paint.anchor(paint.selected, anchor)) return false

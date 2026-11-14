@@ -1,6 +1,7 @@
 {
   "rewrites": [
     { "source": "/rover", "destination": "/index.html" },
-    { "source": "/about", "destination": "/index.html" }
+    { "source": "/about", "destination": "/index.html" },
+    { "source": "/film", "destination": "/index.html" }
   ]
 }

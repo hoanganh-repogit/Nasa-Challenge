@@ -135,6 +135,20 @@ export class LightPaint {
     }
   }
 
+  /**
+   * Film: the state as if `id` had been chosen at `start` from a clean, unlit rover, whatever was drawn before.
+   * Makes every frame a pure function of time, so frames can be rendered in any order.
+   */
+  seekTo(id: string | null, start: number) {
+    for (const e of this.entries) { e.f = e.f0 = 1; e.g = e.g0 = 0; e.o = e.o0 = 0 }
+    this.spotI = this.spotI0 = 0
+    this.roomNow = this.room0 = 1
+    this.pose0 = this.poseFor(null)
+    this.poseNow = { ...this.pose0, target: this.pose0.target.clone() }
+    this.sel = id
+    this.start = start
+  }
+
   /** True once the sweep has stopped: the caption may show. */
   ready(now: number) { return now - this.start >= T_READY }
 

@@ -1,0 +1,24 @@
+{
+  "_note": "The 30 s film, in seconds. src/film/script.ts draws from it and film/score.py scores it, so picture and sound share one clock.",
+  "duration": 30,
+  "fps": 60,
+  "scenes": {
+    "opening": [0, 4],
+    "dive": [4, 5.6],
+    "drive": [5.6, 9.6],
+    "purgatory": [9.6, 12],
+    "toEsperance": [12, 14],
+    "esperance": [14, 20],
+    "toSilence": [20, 22.4],
+    "silence": [22.4, 26],
+    "rise": [26, 28.6],
+    "legacy": [28.6, 30]
+  },
+  "beats": {
+    "count": [0.8, 3.0],
+    "paint": 14.6,
+    "lit": 15.9,
+    "dust": 21.0,
+    "title": 27.6
+  }
+}
