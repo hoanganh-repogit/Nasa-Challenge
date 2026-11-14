@@ -109,5 +109,6 @@ Film: `npm run build && npx vite preview --port 5181`, then
 ## How this was built
 
 Built solo during the hackathon (14–15 Nov 2026). Research and planning done before the event (source checks, data
-report, design brief) live in a separate repository and contain no product code; all code here was written during
-the hackathon. AI assistance is described in [docs/AI_DISCLOSURE.md](docs/AI_DISCLOSURE.md).
+report, design brief) are public in a separate repository,
+[echoes-of-the-cosmos-research](https://github.com/hoanganh-repogit/echoes-of-the-cosmos-research), with the build log;
+it contains no product code. All code here was written during the hackathon. AI assistance is described in [docs/AI_DISCLOSURE.md](docs/AI_DISCLOSURE.md).
