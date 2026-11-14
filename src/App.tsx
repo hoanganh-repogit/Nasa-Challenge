@@ -11,6 +11,7 @@ import { Icon } from './ui/Icon'
 import { LegacyPanel } from './ui/LegacyPanel'
 import { PartCaption } from './ui/PartCaption'
 import { navigate, spaNavigated } from './nav'
+import { reducedMotionNow, setReducedMotion, useReducedMotion } from './motion'
 import { StaticView } from './ui/StaticView'
 
 const params = new URLSearchParams(location.search)
@@ -43,8 +44,7 @@ if (!spaNavigated && /^#stop-\d+$/.test(location.hash) && !params.has('shot')) {
 const NUM = new Intl.NumberFormat('en-US')
 
 /** The opening's number counts up from the design life to the real one, once per showing. */
-function CountUp({ from, to, ms }: { from: number; to: number; ms: number }) {
-  const reduced = typeof matchMedia === 'function' && matchMedia('(prefers-reduced-motion: reduce)').matches
+function CountUp({ from, to, ms, reduced }: { from: number; to: number; ms: number; reduced: boolean }) {
   const ref = useRef<HTMLSpanElement>(null)
   useEffect(() => {
     if (reduced) return
@@ -117,6 +117,8 @@ export default function App() {
     ctrlRef.current?.showPart(null)
     if (refocus) requestAnimationFrame(() => document.querySelector<HTMLButtonElement>('.btn--part')?.focus())
   }, [])
+  const reduced = useReducedMotion()
+  useEffect(() => { ctrlRef.current?.setReducedMotion(reduced) }, [reduced, ready])
   const [mode, setMode] = useState<'stage' | 'static'>(!hasWebGL || params.has('static') ? 'static' : 'stage')
 
   /**
@@ -146,7 +148,7 @@ export default function App() {
   useEffect(() => {
     if (mode !== 'stage') return
     let disposed = false
-    const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches
+    const reduced = reducedMotionNow()
     const q = (params.get('tier') as Quality) || 'mid'
     let lastSol = -1, lastKm = -1, lastProv = ''
     const pt = { x: 0, y: 0 }
@@ -172,7 +174,7 @@ export default function App() {
             line.parentElement!.parentElement!.style.opacity = ok ? '1' : '0'
             if (ok) {
               const wide = innerWidth / innerHeight > 1.05
-              const lx = pt.x + (wide ? 90 : -40), ly = pt.y - (wide ? 120 : 90)
+              const lx = pt.x + (wide ? 90 : -40), ly = pt.y - (wide ? 120 : 64)
               line.setAttribute('x1', String(pt.x)); line.setAttribute('y1', String(pt.y))
               line.setAttribute('x2', String(lx)); line.setAttribute('y2', String(ly))
               label.style.transform = `translate(${lx}px, ${ly}px)`
@@ -297,19 +299,21 @@ export default function App() {
           <section className="lead" aria-labelledby="title">
             <h1 id="title">
               Built for 90 sols.
-              <span className="lead__amber">It kept going for <CountUp from={90} to={5111} ms={1900} />.</span>
+              <span className="lead__amber">It kept going for <CountUp from={90} to={5111} ms={1900} reduced={reduced} />.</span>
             </h1>
             <p className="lead__body">
               Follow NASA's Opportunity rover along its real recorded route across Meridiani Planum, Mars, and meet the
               instruments behind each discovery.
             </p>
-            <button type="button" className="btn btn--primary" onClick={() => go(0)} disabled={!ready}>
-              {ready ? 'Start the journey' : 'Loading the route'}
-              <Icon name="next" />
-            </button>
-            <a className="btn btn--ghost lead__rover" href="/rover" onClick={toPage('/rover')}>
-              Meet the rover
-            </a>
+            <div className="lead__actions">
+              <button type="button" className="btn btn--primary" onClick={() => go(0)} disabled={!ready}>
+                {ready ? 'Start the journey' : 'Loading the route'}
+                <Icon name="next" />
+              </button>
+              <a className="btn btn--ghost lead__rover" href="/rover" onClick={toPage('/rover')}>
+                Meet the rover
+              </a>
+            </div>
           </section>
         )}
 
@@ -400,7 +404,7 @@ export default function App() {
           {openP && <span>Lighting is illustrative · Model: NASA/JPL-Caltech</span>}
           {ev?.id === 'evt-last-contact' && !openP && <span>Dust storm is illustrative</span>}
           {journey && <span>Rover not to scale · Flat plane, no terrain height</span>}
-          {journey && <span>Route aligned to NASA map by a 2-point fit; offsets up to ~0.5 km.</span>}
+          {journey && <span className="labels__long">Route aligned to NASA map by a 2-point fit; offsets up to ~0.5 km.</span>}
         </aside>
 
         <footer className="band caption">
@@ -421,8 +425,11 @@ export default function App() {
             )}
             <div className="band__btns">
               {journey && (
-                <button type="button" className="band__btn" onClick={goHome} aria-keyshortcuts="Home">Back to the start</button>
+                <button type="button" className="band__btn" onClick={goHome} aria-keyshortcuts="Home" aria-label="Back to the start">
+                  <span className="lbl-long">Back to the start</span><span className="lbl-short" hidden>Home</span>
+                </button>
               )}
+              <button type="button" className="band__btn" aria-pressed={reduced} onClick={() => setReducedMotion(!reduced)}>Reduce motion</button>
               <button type="button" className="band__btn" onClick={() => setMode('static')}>Static view</button>
             </div>
           </div>

@@ -1,0 +1,159 @@
+{
+  "schemaVersion": 2,
+  "generatedAt": "2026-11-14T10:28:40.937Z",
+  "title": "Design System: Echoes of the Cosmos",
+  "extensions": {
+    "colorMeta": {
+      "night": {
+        "role": "neutral",
+        "displayName": "Night",
+        "canonical": "#0b1020"
+      },
+      "dusk": {
+        "role": "neutral",
+        "displayName": "Dusk",
+        "canonical": "#1f2a4d"
+      },
+      "ground": {
+        "role": "neutral",
+        "displayName": "Ground",
+        "canonical": "#5a3a2a"
+      },
+      "tungsten": {
+        "role": "primary",
+        "displayName": "Tungsten",
+        "canonical": "#f2a65a"
+      },
+      "star": {
+        "role": "neutral",
+        "displayName": "Star",
+        "canonical": "#eef1f6"
+      },
+      "star-dim": {
+        "role": "neutral",
+        "displayName": "Star Dim",
+        "canonical": "#b3bccd"
+      },
+      "print": {
+        "role": "neutral",
+        "displayName": "Print",
+        "canonical": "#f6f1e7"
+      },
+      "print-ink": {
+        "role": "neutral",
+        "displayName": "Print Ink",
+        "canonical": "#1a1712"
+      }
+    },
+    "typographyMeta": {
+      "display": {
+        "displayName": "Display",
+        "purpose": "Opening headline only."
+      },
+      "headline": {
+        "displayName": "Headline",
+        "purpose": "Stop question, part name, Legacy title."
+      },
+      "title": {
+        "displayName": "Title",
+        "purpose": "One-line finding."
+      },
+      "body": {
+        "displayName": "Body",
+        "purpose": "Leads, cards, captions."
+      },
+      "label": {
+        "displayName": "Label",
+        "purpose": "EXIF band, rail, metadata, honesty labels."
+      }
+    },
+    "shadows": [
+      {
+        "name": "print",
+        "value": "0 24px 60px -20px rgb(0 0 0 / 0.7), 0 2px 6px rgb(0 0 0 / 0.35)",
+        "purpose": "The developed print on the night."
+      },
+      {
+        "name": "lamp",
+        "value": "0 10px 30px -12px color-mix(in oklab, #f2a65a 60%, transparent)",
+        "purpose": "Primary button spill."
+      },
+      {
+        "name": "marker",
+        "value": "0 0 10px 1px color-mix(in oklab, #f2a65a 70%, transparent)",
+        "purpose": "Point of light on the sol axis."
+      }
+    ],
+    "motion": [
+      {
+        "name": "ease-out",
+        "value": "cubic-bezier(0.16, 1, 0.3, 1)",
+        "purpose": "All UI transitions."
+      },
+      {
+        "name": "light-paint",
+        "value": "dim 400ms, sweep 900ms, caption after",
+        "purpose": "Signature part reveal."
+      },
+      {
+        "name": "print-in",
+        "value": "520ms",
+        "purpose": "Evidence print develops in."
+      }
+    ],
+    "breakpoints": [
+      {
+        "name": "phone",
+        "value": "720px"
+      }
+    ]
+  },
+  "components": [
+    {
+      "name": "Primary Button",
+      "kind": "button",
+      "refersTo": "button-primary",
+      "description": "Start the journey. One per screen.",
+      "html": "<button class=\"ds-btn\">Start the journey</button>",
+      "css": ".ds-btn{background:#f2a65a;color:#0b1020;border:0;border-radius:999px;padding:.95rem 1.7rem;font:600 1.25rem/1 system-ui;box-shadow:0 10px 30px -12px #f2a65a99}"
+    }
+  ],
+  "narrative": {
+    "northStar": "Night Exposure",
+    "overview": "The whole mission is one long photograph: a tungsten light trail across a darkened orbital map, under turning star arcs, with NASA's rover lit by hand. Photographic, not sci-fi.",
+    "keyCharacteristics": [
+      "One dark field, one warm light",
+      "Real data drawn as light; illustration labelled",
+      "EXIF-style captions",
+      "Evidence as warm-white prints",
+      "Light-paint reveal"
+    ],
+    "rules": [
+      {
+        "name": "The One Light Rule",
+        "body": "Tungsten only for what moves or is selected.",
+        "section": "colors"
+      },
+      {
+        "name": "The No Eyebrow Rule",
+        "body": "Nothing above a heading.",
+        "section": "typography"
+      },
+      {
+        "name": "The Veil Rule",
+        "body": "Dim the map with the veil, never blur.",
+        "section": "elevation"
+      }
+    ],
+    "dos": [
+      "Keep the honesty labels visible, phones included",
+      "Credit every image and source every fact",
+      "Stop the sky while reading"
+    ],
+    "donts": [
+      "No tungsten decoration",
+      "No NASA/JPL logos or HUD styling",
+      "No dramatization without its label"
+    ]
+  }
+}

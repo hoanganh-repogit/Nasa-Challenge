@@ -67,7 +67,8 @@
 }
 .btn:active { transform: translateY(1px); }
 a.btn { text-decoration: none; }
-.lead__rover { margin-left: 0.75rem; min-height: 3.4rem; padding-inline: 1.5rem; vertical-align: top; }
+.lead__actions { display: flex; flex-wrap: wrap; gap: 0.75rem; align-items: center; }
+.lead__rover { min-height: 3.4rem; padding-inline: 1.5rem; }
 .static__part { margin: 0 0 1.25rem; }
 .btn:disabled { cursor: progress; opacity: 0.7; }
 .btn svg { transition: transform 220ms var(--ease-out); }
@@ -276,9 +277,11 @@ a.btn { text-decoration: none; }
 .print__quote blockquote p::before { content: '“'; }
 .print__quote blockquote p::after { content: '”'; }
 .print__quote figcaption { font-size: 0.8rem; color: color-mix(in oklab, var(--print-ink) 72%, var(--print)); }
-.print__faq details { border-top: 1px solid color-mix(in oklab, var(--print-ink) 16%, transparent); padding: 0.55rem 0; }
+.print__faq details { border-top: 1px solid color-mix(in oklab, var(--print-ink) 16%, transparent); padding: 0 0 0.2rem; }
 .print__faq details:last-child { border-bottom: 1px solid color-mix(in oklab, var(--print-ink) 16%, transparent); }
-.print__faq summary { cursor: pointer; font-weight: 600; font-size: 0.95rem; }
+.print__faq summary { cursor: pointer; font-weight: 600; font-size: 0.95rem; padding: 0.55rem 0; min-height: 2.75rem; display: flex; align-items: center; }
+.print__fallback { display: none; }
+.print__missing .print__fallback { display: block; font-style: normal; }
 .print__faq details p { margin: 0.45rem 0 0; }
 .print__cite { font-size: 0.75rem !important; color: color-mix(in oklab, var(--print-ink) 70%, var(--print)); }
 .print__sources { margin: 0; padding-left: 1.1rem; font-size: 0.8rem; line-height: 1.45; }
@@ -341,7 +344,9 @@ a.btn { text-decoration: none; }
   cursor: pointer;
 }
 .band__btn:hover { border-bottom-color: var(--tungsten); }
-.band__btns { flex: none; display: flex; gap: 1.6rem; }
+.band__btns { flex: none; display: flex; flex-wrap: wrap; gap: 0.3rem 1.6rem; }
+.lbl-short { display: none; }
+.band__btn[aria-pressed='true'] { color: var(--tungsten); border-bottom-color: var(--tungsten); }
 
 .fps {
   position: fixed;
@@ -415,6 +420,9 @@ a.btn { text-decoration: none; }
 .legacy__wanted q { quotes: '“' '”'; }
 .legacy__cite { margin: 0.35rem 0 0 !important; font-size: 0.72rem; line-height: 1.5; color: var(--star-dim); }
 .legacy__stop {
+  display: inline-flex;
+  align-items: center;
+  min-height: 24px;
   padding: 0;
   background: none;
   border: 0;
@@ -545,6 +553,12 @@ a.btn { text-decoration: none; }
   .ui[data-phase='journey'] { --band-h: 7.6rem; }
   .ui[data-phase='journey'] .band__row { flex-wrap: wrap; row-gap: 0.35rem; }
   .ui[data-phase='journey'] .band__live { flex: 1 1 100%; }
+  .band__row { flex-wrap: wrap; row-gap: 0.35rem; }
+  .band__live, .band__exif { flex: 1 1 100%; }
+  .band__exif { gap: 0.1rem 1.1rem !important; }
+  .ui[data-phase='opening'] { --band-h: 8.6rem; }
+  .band__btns { flex: 1 1 100%; gap: 0.3rem 1rem; }
+  .band__btn { letter-spacing: 0.04em; }
   .print__lead { display: block; }
   .lead h1 { font-size: clamp(2.1rem, 9vw, 2.8rem); }
   .stop { right: var(--gutter); width: auto; bottom: calc(var(--band-h) + 0.9rem); }
@@ -552,7 +566,18 @@ a.btn { text-decoration: none; }
   .stop__finding { font-size: 1.05rem; margin-bottom: 0.9rem; }
   .stop__q { font-size: 1.6rem; }
   .print { inset: 0; width: auto; border-radius: 0; z-index: 5; }
-  .labels { display: none; }
+  /* the honesty labels stay on phones: tiny lines under the chapter rail (journey) or above the band (opening) */
+  .labels, .ui[data-phase='opening'] .labels, .ui[data-phase='journey'] .labels {
+    left: var(--gutter); right: var(--gutter); max-width: none;
+    justify-items: start; text-align: left;
+    font-size: 0.56rem; letter-spacing: 0.06em; gap: 0;
+  }
+  .ui[data-phase='opening'] .labels { bottom: calc(var(--band-h) + 0.35rem); }
+  .ui[data-phase='journey'] .labels { top: 5.9rem; bottom: auto; }
+  @media (max-width: 380px) { .ui[data-phase='journey'] .labels { top: 6.6rem; } }
+  .labels__long { display: none; }
+  .lbl-long { display: none; }
+  .lbl-short { display: inline !important; }
   .rail__chapter { font-size: 0.62rem; letter-spacing: 0.06em; }
   }
 

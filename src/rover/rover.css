@@ -1,10 +1,9 @@
 /* /rover: the model alone in the dark, a part list on the left, the lit part on the right */
 .rv-stage { cursor: grab; touch-action: pan-y; }
 .rv-stage:active { cursor: grabbing; }
+.rv__nav { position: absolute; top: clamp(0.4rem, 2vh, 1.1rem); left: var(--gutter); }
 .rv__home {
-  position: absolute;
-  top: clamp(0.9rem, 3vh, 1.6rem);
-  left: var(--gutter);
+  min-height: 44px;
   display: inline-flex;
   align-items: center;
   gap: 0.45rem;

@@ -25,6 +25,8 @@ html { scrollbar-color: var(--dusk) var(--night); }
   font-variant-numeric: tabular-nums;
   color: var(--star-dim);
 }
+/* reduced motion: the system setting, or the on-screen toggle (html[data-motion]) */
 @media (prefers-reduced-motion: reduce) {
-  *, *::before, *::after { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; }
+  html:not([data-motion='full']) *, html:not([data-motion='full']) *::before, html:not([data-motion='full']) *::after { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; }
 }
+html[data-motion='reduce'] *, html[data-motion='reduce'] *::before, html[data-motion='reduce'] *::after { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; }

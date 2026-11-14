@@ -25,10 +25,12 @@ export default function AboutPage() {
 
   return (
     <main className="about">
-      <a className="about__home caption" href="/" onClick={link('/')}>
-        <Icon name="prev" size={16} />
-        The journey
-      </a>
+      <nav aria-label="Site">
+        <a className="about__home caption" href="/" onClick={link('/')}>
+          <Icon name="prev" size={16} />
+          The journey
+        </a>
+      </nav>
 
       <h1>How this was made</h1>
       <p className="about__lede">

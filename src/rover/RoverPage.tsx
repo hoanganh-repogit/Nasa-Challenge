@@ -3,6 +3,7 @@ import '../App.css'
 import './rover.css'
 import { PART_BY_ID, PARTS, stopsForPart } from '../content'
 import { navigate } from '../nav'
+import { reducedMotionNow, useReducedMotion } from '../motion'
 import { Icon } from '../ui/Icon'
 import { PartCaption } from '../ui/PartCaption'
 import type { RoverStage } from './createRoverStage'
@@ -34,7 +35,13 @@ export default function RoverPage() {
   const [lit, setLit] = useState(false)
   const [error, setError] = useState<string | null>(null)
   const [touring, setTouring] = useState(false)
-  const reduced = useRef(window.matchMedia('(prefers-reduced-motion: reduce)').matches)
+  const reducedNow = useReducedMotion()
+  const reduced = useRef(reducedMotionNow())
+  useEffect(() => {
+    reduced.current = reducedNow
+    stageRef.current?.setReducedMotion(reducedNow)
+    if (reducedNow) setTouring(false)
+  }, [reducedNow])
   const idleAt = useRef(performance.now())
   const part = sel.part ? PART_BY_ID.get(sel.part) : undefined
   const selRef = useRef(sel)
@@ -151,10 +158,12 @@ export default function RoverPage() {
     <>
       {hasWebGL && <canvas ref={canvasRef} className="stage rv-stage" aria-hidden="true" data-ready={ready} />}
       <div className="ui rv">
-        <a className="rv__home caption" href="/" onClick={(e) => { e.preventDefault(); navigate('/') }}>
-          <Icon name="prev" size={16} />
-          The journey
-        </a>
+        <nav className="rv__nav" aria-label="Site">
+          <a className="rv__home caption" href="/" onClick={(e) => { e.preventDefault(); navigate('/') }}>
+            <Icon name="prev" size={16} />
+            The journey
+          </a>
+        </nav>
         <section className="rv__col" aria-labelledby="rv-title">
           <h1 id="rv-title">The rover, part by part</h1>
           <p className="rv__intro">

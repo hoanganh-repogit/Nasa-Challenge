@@ -172,7 +172,8 @@ export function createMissionStage(canvas: HTMLCanvasElement, assets: StageAsset
     placeCamera(studioCam, pose)
     const p = Math.max(s.studio, k)
     const wide = w / h > 1.05
-    const ox0 = -w * (0.3 + (1 - p) * 0.75), oy0 = -h * 0.17
+    // portrait: right foreground on wide screens; lower and more central on phones, under the headline
+    const ox0 = -w * ((wide ? 0.3 : 0.1) + (1 - p) * 0.75), oy0 = wide ? -h * 0.17 : -h * 0.3
     const ox1 = wide ? -w * 0.21 : 0, oy1 = wide ? -h * 0.02 : h * 0.2
     studioCam.setViewOffset(w, h, ox0 + (ox1 - ox0) * k, oy0 + (oy1 - oy0) * k, w, h)
     studioCam.updateProjectionMatrix()

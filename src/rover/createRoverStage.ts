@@ -9,6 +9,7 @@ export interface RoverStage {
   select(id: string | null, instant?: boolean): void
   /** extra turn (degrees) from dragging */
   spin: number
+  setReducedMotion(on: boolean): void
   anchorScreen(out: { x: number; y: number }): boolean
   resize(): void
   dispose(): void
@@ -46,6 +47,7 @@ export function createRoverStage(canvas: HTMLCanvasElement, gltf: GLTF, opts: {
 
   const stage: RoverStage = {
     spin: 0,
+    setReducedMotion(on) { opts.reducedMotion = on },
     select(id, instant = false) {
       paint.select(id, performance.now(), instant || opts.reducedMotion)
       announced = !id

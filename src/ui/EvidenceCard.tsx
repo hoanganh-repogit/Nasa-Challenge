@@ -17,13 +17,13 @@ export function EvidenceCard({ event, onClose, inline = false }: { event: StoryE
   const sources = event.sourceIds.map((id) => SOURCE_BY_ID.get(id)).filter((s) => !!s)
 
   return (
-    <aside className={inline ? 'print print--inline' : 'print'} aria-labelledby={`print-title-${event.id}`}>
+    <aside className={inline ? 'print print--inline' : 'print'} aria-label={`The evidence: ${event.question}`}>
       {!inline && <button type="button" className="print__close" onClick={onClose} aria-label="Close the evidence">
         <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18" /></svg>
       </button>}
       {img && (
         <figure className="print__photo">
-          <img src={img.src} alt={img.alt} />
+          <img src={img.src} alt={img.alt} onError={(e) => { e.currentTarget.style.display = 'none'; e.currentTarget.nextElementSibling?.classList.add('print__missing') }} />
           <figcaption>
             <span className="print__ptitle">{img.title}</span>
             <span>
@@ -32,6 +32,9 @@ export function EvidenceCard({ event, onClose, inline = false }: { event: StoryE
               {img.colour ? ` · ${img.colour}` : ''}
             </span>
             {img.notes && <span className="print__note">{img.notes}</span>}
+            <span className="print__fallback">
+              The picture could not load here. <a href={img.originalUrl} target="_blank" rel="noreferrer">See it on NASA's site</a>
+            </span>
           </figcaption>
         </figure>
       )}
