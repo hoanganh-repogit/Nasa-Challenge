@@ -20,7 +20,7 @@ Solo team · Local event: Ho Chi Minh City, Vietnam (online)
 ## Links
 
 - **Final project (live site):** https://echoes-of-the-cosmos-2026.vercel.app
-- **Demo video (30 s):** _[paste the YouTube / Drive link here]_
+- **Demo video (30 s, English voice-over and captions):** _[paste the YouTube / Drive link here]_
 - **Code repository:** https://github.com/hoanganh-repogit/Nasa-Challenge
 
 ---
@@ -119,8 +119,9 @@ tooling and the procedural sound kit. AI helped write the code and draft the tex
 pages that were opened and quoted first; a content lint and a source checker verify it.
 
 AI did not produce any data, image or 3D model. Every rover position comes from the traverse table, every image is a
-NASA image with its credit, and the rover is NASA's own model. The film's music is synthesised by code. The site has
-no AI chatbot. Details: https://github.com/hoanganh-repogit/Nasa-Challenge/blob/main/docs/AI_DISCLOSURE.md
+NASA image with its credit, and the rover is NASA's own model. The film's music is synthesised by code, and its
+English voice-over is a synthetic voice (Kokoro-82M, an open-weight text-to-speech model run on the author's laptop),
+reading a script built from the site's sourced facts. The site has no AI chatbot. Details: https://github.com/hoanganh-repogit/Nasa-Challenge/blob/main/docs/AI_DISCLOSURE.md
 
 ## References
 

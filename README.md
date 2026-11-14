@@ -75,8 +75,10 @@ npm run build && npm run preview
 ```
 
 Film: `npm run build && npx vite preview --port 5181`, then
-`PLAYWRIGHT=<playwright path> node scripts/capture_film.mjs` (frame-by-frame, 60 fps) and the score with
-`python <teardown skill>/run_sfx.py film/score.py`.
+`PLAYWRIGHT=<playwright path> node scripts/capture_film.mjs` (frame-by-frame, 60 fps), the score with
+`python <teardown skill>/run_sfx.py film/score.py`, and the English voice-over and captions with
+`KOKORO_DIR=<model folder> python film/narrate.py` (synthetic voice, Kokoro-82M; see docs/AI_DISCLOSURE.md).
+`film/captions.srt` can be uploaded to YouTube as the caption track.
 
 ## Limitations
 

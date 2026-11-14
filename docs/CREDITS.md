@@ -39,3 +39,5 @@ check dates on https://echoes-of-the-cosmos-2026.vercel.app/about and in `src/co
 - three.js (MIT), React (MIT), Vite (MIT).
 - Film score: synthesised in Python with the sfx kit of the `teardown` skill, which credits
   [whaleyxbt/claude-motion](https://github.com/whaleyxbt/claude-motion) (MIT). No recorded samples are used in the score.
+- Film voice-over: synthetic voice from [Kokoro-82M](https://huggingface.co/hexgrad/Kokoro-82M) (Apache-2.0), voice
+  `af_heart`, run locally through [kokoro-onnx](https://github.com/thewh1teagle/kokoro-onnx) (MIT).

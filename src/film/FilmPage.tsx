@@ -6,6 +6,7 @@ import { flushSync } from 'react-dom'
 import '../App.css'
 import './film.css'
 import type { MissionStage } from '../stage/createMissionStage'
+import captions from '../../film/captions.json'
 import { BEATS, countAt, DURATION, FPS, frameAt, SCENES, show } from './script'
 
 const RENDER = new URLSearchParams(location.search).has('render')
@@ -67,6 +68,8 @@ export default function FilmPage() {
   const [d0, d1] = SCENES.drive
   const readout = Math.max(show(t, d0 + 0.2, d1), show(t, SCENES.toEsperance[0] + 0.1, SCENES.toEsperance[1]), show(t, SCENES.toSilence[0] + 0.1, SCENES.toSilence[1]))
   const esp = SCENES.esperance, sil = SCENES.silence
+  // voice-over captions (film/captions.json, written by film/narrate.py with the voice track)
+  const cap = captions.find((c) => t >= c.start && t < c.end)
 
   return (
     <div className="film">
@@ -122,6 +125,8 @@ export default function FilmPage() {
           <span className="leader__label caption" style={{ transform: `translate(${leader.x + 90}px, ${leader.y - 120}px)` }}>Turret: RAT → APXS</span>
         </div>
       )}
+
+      {cap && <p className="film__sub" style={{ opacity: show(t, cap.start, cap.end, 0.1) }}>{cap.text}</p>}
 
       <aside className="film__labels caption">
         <span>Night sky and light trail are illustrative; the rover drove by day.</span>
